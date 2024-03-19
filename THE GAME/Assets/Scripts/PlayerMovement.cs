@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveDirection;
 
     //Dash
-    private Rigidbody2D rb;
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
@@ -24,8 +23,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-
         playerActions = new PlayerActions();
         WASDInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;
