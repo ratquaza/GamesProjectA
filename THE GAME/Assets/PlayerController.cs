@@ -5,40 +5,48 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private const int DASH_COOLDOWN = 2;
+    [SerializeField] public Rigidbody2D rb2D;
+    private float movementSpeed = 200;
+    private Vector2 moveDirection;
+    public float playerSpeed, dashDuration, dashCooldown;
 
-    [SerializeField] private Rigidbody2D Rigidbody;
-    private float dashCooldown = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start(){
+        playerSpeed = movementSpeed;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
+        moveDirection.x = Input.GetAxisRaw("Horizontal");
+        moveDirection.y = Input.GetAxisRaw("Vertical");
+        moveDirection.Normalize();
+        rb2D.velocity = moveDirection * playerSpeed;
 
-        if (dashCooldown > 0)
-        {
+
+        if(Input.GetKey(KeyCode.Space)){
+
+            if(dashCooldown <= 0 && dashDuration <= 0){
+                playerSpeed = movementSpeed * 4f;
+                dashDuration = .2f;
+                Debug.Log("dashing");
+            }
+        }
+
+        if(dashDuration > 0){
+            dashDuration -= Time.deltaTime;
+
+            if(dashDuration <= 0){
+                playerSpeed = movementSpeed;
+                dashCooldown = 1f;
+                dashDuration = 0;
+            }
+        }
+
+        if(dashCooldown > 0){
             dashCooldown -= Time.deltaTime;
+            if(dashCooldown <= 0){
+                dashCooldown =0;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            dashCooldown = DASH_COOLDOWN;
-            Rigidbody.velocity += new Vector2(x, y) * 3000;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        float x = Input.GetAxis("Horizontal");
-        float y = Input.GetAxis("Vertical");
-
-        Rigidbody.velocity += new Vector2(x, y) * 50;
-        Rigidbody.velocity = Vector2.ClampMagnitude(Rigidbody.velocity, 200);
-        if (Math.Abs(x + y) <= 0.3) Rigidbody.velocity *= .8f;
     }
 }
+
+
