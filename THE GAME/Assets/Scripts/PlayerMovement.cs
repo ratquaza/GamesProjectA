@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,35 +6,32 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Movement
-
-    //WASD
-    [SerializeField] private float moveSpeed = 4f;
-    private Vector2 moveDirection;
-
-    //Dash
-    [SerializeField] private float dashSpeed = 12f;
-    [SerializeField] private float dashDuration = 0.2f;
-    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float moveSpeed = 300f;
+    [SerializeField] private float dampening = 0.5f;
+    [SerializeField] private float dashSpeed = 2000f;
+    [SerializeField] private float dashDuration = 0.1f;
+    [SerializeField] private float dashCooldown = 0.3f;
     
-    // Unity Input System
     private PlayerActions playerActions;
     private InputAction WASDInput;
     private InputAction dashInput;
+    private Rigidbody2D rb2d;
 
+    private float currentDashDuration = 0f;
+    private float currentDashCooldown = 0f;
+    private Vector2 dashDirection = Vector2.zero;
+    private Vector2 lookDirection = Vector2.up; 
+    
     void Awake()
     {
+        rb2d = GetComponent<Rigidbody2D>();
         playerActions = new PlayerActions();
+
         WASDInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;
-
-        // Input Bindings
-
-        //whenever a WASDInput is performed, update the moveDirection
-        WASDInput.performed += ctx => moveDirection = ctx.ReadValue<Vector2>(); 
-        WASDInput.canceled += ctx => moveDirection = Vector2.zero;
-        //call Dash() on 'Space'
-        dashInput.performed += ctx => Dash();
+        
+        //bind dash
+        dashInput.performed += ctx => doDash();
     }
 
     void OnEnable()
@@ -46,20 +44,47 @@ public class PlayerMovement : MonoBehaviour
         playerActions.Disable();
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        Move();
+        CheckIfCanDash();
     }
 
-    void Move()
+    private void CheckIfCanDash()
     {
-        transform.Translate(moveDirection * moveSpeed);
+        if (currentDashDuration <= 0f) {
+            Vector2 movementInput = WASDInput.ReadValue<Vector2>();
+            if (movementInput.magnitude > 0) {
+                lookDirection = movementInput.normalized;
+            }
+
+            rb2d.velocity += movementInput * moveSpeed;
+            rb2d.velocity *= dampening;
+            if (currentDashCooldown > 0)
+            {
+                currentDashCooldown -= Time.deltaTime;
+            }
+
+        } else {
+            rb2d.velocity = dashDirection * dashSpeed;
+            currentDashDuration -= Time.deltaTime;
+            if (currentDashDuration <= 0) {
+                currentDashCooldown = dashCooldown;
+            }
+        }
     }
 
-    void Dash()
+    void doDash()
     {
-        Debug.Log("dash");
-
-        //TODO: Complete Dash Implementation
+        if (currentDashCooldown > 0) return;
+        
+        if (rb2d.velocity.magnitude == 0) {
+            //if player is standing still dash in the last look direction
+            dashDirection = lookDirection;
+        } else {
+            //otherwise dash in the direction of movement
+            dashDirection = WASDInput.ReadValue<Vector2>().normalized;
+        }
+        
+        currentDashDuration = dashDuration;
     }
 }
