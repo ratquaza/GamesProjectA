@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7740390165456717941}
   - component: {fileID: 1275316279760647701}
   m_Layer: 0
-  m_Name: Dungeon
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 4
       m_TileMatrixIndex: 3
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -188,6 +188,8 @@ Tilemap:
     m_Data: {fileID: -430019761, guid: b450f2360bdbc0240bcd541207d1f2ee, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 2037556602, guid: b450f2360bdbc0240bcd541207d1f2ee, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 378310356, guid: b450f2360bdbc0240bcd541207d1f2ee, type: 3}
   m_TileMatrixArray:
