@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Android;
 
 public class Enemy : MonoBehaviour
 {
@@ -8,57 +11,47 @@ public class Enemy : MonoBehaviour
     private float goldDropAmount;
     [SerializeField] private float projectileCooldown;
 
-    [SerializeField] private float moveSpeed = 300f; 
-    [SerializeField] private float stoppingDistance = 50f; //when the enemy stops following
-
+    [Header("Navigation Settings")]
     [SerializeField] private Transform target;
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private NavMeshAgent agent;
 
-    void Awake()
+    //NOTE: IF YOU WANT TO TUNE THE SPEED AND ACCELERATION SETTINGS OF THE ENEMY, MODIFY THE NAVMESHAGENT COMPONENT. (Can do through code or inspector)
+
+    private void Start()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        if (playerObject != null)
-        {
-            Debug.Log("Player GameObject found: " + playerObject.name);
-            target = playerObject.transform;
-        }
-        else
-        {
-            rb.velocity = Vector2.zero;
-        }
+        //set default target to player
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+
+        //initialize agent 
+        agent = GetComponent<NavMeshAgent>();
+
+        //sets agent properties 
+        //don't touch: recommomended settings from NavMeshPlus -->   https://github.com/h8man/NavMeshPlus
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+
     }
 
-    void Update()
+    private void Update()
     {
-        EnemyFollow();
+        setTarget(target);
     }
 
-    private void EnemyFollow(){
-        if (target != null)
-        {
-            //move towards target
-            Vector2 directionToTarget = target.position - transform.position;
-            if (directionToTarget.magnitude > stoppingDistance)
-            {
-                Vector2 moveDirection = directionToTarget.normalized * moveSpeed;
-                rb.velocity = moveDirection;
-            }
-            //stop once in stoppingDistance
-            else
-            {
-                rb.velocity = Vector2.zero;
-            }
-        }
-        //if no target, stay still
-        else{
-            rb.velocity = Vector2.zero;
-        }
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Debug.Log(GetComponent<BoxCollider2D>().name + " collided with " + collision.gameObject.name);
+
+        //TODO: Enemy, Player Collision Logic
     }
 
-    private void TakeDamage(float damageDone){
+    private void TakeDamage(float damageDone)
+    {
         enemyHealth -= damageDone;
     }
 
-
-
+    //set agent's target to any transform (default: player)
+    public void setTarget(Transform target)
+    {
+        agent.SetDestination(target.position);
+    }
 }

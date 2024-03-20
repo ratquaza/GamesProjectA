@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+    [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 300f;
     [SerializeField] private float dampening = 0.5f;
     [SerializeField] private float dashSpeed = 2000f;
@@ -31,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
         dashInput = playerActions.Movement.Dash;
         
         //bind dash
-        dashInput.performed += ctx => doDash();
+        dashInput.performed += ctx => PerformDash();
     }
 
     void OnEnable()
@@ -46,12 +48,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        CheckIfCanDash();
+        WalkOrDashChecker();
     }
 
-    private void CheckIfCanDash()
+    private void WalkOrDashChecker()
     {
-        if (currentDashDuration <= 0f) {
+        //walk logic
+        if (currentDashDuration <= 0f) 
+        {
             Vector2 movementInput = WASDInput.ReadValue<Vector2>();
             if (movementInput.magnitude > 0) {
                 lookDirection = movementInput.normalized;
@@ -63,8 +67,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentDashCooldown -= Time.deltaTime;
             }
+        }
 
-        } else {
+        //if not walking -> dash logic
+        else 
+        {
             rb2d.velocity = dashDirection * dashSpeed;
             currentDashDuration -= Time.deltaTime;
             if (currentDashDuration <= 0) {
@@ -73,14 +80,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void doDash()
+    void PerformDash()
     {
         if (currentDashCooldown > 0) return;
         
-        if (rb2d.velocity.magnitude == 0) {
+        if (rb2d.velocity.magnitude == 0) 
+        {
             //if player is standing still dash in the last look direction
             dashDirection = lookDirection;
-        } else {
+        } 
+        else 
+        {
             //otherwise dash in the direction of movement
             dashDirection = WASDInput.ReadValue<Vector2>().normalized;
         }
