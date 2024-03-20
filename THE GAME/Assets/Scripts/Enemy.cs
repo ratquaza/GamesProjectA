@@ -37,13 +37,6 @@ public class Enemy : MonoBehaviour
         setTarget(target);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        // Debug.Log(GetComponent<BoxCollider2D>().name + " collided with " + collision.gameObject.name);
-
-        //TODO: Enemy, Player Collision Logic
-    }
-
     private void TakeDamage(float damageDone)
     {
         enemyHealth -= damageDone;
@@ -54,4 +47,17 @@ public class Enemy : MonoBehaviour
     {
         agent.SetDestination(target.position);
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(GetComponent<BoxCollider2D>().name + " collided with " + collision.gameObject.name);
+
+        //TODO: Enemy, Player Collision Logic
+    }
+
+    void EnemyAttack()
+    {
+        //TODO: Attack logic (Using navmeshagent's inbuilt stopping distance)
+    }
+
 }
