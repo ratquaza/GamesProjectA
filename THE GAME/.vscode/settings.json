@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "THE GAME.sln"
+    "dotnet.defaultSolution": "THE GAME.sln",
+    "explorer.excludeGitIgnore": false
 }
