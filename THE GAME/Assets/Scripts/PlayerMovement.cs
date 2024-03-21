@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashCooldown = 1f;
 
     private PlayerActions playerActions;
-    private InputAction WASDInput;
+    private InputAction walkInput;
     private InputAction dashInput;
     private Rigidbody2D rb2d;
 
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         playerActions = new PlayerActions();
 
-        WASDInput = playerActions.Movement.Walk;
+        walkInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;
 
         dashInput.performed += ctx => Dash();
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Vector2 inputDir = WASDInput.ReadValue<Vector2>();
+        Vector2 inputDir = walkInput.ReadValue<Vector2>();
         // If player is not dashing
         if (currentDashDuration <= 0f) 
         {
@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         // If cooldown hasn't ended, return
         if (currentDashCooldown > 0) return;
         // Get the player's current input and set the dash direction to that
-        dashDirection = WASDInput.ReadValue<Vector2>();
+        dashDirection = walkInput.ReadValue<Vector2>();
         currentDashDuration = dashDuration;
     }
 }
