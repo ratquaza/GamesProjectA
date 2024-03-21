@@ -25,6 +25,10 @@
 
 # Visual Studio cache directory
 .vs/
+.vscode/
+.vsconfig
+UpgradeLog.htm
+.DS_Store
 
 # Gradle cache directory
 .gradle/
@@ -70,19 +74,3 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-THE GAME/Library/AnnotationManager
-.DS_Store
-THE GAME/Library/Artifacts/
-THE GAME/Logs/
-THE GAME/Temp/
-THE GAME/Packages/manifest.json
-THE GAME/Packages/packages-lock.json
-THE GAME/ProjectSettings/Packages/com.unity.probuilder/Settings.json
-THE GAME/ProjectSettings/Packages/com.unity.testtools.codecoverage/Settings.json
-THE GAME/ProjectSettings/ProjectSettings.asset
-THE GAME/UserSettings/Layouts/default-2021.dwlt
-*.gbc
-*.log
-*.log
-/THE GAME/Library
-/THE GAME/Logs
