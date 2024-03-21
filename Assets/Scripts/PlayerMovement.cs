@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         walkInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;
 
-        dashInput.performed += ctx => Dash();
+        dashInput.performed += ctx => AttemptDash();
     }
 
     void OnEnable()
@@ -45,40 +45,51 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Vector2 inputDir = walkInput.ReadValue<Vector2>();
-        // If player is not dashing
-        if (currentDashDuration <= 0f) 
+        
+        if (IsDashing()) HandleDash(); 
+        else
         {
-            // If player is not inputting movement
-            if (inputDir.magnitude == 0) 
-            {
-                // Begin decceleration/dampening
-                rb2d.velocity *= dampening;
-            } else
-            {
-                // Add player's input to the velocity and clamp it
-                rb2d.velocity += inputDir * moveSpeed;
-                dashDirection = inputDir.normalized;
-                rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
-            }
+            if (inputDir.magnitude == 0) HandleNoInput();
+            else HandleInput(inputDir);
             if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
-        } else 
-        // If player is dashing
-        {
-            // Force them to move towards their last direction at dashSpeed
-            rb2d.velocity = dashDirection * dashSpeed;
-            currentDashDuration -= Time.deltaTime;
-            // When player's dash ends, begin cooldown
-            if (currentDashDuration <= 0) {
-                currentDashCooldown = dashCooldown;
-            }
         }
     }
 
-    void Dash()
+    bool IsDashing()
+    {
+        return currentDashDuration > 0f;
+    }
+
+    void AttemptDash()
     {
         // If cooldown hasn't ended, return
         if (currentDashCooldown > 0) return;
         // Set the dash duration
         currentDashDuration = dashDuration;
+    }
+
+    void HandleDash()
+    {
+        // Force them to move towards their last direction at dashSpeed
+        rb2d.velocity = dashDirection * dashSpeed;
+        currentDashDuration -= Time.deltaTime;
+        // When player's dash ends, begin cooldown
+        if (currentDashDuration <= 0) {
+            currentDashCooldown = dashCooldown;
+        }
+    }
+
+    void HandleNoInput()
+    {
+        // Begin decceleration/dampening
+        rb2d.velocity *= dampening;
+    }
+
+    void HandleInput(Vector2 input)
+    {
+        // Add player's input to the velocity and clamp it
+        rb2d.velocity += input * moveSpeed;
+        dashDirection = input.normalized;
+        rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
     }
 }
