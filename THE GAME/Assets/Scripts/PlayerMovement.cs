@@ -57,13 +57,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 // Add player's input to the velocity and clamp it
                 rb2d.velocity += inputDir * moveSpeed;
+                dashDirection = inputDir.normalized;
                 rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
             }
             if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
         } else 
         // If player is dashing
         {
-            // Keep them dashing in the dashDirection at dashSpped
+            // Force them to move towards their last direction at dashSpeed
             rb2d.velocity = dashDirection * dashSpeed;
             currentDashDuration -= Time.deltaTime;
             // When player's dash ends, begin cooldown
@@ -77,8 +78,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // If cooldown hasn't ended, return
         if (currentDashCooldown > 0) return;
-        // Get the player's current input and set the dash direction to that
-        dashDirection = walkInput.ReadValue<Vector2>();
+        // Set the dash duration
         currentDashDuration = dashDuration;
     }
 }

@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba545c16a86ff1c43bdc1f4fad26cb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
+  moveSpeed: 5
   dampening: 0.98
   maxSpeed: 500
   dashSpeed: 3000
