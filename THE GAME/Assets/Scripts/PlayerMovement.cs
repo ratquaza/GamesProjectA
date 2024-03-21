@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float dampening = 0.85f;
+    [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
@@ -43,13 +44,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (currentDashDuration <= 0f) {
-            rb2d.velocity += WASDInput.ReadValue<Vector2>() * moveSpeed;
-            rb2d.velocity *= dampening;
+        Vector2 inputDir = WASDInput.ReadValue<Vector2>();
+        // If player is not dashing
+        if (currentDashDuration <= 0f) 
+        {
+            // If player is not inputting movement
+            if (inputDir.magnitude == 0) 
+            {
+                // Begin decceleration/dampening
+                rb2d.velocity *= dampening;
+            } else
+            {
+                // Add player's input to the velocity and clamp it
+                rb2d.velocity += inputDir * moveSpeed;
+                rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
+            }
             if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
-        } else {
+        } else 
+        // If player is dashing
+        {
+            // Keep them dashing in the dashDirection at dashSpped
             rb2d.velocity = dashDirection * dashSpeed;
             currentDashDuration -= Time.deltaTime;
+            // When player's dash ends, begin cooldown
             if (currentDashDuration <= 0) {
                 currentDashCooldown = dashCooldown;
             }
@@ -58,7 +75,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Dash()
     {
+        // If cooldown hasn't ended, return
         if (currentDashCooldown > 0) return;
+        // Get the player's current input and set the dash direction to that
         dashDirection = WASDInput.ReadValue<Vector2>();
         currentDashDuration = dashDuration;
     }
