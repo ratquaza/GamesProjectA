@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,34 +5,31 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float dampening = 0.85f;
+    [SerializeField] private float maxSpeed = 10f;
+    [SerializeField] private float dashSpeed = 12f;
+    [SerializeField] private float dashDuration = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
 
-    [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 300f;
-    [SerializeField] private float dampening = 0.5f;
-    [SerializeField] private float dashSpeed = 2000f;
-    [SerializeField] private float dashDuration = 0.1f;
-    [SerializeField] private float dashCooldown = 0.3f;
-    
     private PlayerActions playerActions;
-    private InputAction WASDInput;
+    private InputAction walkInput;
     private InputAction dashInput;
     private Rigidbody2D rb2d;
 
     private float currentDashDuration = 0f;
     private float currentDashCooldown = 0f;
     private Vector2 dashDirection = Vector2.zero;
-    private Vector2 lookDirection = Vector2.up; 
-    
+
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
         playerActions = new PlayerActions();
 
-        WASDInput = playerActions.Movement.Walk;
+        walkInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;
-        
-        //bind dash
-        dashInput.performed += ctx => PerformDash();
+
+        dashInput.performed += ctx => Dash();
     }
 
     void OnEnable()
@@ -48,53 +44,41 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        WalkOrDashChecker();
-    }
-
-    private void WalkOrDashChecker()
-    {
-        //walk logic
+        Vector2 inputDir = walkInput.ReadValue<Vector2>();
+        // If player is not dashing
         if (currentDashDuration <= 0f) 
         {
-            Vector2 movementInput = WASDInput.ReadValue<Vector2>();
-            if (movementInput.magnitude > 0) {
-                lookDirection = movementInput.normalized;
-            }
-
-            rb2d.velocity += movementInput * moveSpeed;
-            rb2d.velocity *= dampening;
-            if (currentDashCooldown > 0)
+            // If player is not inputting movement
+            if (inputDir.magnitude == 0) 
             {
-                currentDashCooldown -= Time.deltaTime;
+                // Begin decceleration/dampening
+                rb2d.velocity *= dampening;
+            } else
+            {
+                // Add player's input to the velocity and clamp it
+                rb2d.velocity += inputDir * moveSpeed;
+                dashDirection = inputDir.normalized;
+                rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
             }
-        }
-
-        //if not walking -> dash logic
-        else 
+            if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
+        } else 
+        // If player is dashing
         {
+            // Force them to move towards their last direction at dashSpeed
             rb2d.velocity = dashDirection * dashSpeed;
             currentDashDuration -= Time.deltaTime;
+            // When player's dash ends, begin cooldown
             if (currentDashDuration <= 0) {
                 currentDashCooldown = dashCooldown;
             }
         }
     }
 
-    void PerformDash()
+    void Dash()
     {
+        // If cooldown hasn't ended, return
         if (currentDashCooldown > 0) return;
-        
-        if (rb2d.velocity.magnitude == 0) 
-        {
-            //if player is standing still dash in the last look direction
-            dashDirection = lookDirection;
-        } 
-        else 
-        {
-            //otherwise dash in the direction of movement
-            dashDirection = WASDInput.ReadValue<Vector2>().normalized;
-        }
-        
+        // Set the dash duration
         currentDashDuration = dashDuration;
     }
 }
