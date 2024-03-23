@@ -9,12 +9,19 @@ public class Player : MonoBehaviour
     [SerializeField] private int goldCount;
     [SerializeField] private List<Item> items;
 
+    
+    //Invulnerability 
+    [SerializeField] private float invulnerabilityDuration = 1.5f;
+    private bool isInvulnerable = false;
+    private float invulnerabilityTimer = 0f;
+
 
     void Awake()
     {
         InitializePlayer();
     }
 
+    //constructor
     private void InitializePlayer()
     {
         playerHealth = 100;
@@ -22,17 +29,27 @@ public class Player : MonoBehaviour
         items = new List<Item>();
     }
 
-
-    void OnCollisionEnter2D(Collision2D collision)
+    //while player is collided with enemy, take damage depending on couroutine's invulnerabilityDuration
+    void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>() != null)
+        if (!isInvulnerable && collision.gameObject.GetComponent<Enemy>() != null)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            int damageTaken = enemy.GetDamage();
-            TakeDamage(damageTaken);
-
-            Debug.Log("Player Health: " + playerHealth + " Damage Taken: " + damageTaken);
+            StartCoroutine(TakeDamageCoroutine(collision));
+            Debug.Log("Player Health: " + playerHealth);
         }
+    }
+
+    IEnumerator TakeDamageCoroutine(Collision2D collision)
+    {
+        isInvulnerable = true;
+
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        int damageTaken = enemy.GetDamage();
+        TakeDamage(damageTaken);
+
+        yield return new WaitForSeconds(invulnerabilityDuration);
+
+        isInvulnerable = false;
     }
 
     public void TakeDamage(int damageTaken)
