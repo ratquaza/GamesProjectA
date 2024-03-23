@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
             int damageTaken = enemy.GetDamage();
             TakeDamage(damageTaken);
 
-            Debug.Log("Player Health: " + playerHealth + "Damage Taken: " + damageTaken);
+            Debug.Log("Player Health: " + playerHealth + " Damage Taken: " + damageTaken);
         }
     }
 
