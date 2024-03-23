@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -23,31 +25,32 @@ public class DungeonGenerator : MonoBehaviour
 
         chosenRoom.transform.localPosition = Vector3.zero - chosenBounds.center + chosenBounds.size / 2;
         chosenRoom.name = "SpawnRoom";
-        int i = 100;
 
-        do
+        List<GameObject> queue = new List<GameObject>(FillExits(chosenRoom));
+        int i = 10;
+
+        while (i > 0)
         {
-            foreach (GameObject r in FillExits(chosenRoom))
-            {
-
-            }
+            queue.AddRange(FillExits(queue[0]));
+            queue.RemoveAt(0);
             i--;
         }
-        while (i > 0);
     }
 
-    GameObject[] FillExits(GameObject room, int generateChance = 1, int depth = 3)
+    GameObject[] FillExits(GameObject room, int generateChance = 1)
     {
         List<GameObject> generatedRooms = new List<GameObject>();
+        List<GameObject> toDestroy = new List<GameObject>();
+
         generateChance = Math.Min(generateChance, 1);
 
-        for (int i = 0; i < room.transform.childCount; i++)
+        foreach (Transform child in room.transform)
         {
-            Transform child = room.transform.GetChild(i);
             if (!exitNames.Contains(child.name)) continue;
             string opposingExit = exitNames[(Array.IndexOf(exitNames, child.name) + 2) % 4];
 
             GameObject[] connectingRooms = rooms.Where((go) => go.transform.Find(opposingExit) != null).ToArray();
+
             if (connectingRooms.Length == 0) continue;
             GameObject chosenRoom = Instantiate(connectingRooms[UnityEngine.Random.Range(0, connectingRooms.Length)], grid.transform);
             chosenRoom.GetComponent<Tilemap>().CompressBounds();
@@ -55,9 +58,12 @@ public class DungeonGenerator : MonoBehaviour
             generatedRooms.Add(chosenRoom);
             GameObject chosenRoomExit = chosenRoom.transform.Find(opposingExit).gameObject; 
             AlignByAnchors(chosenRoom, chosenRoomExit, child.gameObject);
-            DestroyImmediate(child.gameObject);
-            DestroyImmediate(chosenRoomExit);
+
+            toDestroy.Add(child.gameObject);
+            toDestroy.Add(chosenRoomExit);
         }
+
+        foreach (GameObject td in toDestroy) Destroy(td);
 
         return generatedRooms.ToArray();
     }

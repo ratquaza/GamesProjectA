@@ -183,6 +183,7 @@ MonoBehaviour:
   rooms:
   - {fileID: 2653693154687007786, guid: 72f6bb8b60fff402ca3b0b64107b6ad2, type: 3}
   - {fileID: 2653693154687007786, guid: e24a8986d67dbdb4996e71ff623b4ffd, type: 3}
+  - {fileID: 2653693154687007786, guid: 35d710a2c90432644a5ced5cedf0a9c8, type: 3}
   count: 1
 --- !u!1 &2144705647
 GameObject:
