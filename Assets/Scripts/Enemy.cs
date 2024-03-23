@@ -9,13 +9,28 @@ public class Enemy : MonoBehaviour
 {
     private float enemyHealth;
     private float goldDropAmount;
+    [SerializeField] private int damage;
     [SerializeField] private float projectileCooldown;
+
 
     [Header("Navigation Settings")]
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
 
     //NOTE: IF YOU WANT TO TUNE THE SPEED AND ACCELERATION SETTINGS OF THE ENEMY, MODIFY THE NAVMESHAGENT COMPONENT. (Can do through code or inspector)
+
+    void Awake()
+    {
+        InitializeEnemy();
+    }
+
+    private void InitializeEnemy()
+    {
+        enemyHealth = 100;
+        goldDropAmount = 10;
+        damage = 10;
+    }
+
 
     private void Start()
     {
@@ -32,6 +47,11 @@ public class Enemy : MonoBehaviour
 
     }
 
+    public int GetDamage()
+    {
+        return damage;
+    }
+
     private void Update()
     {
         setTarget(target);
@@ -46,13 +66,6 @@ public class Enemy : MonoBehaviour
     public void setTarget(Transform target)
     {
         agent.SetDestination(target.position);
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(GetComponent<BoxCollider2D>().name + " collided with " + collision.gameObject.name);
-
-        //TODO: Enemy, Player Collision Logic
     }
 
     void EnemyAttack()
