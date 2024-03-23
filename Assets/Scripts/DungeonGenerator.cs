@@ -23,13 +23,20 @@ public class DungeonGenerator : MonoBehaviour
 
         chosenRoom.transform.localPosition = Vector3.zero - chosenBounds.center + chosenBounds.size / 2;
         chosenRoom.name = "SpawnRoom";
-        foreach (GameObject secondRoom in FillExits(chosenRoom))
+        int i = 100;
+
+        do
         {
-            FillExits(secondRoom);
+            foreach (GameObject r in FillExits(chosenRoom))
+            {
+
+            }
+            i--;
         }
+        while (i > 0);
     }
 
-    GameObject[] FillExits(GameObject room, int generateChance = 1)
+    GameObject[] FillExits(GameObject room, int generateChance = 1, int depth = 3)
     {
         List<GameObject> generatedRooms = new List<GameObject>();
         generateChance = Math.Min(generateChance, 1);
