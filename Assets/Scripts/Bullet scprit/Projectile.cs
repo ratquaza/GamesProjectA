@@ -5,9 +5,9 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float ProjectileLife = 1f;
-    [SerializeField] private float ProjectileRotation = 0f;
-    [SerializeField] private float ProjectileSpeed = 1f;
+    public float projectileLife = 1f;
+    public float projectileRotation = 0f;
+    public float projectileSpeed = 1f;
 
     private float timer = 0f;
     private Vector2 spawnPoint;
@@ -20,7 +20,7 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(timer > ProjectileLife)
+        if(timer > projectileLife)
         {
             Destroy(this.gameObject);
             //destroy projectile if Projectile Life greater than timer
@@ -33,8 +33,8 @@ public class Projectile : MonoBehaviour
 
     private Vector2 ProjectileMovement(float timer)
     {
-        float x = timer * ProjectileSpeed * transform.right.x;
-        float y = timer * ProjectileSpeed * transform.right.y;
+        float x = timer * projectileSpeed * transform.right.x;
+        float y = timer * projectileSpeed * transform.right.y;
         // transform bullet x y to the right
         return new Vector2(x + spawnPoint.x, y + spawnPoint.y);
         // then return the position of the projectile using spawn point 
@@ -45,9 +45,10 @@ public class Projectile : MonoBehaviour
 
     }
 
-    void OnCollisionEnter2D()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-
+        Destroy(this.gameObject);
+        // Destroy when collided 
     }
 
     void desPredictiveTrajectory()
