@@ -377,7 +377,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: firingRate
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: projectile
@@ -385,7 +385,7 @@ PrefabInstance:
       objectReference: {fileID: 8795176043056997148, guid: db26ed03f80948640b803c0853e9f176, type: 3}
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: spawnerType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: projectileSpeed
