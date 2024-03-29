@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 575944558}
   - component: {fileID: 575944557}
   - component: {fileID: 575944560}
+  - component: {fileID: 575944561}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -344,7 +345,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -391,6 +392,22 @@ MonoBehaviour:
   dashSpeed: 1000
   dashDuration: 0.15
   dashCooldown: 0.4
+--- !u!114 &575944561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575944554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a4a9e747d597e14fb431717b2930727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: 0
+  goldCount: 0
+  items: []
+  invulnerabilityDuration: 1.5
 --- !u!1001 &739516767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -686,9 +703,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ed9bce240644c44963083dbe3302d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 575944555}
+  target: {fileID: 575944557}
   smoothSpeed: 0.01
-  offset: {x: 0, y: 0, z: -500}
+  velocityTrackingFactor: 0
 --- !u!1 &987355650
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,7 +3014,7 @@ CompositeCollider2D:
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
-  m_OffsetDistance: 4.09
+  m_OffsetDistance: 0
 --- !u!114 &1607759817
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         WalkOrDashChecker();
+        Debug.Log(directionChangedDuringDash);
     }
 
     private void WalkOrDashChecker()
@@ -80,21 +81,47 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private bool directionChangedDuringDash = false;
+
     void PerformDash()
     {
-        if (currentDashCooldown > 0) return;
-        
+        if (currentDashCooldown > 0 || currentDashDuration > 0) return;
+        directionChangedDuringDash = false;
         if (rb2d.velocity.magnitude == 0) 
         {
-            //if player is standing still dash in the last look direction
             dashDirection = lookDirection;
         } 
         else 
         {
-            //otherwise dash in the direction of movement
-            dashDirection = WASDInput.ReadValue<Vector2>().normalized;
+            dashDirection = rb2d.velocity.normalized;
         }
-        
+
         currentDashDuration = dashDuration;
+
+        //continuously update dash direction until the dash ends
+        StartCoroutine(UpdateDashDirection());
     }
+
+    IEnumerator UpdateDashDirection()
+    {
+        Vector2 initialDashDirection = dashDirection;
+
+        while (currentDashDuration > 0)
+        {
+            Vector2 inputDirection = WASDInput.ReadValue<Vector2>().normalized;
+
+            //calculate dot product to check if input direction differs from the initial dash direction
+            float dotProduct = Vector2.Dot(inputDirection, initialDashDirection);
+
+            //update dash direction if input direction changes and direction change hasn't occurred yet
+            if (inputDirection.magnitude > 0 && dotProduct != 1 && !directionChangedDuringDash)
+            {
+                dashDirection = inputDirection;
+                directionChangedDuringDash = true; //set flag to indicate direction change
+            }
+
+            yield return null;
+        }
+    }
+
 }
