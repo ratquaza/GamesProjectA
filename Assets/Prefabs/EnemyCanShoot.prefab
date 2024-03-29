@@ -23,6 +23,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyCanShoot
       objectReference: {fileID: 0}
+    - target: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080366, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_RootOrder
       value: 0
