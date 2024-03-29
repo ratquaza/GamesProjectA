@@ -14,6 +14,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashDuration = 0.1f;
     [SerializeField] private float dashCooldown = 0.3f;
     
+    [SerializeField] private float grapplingHookSpeed = 10f; // Speed to move towards the grappling hook point
+    [SerializeField] private float grapplingHookMaxDistance = 10f; // Max distance the grappling hook can reach
+    private InputAction grapplingHookInput;
+    private Vector2 grapplingHookPoint; // Point where the grappling hook is attached
+
+
     private PlayerActions playerActions;
     private InputAction WASDInput;
     private InputAction dashInput;
@@ -31,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
 
         WASDInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;
+
+        grapplingHookInput = playerActions.Movement.GrapplingHook;
         
         //bind dash
         dashInput.performed += ctx => PerformDash();
@@ -46,10 +54,12 @@ public class PlayerMovement : MonoBehaviour
         playerActions.Disable();
     }
 
+
+    [SerializeField] private int raycastOffset = 10;
+
     void Update()
     {
         WalkOrDashChecker();
-        Debug.Log(directionChangedDuringDash);
     }
 
     private void WalkOrDashChecker()

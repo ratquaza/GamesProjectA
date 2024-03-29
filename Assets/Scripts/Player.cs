@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     //while player is collided with enemy, take damage depending on couroutine's invulnerabilityDuration
     void OnCollisionStay2D(Collision2D collision)
     {
-        if (!isInvulnerable && collision.gameObject.GetComponent<Enemy>() != null)
+        if (!isInvulnerable && collision.gameObject.GetComponent<Enemy>() != null && collision.contactCount > 0)
         {
             StartCoroutine(TakeDamageCoroutine(collision));
             Debug.Log("Player Health: " + playerHealth);
