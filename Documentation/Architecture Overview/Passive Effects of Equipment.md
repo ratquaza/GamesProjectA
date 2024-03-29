@@ -15,8 +15,8 @@ abstract class EquippableItem : Item
     public virtual void OnUnequip(Player player) {};
     
     public virtual float OnPlayerDamaged(Player player, Living attacker, float amount) { return amount; }
-    public virtual float OnGetDamageDealt(Player player, float baseAmount) { return amount; }
-    public virtual void OnPlayerAttacked(Player player, Living target, float finalDamageDealt) { return amount; }
+    public virtual float OnCalculatePower(Player player, float baseAmount) { return amount; }
+    public virtual void OnPlayerAttack(Player player, Living target, float finalDamageDealt) { return amount; }
     public virtual Vector2 OnPlayerDash(Player player, Vector2 dir) { return dir; }
 }
 ```
@@ -43,22 +43,23 @@ As the function runs, the relevant OnEquip and OnUnequip functions are called to
 ```c#
 class Player : Living
 {
-    private float playerBaseDamage = 5f;
+    private float basePower = 5f;
     public float health = 100f;
 
     // Handle incoming damage and return the total damage taken
     override float TakeDamage(float amount, Living attacker)
     {
         if (equippedArmour != null) amount = equippedArmour.OnPlayerDamaged(this, attacker, amount);
-        health = Math.Max(0, health - amount);
+        amount = Math.Max(health, amount)
+        health -= amount;
         return amount;
     }
 
-    // Calculate the damage the player can deal right now 
-    override float GetDamageDealt()
+    // Calculate the player's power 
+    override float CalculatePower()
     {
-        float baseAmount = playerBaseDamage;
-        if (equippedArmour != null) baseAmount = equippedArmour.OnGetDamageDealt(this, baseAmount);
+        float baseAmount = basePower;
+        if (equippedArmour != null) baseAmount = equippedArmour.OnCalculatePower(this, baseAmount);
         return baseAmount;
     }
 }
@@ -81,13 +82,13 @@ public class VampireArmour : EquippableItem
         return Math.Floor(amount * .7f);
     }
 
-    public override float OnGetDamageDealt(Player player, float amount)
+    public override float OnCalculatePower(Player player, float amount)
     {
         // 10% Damage increase
         return Math.Floor(amount * 1.1f);
     }
 
-    public override void OnPlayerAttacked(Player player, Living target, float damageDealt)
+    public override void OnPlayerAttack(Player player, Living target, float damageDealt)
     {
         // 1 in 5 chance for player to recover 10% of the damage they dealt
         if (Random.Range(0, 5) == 0) player.health = Math.Min(player.maxHealth, player.health + Math.Floor(damageDealt * .1f));
