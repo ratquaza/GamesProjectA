@@ -37,6 +37,10 @@ public class Player : MonoBehaviour
             StartCoroutine(TakeDamageCoroutine(collision));
             Debug.Log("Player Health: " + playerHealth);
         }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            transform.position = transform.position;
+        }
     }
 
     IEnumerator TakeDamageCoroutine(Collision2D collision)

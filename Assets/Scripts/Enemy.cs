@@ -34,8 +34,9 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        //set default target to player
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        if(target != null){
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
 
         //initialize agent 
         agent = GetComponent<NavMeshAgent>();

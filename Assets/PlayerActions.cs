@@ -47,9 +47,18 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""GrapplingHook"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""2a71cc88-b1eb-499f-8d1d-1eb9cd0920c7"",
-                    ""expectedControlType"": ""Vector3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RepelMouse"",
+                    ""type"": ""Button"",
+                    ""id"": ""e7f08200-cc89-4474-b82d-84023af039d5"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -132,6 +141,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""GrapplingHook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9761e48d-1330-495e-8e4f-c516916cbe5b"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RepelMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_GrapplingHook = m_Movement.FindAction("GrapplingHook", throwIfNotFound: true);
+        m_Movement_RepelMouse = m_Movement.FindAction("RepelMouse", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +228,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Walk;
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_GrapplingHook;
+    private readonly InputAction m_Movement_RepelMouse;
     public struct MovementActions
     {
         private @PlayerActions m_Wrapper;
@@ -214,6 +236,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_Movement_Walk;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @GrapplingHook => m_Wrapper.m_Movement_GrapplingHook;
+        public InputAction @RepelMouse => m_Wrapper.m_Movement_RepelMouse;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @GrapplingHook.started += instance.OnGrapplingHook;
             @GrapplingHook.performed += instance.OnGrapplingHook;
             @GrapplingHook.canceled += instance.OnGrapplingHook;
+            @RepelMouse.started += instance.OnRepelMouse;
+            @RepelMouse.performed += instance.OnRepelMouse;
+            @RepelMouse.canceled += instance.OnRepelMouse;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -245,6 +271,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @GrapplingHook.started -= instance.OnGrapplingHook;
             @GrapplingHook.performed -= instance.OnGrapplingHook;
             @GrapplingHook.canceled -= instance.OnGrapplingHook;
+            @RepelMouse.started -= instance.OnRepelMouse;
+            @RepelMouse.performed -= instance.OnRepelMouse;
+            @RepelMouse.canceled -= instance.OnRepelMouse;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -267,5 +296,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnGrapplingHook(InputAction.CallbackContext context);
+        void OnRepelMouse(InputAction.CallbackContext context);
     }
 }
