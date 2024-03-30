@@ -78,6 +78,7 @@ public class GrapplingHook : MonoBehaviour
     {
         springJoint.enabled = false;
         lineRenderer.enabled = false;
+        hasSetCurvePoints = false;
     }
 
     IEnumerator StartCooldown()
@@ -87,25 +88,55 @@ public class GrapplingHook : MonoBehaviour
         isOnCooldown = false;
     }
 
+
+    private bool hasSetCurvePoints = false;
+
     void FixedUpdate()
     {
-        if (springJoint.enabled)
+        if (springJoint.enabled) //if grappling
         {
-            SetCurvePoints(transform.position, hitPoint);
-            lineRenderer.enabled = true;
+            if (!hasSetCurvePoints) //set points of line renderer to sin curve function
+            {
+                lineRenderer.positionCount = numberOfPoints;
+                SetCurvePoints(transform.position, hitPoint);
+                lineRenderer.enabled = true;
+                hasSetCurvePoints = true;
+            }
+            else //else lerp to straight line function
+            {
+                LerpToStraightLine(transform.position, hitPoint);
+                lineRenderer.enabled = true;
+            }
 
-
-            Vector2 direction = (springJoint.connectedAnchor - (Vector2)transform.position).normalized;
+            Vector2 direction = (springJoint.connectedAnchor - (Vector2) transform.position).normalized;
             GetComponent<Rigidbody2D>().AddForce(direction * hookSpeed, ForceMode2D.Force); //add force to push towards anchor point
         }
     }
-    
+
+    [SerializeField] [Range(0f, 100f)] private float animationSpeed = 15f;
+    [SerializeField] [Range(0,24)] private int removeLineRenderer = 5; //removes first few linerenderer points that overlap with player
+
+    void LerpToStraightLine(Vector3 start, Vector3 end)
+    {
+        for (int i = removeLineRenderer; i < numberOfPoints; i++)
+        {
+            float t = (float) i / (numberOfPoints - 1);
+            Vector3 lerpedPosition = Vector3.Lerp(start, end, t);
+            lineRenderer.SetPosition(i, Vector3.Lerp(lineRenderer.GetPosition(i), lerpedPosition, animationSpeed * Time.deltaTime)); //lerp to straight line
+        }
+
+        for (int i = 0; i < removeLineRenderer; i++)
+        {
+            lineRenderer.SetPosition(i, lineRenderer.GetPosition(removeLineRenderer));
+        }
+    }
+
     void SetCurvePoints(Vector3 start, Vector3 end)
     {
         Vector3[] points = new Vector3[numberOfPoints];
         float step = 1f / (numberOfPoints - 1);
 
-        for (int i = 0; i < numberOfPoints; i++)
+        for (int i = removeLineRenderer; i < numberOfPoints; i++)
         {
             float t = step * i;
             float x = Mathf.Lerp(start.x, end.x, t);
@@ -115,6 +146,11 @@ public class GrapplingHook : MonoBehaviour
             y += Mathf.Sin(t * Mathf.PI * waveFrequency) * waveAmplitude;
 
             points[i] = new Vector3(x, y, 0f);
+        }
+
+        for (int i = 0; i < removeLineRenderer; i++)
+        {
+            points[i] = points[removeLineRenderer];
         }
 
         lineRenderer.SetPositions(points);
