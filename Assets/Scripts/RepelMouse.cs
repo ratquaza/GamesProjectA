@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class RepelMouse : MonoBehaviour
 {
-    [SerializeField] private float pushForceMultiplier = 100000f;
+    [SerializeField] private float pushForceMultiplier = 500000f;
     private PlayerActions playerActions;
 
     private void Awake()

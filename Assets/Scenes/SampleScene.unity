@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 575944561}
   - component: {fileID: 575944563}
   - component: {fileID: 575944562}
+  - component: {fileID: 575944564}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -338,7 +339,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 459.67664
   m_LinearDrag: 0.1
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -390,7 +391,6 @@ MonoBehaviour:
   dashSpeed: 600
   dashDuration: 0.3
   dashCooldown: 0.4
-  impulseForce: 10
 --- !u!114 &575944561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,6 +448,19 @@ SpringJoint2D:
   m_Distance: 24
   m_DampingRatio: 1
   m_Frequency: 4
+--- !u!114 &575944564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575944554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 475a033b81af451469e516e8c77e5284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushForceMultiplier: 500000
 --- !u!1 &781623367
 GameObject:
   m_ObjectHideFlags: 0
