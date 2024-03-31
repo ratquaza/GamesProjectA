@@ -180,11 +180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425a58505f8de4d408871974de6f3608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rooms:
-  - {fileID: 2653693154687007786, guid: 72f6bb8b60fff402ca3b0b64107b6ad2, type: 3}
-  - {fileID: 2653693154687007786, guid: e24a8986d67dbdb4996e71ff623b4ffd, type: 3}
-  - {fileID: 2653693154687007786, guid: 35d710a2c90432644a5ced5cedf0a9c8, type: 3}
-  count: 1
+  roomWidth: 15
+  roomHeight: 9
+  roomPool:
+  - {fileID: 4934217682675267443, guid: e3d369aa31a36498d94b897134400e52, type: 3}
+  maxRooms: 20
 --- !u!1 &2144705647
 GameObject:
   m_ObjectHideFlags: 0
