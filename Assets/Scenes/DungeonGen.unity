@@ -180,9 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425a58505f8de4d408871974de6f3608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomWidth: 15
-  roomHeight: 9
-  roomPool:
+  suppliedRoomPool:
   - {fileID: 4934217682675267443, guid: e3d369aa31a36498d94b897134400e52, type: 3}
   maxRooms: 20
 --- !u!1 &2144705647

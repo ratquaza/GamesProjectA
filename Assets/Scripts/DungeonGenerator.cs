@@ -6,131 +6,106 @@ using UnityEngine.Tilemaps;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    [SerializeField] private int roomWidth = 15;
-    [SerializeField] private int roomHeight = 9;
-    [SerializeField] private GameObject[] roomPool;
+    public static readonly int ROOM_WIDTH = 15;
+    public static readonly int ROOM_HEIGHT = 9;
+
+    [SerializeField] private GameObject[] suppliedRoomPool;
     [SerializeField] private int maxRooms = 20;
+
+    private DungeonRoom[] roomPool;
     private Grid grid;
-    private GameObject[,] currentDungeon;
+    private DungeonRoom[,] currentDungeon;
     
     void Start()
     {
+        roomPool = suppliedRoomPool.Select(room => new DungeonRoom(room.transform)).ToArray();
+
         grid = GetComponent<Grid>();
-        currentDungeon = new GameObject[maxRooms/2, maxRooms/2];
+        currentDungeon = new DungeonRoom[maxRooms, maxRooms];
 
-        int x = UnityEngine.Random.Range(0, maxRooms/2);
-        int y = UnityEngine.Random.Range(0, maxRooms/2);
+        int x = maxRooms/2;
+        int y = x;
 
-        GameObject spawnRoom = CreateRandomRoom();
-        spawnRoom.transform.localPosition = LocalPositionFromGrid(new Vector2Int(x, y));
-        spawnRoom.name = $"{x} {y} SpawnRoom";
+        DungeonRoom spawnRoom = CreateRandomRoom();
+        spawnRoom.RoomObject.transform.localPosition = LocalPositionFromGrid(new Vector2Int(x, y));
+        spawnRoom.RoomObject.name = $"{x} {y} SpawnRoom";
         currentDungeon[x, y] = spawnRoom;
 
-        maxRooms--;
-        List<GameObject> rooms = FillExits(spawnRoom, 8, true).ToList<GameObject>();
-        while (maxRooms > 0 && rooms.Count > 0)
-        {
-            List<GameObject> queue = new List<GameObject>();
-            foreach (GameObject room in rooms)
-            {
-                queue.AddRange(FillExits(room, 8));
-            }
-            rooms.AddRange(queue);
-            maxRooms -= queue.Count;
-        }
+        FillExits(spawnRoom, 1);
     }
 
     Vector3 LocalPositionFromGrid(Vector2Int pos)
     {
-        return new Vector3(pos.x * roomWidth, pos.y * roomHeight, 0);
+        return new Vector3(pos.x * ROOM_WIDTH, pos.y * ROOM_HEIGHT, 0);
     }
 
     Vector2Int GridPositionFromLocal(Vector2 room)
     {
         return new Vector2Int(
-            (int) Math.Ceiling(room.x/roomWidth), 
-            (int) Math.Ceiling(room.y/roomHeight)
+            (int) Math.Ceiling(room.x/ROOM_WIDTH), 
+            (int) Math.Ceiling(room.y/ROOM_HEIGHT)
         );
     }
 
-    Vector2Int GetGridSize(BoundsInt roomBounds)
+    DungeonRoom CreateRandomRoom(Predicate<DungeonRoom> predicate = null)
     {
-        return new Vector2Int(
-            (int) Math.Ceiling(roomBounds.size.x/(double)roomWidth),
-            (int) Math.Ceiling(roomBounds.size.y/(double)roomHeight)
-        );
-    }
-
-    GameObject CreateRandomRoom(Predicate<GameObject> predicate = null)
-    {
-        GameObject selectedRoom;
+        DungeonRoom selectedRoom;
         if (predicate == null)
         {
             selectedRoom = roomPool[UnityEngine.Random.Range(0, roomPool.Length)];
         }
         else
         {
-            GameObject[] validRooms = roomPool.Where(predicate.Invoke).ToArray();
+            DungeonRoom[] validRooms = roomPool.Where(predicate.Invoke).ToArray();
             if (validRooms.Length == 0) return null;
             selectedRoom = validRooms[UnityEngine.Random.Range(0, validRooms.Length)];
         }
 
-        selectedRoom = Instantiate(selectedRoom, grid.transform);
-        Tilemap tilemap = selectedRoom.transform.Find("Walls").GetComponent<Tilemap>();
+        selectedRoom = new DungeonRoom(Instantiate(selectedRoom.RoomObject, grid.transform));
+        Tilemap tilemap = selectedRoom.WallsObject.GetComponent<Tilemap>();
         tilemap.CompressBounds();
 
         return selectedRoom;
     }
 
-    GameObject[] FillExits(GameObject baseRoom, int generanteChance = 1, bool guaranteeOneRoom = false)
+    DungeonRoom[] FillExits(DungeonRoom baseRoom, int generanteChance = 1)
     {
         generanteChance = Math.Max(1, generanteChance);
-        Transform baseRoomWall = baseRoom.transform.Find("Walls");
-        Vector2Int baseRoomGridPos = GridPositionFromLocal(baseRoom.transform.localPosition);
-        
-        bool nextGuaranteed = false;
+        Transform baseRoomWall = baseRoom.WallsObject;
+        Vector2Int baseRoomGridPos = GridPositionFromLocal(baseRoom.RoomObject.localPosition);
 
-        List<GameObject> generatedRooms = new List<GameObject>();
-        foreach (Transform exit in baseRoomWall)
+        List<DungeonRoom> generatedRooms = new List<DungeonRoom>();
+        Transform[] exits = baseRoom.GetExits();
+        foreach (Transform exit in exits)
         {
-            if (!nextGuaranteed && generanteChance > 1 && UnityEngine.Random.Range(1, generanteChance) != 1)
-            {
-                if (guaranteeOneRoom)
-                {
-                    nextGuaranteed = true;
-                    guaranteeOneRoom = false;
-                }
-                continue;
-            }
+            if (generanteChance > 1 && UnityEngine.Random.Range(1, generanteChance) != 1) continue;
             ExitDirection direction = ExitDirectionExtensions.From(exit.name);
             Vector2Int attachedRoomGridPos = baseRoomGridPos + direction.ToVector();
-            if (attachedRoomGridPos.x >= maxRooms/2 || attachedRoomGridPos.x < 0 || attachedRoomGridPos.y >= maxRooms/2 || attachedRoomGridPos.y < 0) continue;
+            if (attachedRoomGridPos.x >= currentDungeon.GetLength(0) || attachedRoomGridPos.x < 0 || 
+                attachedRoomGridPos.y >= currentDungeon.GetLength(1) || attachedRoomGridPos.y < 0) continue;
             if (currentDungeon[attachedRoomGridPos.x, attachedRoomGridPos.y] != null) continue;
 
-            GameObject attachedRoom = CreateRandomRoom(g => g.transform.Find("Walls").Find(direction.Opposite().ToString()) != null);
+            DungeonRoom attachedRoom = CreateRandomRoom(g => g.WallsObject.Find(direction.Opposite().ToString()) != null);
             if (attachedRoom == null) continue;
-            if (nextGuaranteed) nextGuaranteed = false;
 
             AttachRoomTo(baseRoom, attachedRoom, direction);
-            attachedRoom.name = attachedRoomGridPos.ToString();
-            currentDungeon[attachedRoomGridPos.x, attachedRoomGridPos.y] = attachedRoom;
-
+            attachedRoom.RoomObject.name = attachedRoomGridPos.ToString();
             generatedRooms.Add(attachedRoom);
         }
 
         return generatedRooms.ToArray();
     }
 
-    void AttachRoomTo(GameObject baseRoom, GameObject attacher, ExitDirection baseFrom)
+    void AttachRoomTo(DungeonRoom baseRoom, DungeonRoom attacher, ExitDirection baseFrom)
     {
-        Transform baseWalls = baseRoom.transform.Find("Walls");
-        Transform attachWalls = attacher.transform.Find("Walls");
+        Transform baseWalls = baseRoom.WallsObject;
+        Transform attachWalls = attacher.WallsObject;
         Tilemap baseTM = baseWalls.GetComponent<Tilemap>();
         Tilemap attachTM = attachWalls.GetComponent<Tilemap>();
 
-        Vector2Int baseGrid = GridPositionFromLocal(baseRoom.transform.localPosition);
+        Vector2Int baseGrid = GridPositionFromLocal(baseRoom.RoomObject.transform.localPosition);
         Vector2Int attacherGrid = baseGrid + baseFrom.ToVector();
-        attacher.transform.localPosition = LocalPositionFromGrid(attacherGrid);
+        attacher.RoomObject.transform.localPosition = LocalPositionFromGrid(attacherGrid);
         currentDungeon[attacherGrid.x, attacherGrid.y] = attacher;
 
         baseTM.SetTile(Vector3Int.FloorToInt(baseWalls.transform.Find(baseFrom.ToString()).localPosition), null);
@@ -142,6 +117,46 @@ public class DungeonGenerator : MonoBehaviour
     void Update()
     {
 
+    }
+
+    private class DungeonRoom
+    {
+        public DungeonRoom(Transform room) {
+            RoomObject = room;
+            WallsObject = room.Find("Walls");
+            
+            Tilemap map = WallsObject.GetComponent<Tilemap>();
+            Bounds roomBounds = map.localBounds;
+
+            Width = (int) Math.Ceiling(roomBounds.size.x/(double)ROOM_WIDTH);
+            Height = (int) Math.Ceiling(roomBounds.size.y/(double)ROOM_HEIGHT);
+        }
+
+        public int Width { get; }
+        public int Height { get; }
+        public Transform RoomObject { get; }
+        public Transform WallsObject {get; }
+
+        public Transform[] GetExits(int x = 0, int y = 0)
+        {
+            List<Transform> exits = new List<Transform>();
+
+            int lowX = x * ROOM_WIDTH;
+            int lowY = y * ROOM_HEIGHT;
+            int highX = (x + 1) * ROOM_WIDTH;
+            int highY = (y + 1) * ROOM_HEIGHT;
+
+            foreach (Transform child in WallsObject)
+            {
+                if (child.localPosition.x < lowX) continue;
+                if (child.localPosition.x >= highX) continue;
+                if (child.localPosition.y < lowY) continue;
+                if (child.localPosition.y >= highY) continue;
+                exits.Add(child);
+            }
+
+            return exits.ToArray();
+        }
     }
 }
 
