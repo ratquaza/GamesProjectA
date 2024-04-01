@@ -11,9 +11,15 @@ TagManager:
   - Player
   - Water
   - UI
+<<<<<<< HEAD:ProjectSettings/TagManager.asset
   - Tilemap
   - Enemy
   - Projectile
+=======
+  - Wall
+  - 
+  - 
+>>>>>>> origin/kerry_dev_branch:THE GAME/ProjectSettings/TagManager.asset
   - 
   - 
   - 
@@ -40,4 +46,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Grapple
+    uniqueID: 2040710163
+    locked: 0
+  - name: Player
+    uniqueID: 1549391873
     locked: 0

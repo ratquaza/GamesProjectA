@@ -28,6 +28,7 @@
 .vscode/
 .vsconfig
 UpgradeLog.htm
+.DS_Store
 
 .vs/
 .vscode/
