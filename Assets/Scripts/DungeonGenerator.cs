@@ -29,16 +29,14 @@ public class DungeonGenerator : MonoBehaviour
         int y = x;
 
         Room spawnRoom = roomPool[UnityEngine.Random.Range(0, roomPool.Length)].Clone(grid.transform);
-        spawnRoom.transform.name = $"({x} {y}) SpawnRoom";
-
-        PlaceRoomAt(spawnRoom, new Vector2Int(x, y));
+        Place(spawnRoom, new Vector2Int(x, y));
 
         List<Room> queue = new List<Room>(FillExits(spawnRoom, 1));
         while (maxRooms > 0) {
             int count = queue.Count;
             for (int i = 0; i < count; i++)
             {
-                queue.AddRange(FillExits(queue[i], 3, 3));
+                queue.AddRange(FillExits(queue[i], 1, 3));
             }
             queue.RemoveRange(0, count);
             if (queue.Count == 0) break;
@@ -115,11 +113,9 @@ public class DungeonGenerator : MonoBehaviour
             Jigsaw selectedPiece = pieces[UnityEngine.Random.Range(0, pieces.Count)];
             Room targetRoom = selectedPiece.room.Clone(grid.transform);
 
-            PlaceRoomAt(targetRoom, targetLocation, selectedPiece.quad);
+            Place(targetRoom, targetLocation, selectedPiece.quad);
             baseRoom.OpenExit(baseExit);
             targetRoom.OpenExit(targetRoom.GetExitAt(selectedPiece.quad, selectedPiece.direction));
-
-            targetRoom.transform.name = targetLocation.ToString();
             generatedRooms.Add(targetRoom);
         }
 
@@ -162,11 +158,12 @@ public class DungeonGenerator : MonoBehaviour
 
     // Places a Room at the given coordinate, updating the floor grid
     // NOTE: Does not perform checks, call Fits() before calling this to prevent errors
-    private void PlaceRoomAt(Room room, Vector2Int position)
+    private void Place(Room room, Vector2Int position)
     {
         Vector3 localSpace = FloorToLocal(position);
         room.transform.localPosition = localSpace;
         room.gridPosition = position;
+        room.transform.name = position.ToString();
         for (int x = position.x; x < position.x + room.width; x++)
         {
             for (int y = position.y; y < position.y + room.height; y++)
@@ -178,9 +175,9 @@ public class DungeonGenerator : MonoBehaviour
 
     // Places a Room at the given coordinate, updating the floor grid, using a 
     // specific quadrant of the Room
-    private void PlaceRoomAt(Room room, Vector2Int position, Vector2Int quadrant)
+    private void Place(Room room, Vector2Int position, Vector2Int quadrant)
     {
-        PlaceRoomAt(room, position - quadrant);
+        Place(room, position - quadrant);
     }
 
     // Room class, provides helper functions
