@@ -7,7 +7,7 @@ public abstract class WeaponItem
     public abstract PlayerClass ForClass { get; }
     public abstract float PrimaryCooldown { get; }
     public abstract float SecondaryCooldown { get; }
-    // Return type is every living hit
+    
     public abstract void Primary(Player player);
     public abstract void Secondary(Player player);
 }
