@@ -479,11 +479,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba545c16a86ff1c43bdc1f4fad26cb97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 200
-  dampening: 0.5
-  dashSpeed: 600
-  dashDuration: 0.3
-  dashCooldown: 0.4
+  moveSpeed: 10
+  dampening: 0.98
+  maxSpeed: 200
+  dashSpeed: 1000
+  dashDuration: 0.15
+  dashCooldown: 0
+  playerCamera: {fileID: 963194227}
 --- !u!114 &575944561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,7 +744,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2040710163
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
