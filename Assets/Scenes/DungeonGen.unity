@@ -182,6 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suppliedRoomPool:
   - {fileID: 4934217682675267443, guid: e3d369aa31a36498d94b897134400e52, type: 3}
+  - {fileID: 4934217682675267443, guid: bd9b5fe2ec29fdb4484b8e07f5ce16ef, type: 3}
+  - {fileID: 4934217682675267443, guid: adfa960048070af4eb1a0507837391e8, type: 3}
   maxRooms: 20
 --- !u!1 &2144705647
 GameObject:
