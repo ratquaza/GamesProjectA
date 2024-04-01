@@ -149,7 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileCooldown: 0
   target: {fileID: 0}
-  rb: {fileID: 5151377345053080365}
+  agent: {fileID: 0}
 --- !u!195 &5151377345053080355
 NavMeshAgent:
   m_ObjectHideFlags: 0
