@@ -10,9 +10,10 @@ public class DungeonGenerator : MonoBehaviour
     public static readonly int ROOM_HEIGHT = 9;
 
     [SerializeField] private GameObject[] suppliedRoomPool;
+    [SerializeField] private int maxRooms = 5;
+    [SerializeField] private GameObject player;
     private Room[] roomPool;
 
-    [SerializeField] private int maxRooms = 5;
     private Grid grid;
     private Room[,] floor;
     
@@ -28,7 +29,7 @@ public class DungeonGenerator : MonoBehaviour
         int x = 0;
         int y = x;
 
-        Room spawnRoom = roomPool[UnityEngine.Random.Range(0, roomPool.Length)].Clone(grid.transform);
+        Room spawnRoom = roomPool[0].Clone(grid.transform);
         Place(spawnRoom, new Vector2Int(x, y));
 
         List<Room> queue = new List<Room>(FillExits(spawnRoom, 1));
@@ -42,6 +43,8 @@ public class DungeonGenerator : MonoBehaviour
             if (queue.Count == 0) break;
             maxRooms -= count;
         }
+
+        player.transform.localPosition = new Vector3(ROOM_WIDTH/2, ROOM_HEIGHT/2, 1);
     }
 
     // Convert a Vector2Int coordinate position for the floor into a Vector3 position 
