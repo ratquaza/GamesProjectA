@@ -1,18 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
 {   
+	[SerializeField] private SpriteRenderer heldSprite;
+	
     void Update()
     {
-        Vector3 mousePos = Input.mousePosition;
-		Vector3 weaponPos = Camera.main.WorldToScreenPoint (transform.position);
-		mousePos.x = mousePos.x - weaponPos.x;
-		mousePos.y = mousePos.y - weaponPos.y;
+        Vector3 pos = Input.mousePosition - Camera.main.WorldToScreenPoint (transform.position);
 
-		float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+		float angle = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+		Debug.Log(transform.rotation.z);
+		heldSprite.flipY = transform.rotation.z < -.6 || transform.rotation.z > .6;
     }
 }
