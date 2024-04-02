@@ -209,6 +209,10 @@ MonoBehaviour:
   dashSpeed: 1000
   dashDuration: 0.15
   dashCooldown: 0.4
+  dashSidesteps: 1
+  resetDashOnSidestep: 0
+  dashOomph: 0
+  graceAfterDash: 0
 --- !u!50 &250127905
 Rigidbody2D:
   serializedVersion: 4
