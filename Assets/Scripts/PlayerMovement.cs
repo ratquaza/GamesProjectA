@@ -1,26 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor.MPE;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    
-
-
-
-    private PlayerActions playerActions;
-    private InputAction WASDInput;
-    private InputAction dashInput;
-    private Rigidbody2D rb2d;
-
-    private float currentDashDuration = 0f;
-    private float currentDashCooldown = 0f;
-    private Vector2 dashDirection = Vector2.zero;
-    private Vector2 lookDirection = Vector2.up; 
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f;
@@ -29,9 +16,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
-    [SerializeField] private Camera playerCamera;
+    [SerializeField] private int dashSidesteps = 1;
 
+    [Header("Movement Test Options")]
+    [Tooltip("When the player sidesteps during the dash, should the current dash duration be extended to 80% of dash duration.")]
+    [SerializeField] private bool resetDashOnSidestep = false;
+    [Tooltip("During the dash, should the velocity have an 'oomph' to it - where the velocity is higher at the start then regular speed at the end.")]
+    [SerializeField] private bool dashOomph = false;
+    [Tooltip("When a dash ends but the player is still moving, give them a grace on their maxspeed. Fixes the hard stopping after dash.")]
+    [SerializeField] private bool graceAfterDash = false;
+
+    private PlayerActions playerActions;
     private InputAction walkInput;
+    private InputAction dashInput;
+    private Rigidbody2D rb2d;
+    private Vector2 lookDirection = Vector2.down; 
+    private float currentDashDuration = 0f;
+    private float currentDashCooldown = 0f;
+    private int currentDashSidesteps ;
+    private float dashGrace = .2f;
+    private float currentDashGrace;
+
 
     void Awake()
     {
@@ -42,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
         dashInput = playerActions.Movement.Dash;
 
         dashInput.performed += ctx => AttemptDash();
+        currentDashSidesteps = dashSidesteps;
+        currentDashGrace = dashGrace;
     }
 
     void OnEnable()
@@ -58,12 +65,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 inputDir = walkInput.ReadValue<Vector2>();
         
-        if (IsDashing()) HandleDash(); 
+        if (IsDashing()) HandleDash(inputDir); 
         else
         {
-            if (inputDir.magnitude == 0) HandleNoInput();
-            else HandleInput(inputDir);
+            if (inputDir.magnitude > 0) HandleInput(inputDir);
+            else HandleNoInput();
             if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
+            if (graceAfterDash && currentDashGrace > 0) currentDashGrace -= Time.deltaTime;
         }
     }
 
@@ -76,19 +84,45 @@ public class PlayerMovement : MonoBehaviour
     {
         // If cooldown hasn't ended, return
         if (currentDashCooldown > 0) return;
-        // Set the dash duration
+        // Set the dash duration and total sidesteps
         currentDashDuration = dashDuration;
+        currentDashSidesteps = dashSidesteps;
     }
 
-    void HandleDash()
+    void HandleDash(Vector2 input)
     {
+        // Check if the player is inputting, and if they have enough sidesteps
+        if (currentDashSidesteps > 0 && input.magnitude > 0)
+        {
+            float dot = Vector2.Dot(input, lookDirection);
+            // If the player's input is more than 10% diff to the original dash
+            if (dot < 0.8)
+            {
+                // Reduce their total sidesteps, and cange the direction
+                currentDashSidesteps--;
+                lookDirection = input.normalized;
+                if (resetDashOnSidestep) currentDashDuration = dashDuration * .8f;
+            }
+        }
         // Force them to move towards their last direction at dashSpeed
-        rb2d.velocity = dashDirection * dashSpeed;
+        // Additional math that adds a little bit of an oomf at the start
+        rb2d.velocity = lookDirection * dashSpeed;
+        // if (dashOomph) rb2d.velocity *= 1f + 2f * (currentDashDuration/dashDuration);
         currentDashDuration -= Time.deltaTime;
         // When player's dash ends, begin cooldown
         if (currentDashDuration <= 0) {
             currentDashCooldown = dashCooldown;
+            if (graceAfterDash) currentDashGrace = dashGrace;
         }
+    }
+
+    void HandleInput(Vector2 input)
+    {
+        // Add player's input to the velocity and clamp it
+        rb2d.velocity += input * moveSpeed;
+        if (input.magnitude > 0) lookDirection = input.normalized;
+        float relativeMaxSpeed = graceAfterDash ? Math.Max(dashSpeed * (currentDashGrace/dashGrace), maxSpeed) : maxSpeed;
+        rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, relativeMaxSpeed);
     }
 
     void HandleNoInput()
@@ -96,85 +130,4 @@ public class PlayerMovement : MonoBehaviour
         // Begin decceleration/dampening
         rb2d.velocity *= dampening;
     }
-
-    void HandleInput(Vector2 input)
-    {
-        // Add player's input to the velocity and clamp it
-        rb2d.velocity += input * moveSpeed;
-        dashDirection = input.normalized;
-        rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, maxSpeed);
-    }
-    
-    private void WalkOrDashChecker()
-    {
-        //walk logic
-        if (currentDashDuration <= 0f) 
-        {
-            Vector2 movementInput = WASDInput.ReadValue<Vector2>();
-            if (movementInput.magnitude > 0) {
-                lookDirection = movementInput.normalized;
-            }
-
-            rb2d.velocity += movementInput * moveSpeed;
-            rb2d.velocity *= dampening;
-            if (currentDashCooldown > 0)
-            {
-                currentDashCooldown -= Time.deltaTime;
-            }
-        }
-
-        //if not walking -> dash logic
-        else 
-        {
-            rb2d.velocity = dashDirection * dashSpeed;
-            currentDashDuration -= Time.deltaTime;
-            if (currentDashDuration <= 0) {
-                currentDashCooldown = dashCooldown;
-            }
-        }
-    }
-
-    private bool directionChangedDuringDash = false;
-
-    void PerformDash()
-    {
-        if (currentDashCooldown > 0 || currentDashDuration > 0) return;
-        directionChangedDuringDash = false;
-        if (rb2d.velocity.magnitude == 0) 
-        {
-            dashDirection = lookDirection;
-        } 
-        else 
-        {
-            dashDirection = rb2d.velocity.normalized;
-        }
-
-        currentDashDuration = dashDuration;
-
-        //continuously update dash direction until the dash ends
-        StartCoroutine(UpdateDashDirection());
-    }
-
-    IEnumerator UpdateDashDirection()
-    {
-        Vector2 initialDashDirection = dashDirection;
-
-        while (currentDashDuration > 0)
-        {
-            Vector2 inputDirection = WASDInput.ReadValue<Vector2>().normalized;
-
-            //calculate dot product to check if input direction differs from the initial dash direction
-            float dotProduct = Vector2.Dot(inputDirection, initialDashDirection);
-
-            //update dash direction if input direction changes and direction change hasn't occurred yet
-            if (inputDirection.magnitude > 0 && dotProduct != 1 && !directionChangedDuringDash)
-            {
-                dashDirection = inputDirection;
-                directionChangedDuringDash = true; //set flag to indicate direction change
-            }
-
-            yield return null;
-        }
-    }
-
 }

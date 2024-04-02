@@ -483,9 +483,12 @@ MonoBehaviour:
   dampening: 0.98
   maxSpeed: 200
   dashSpeed: 1000
-  dashDuration: 0.15
-  dashCooldown: 0
-  playerCamera: {fileID: 963194227}
+  dashDuration: 0.2
+  dashCooldown: 0.5
+  dashSidesteps: 1
+  resetDashOnSidestep: 0
+  dashOomph: 0
+  graceAfterDash: 1
 --- !u!114 &575944561
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -916,7 +919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 575944557}
-  smoothSpeed: 1
+  smoothSpeed: 1.5
   velocityTrackingFactor: 0
 --- !u!1 &987355650
 GameObject:
