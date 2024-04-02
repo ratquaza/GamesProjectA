@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private int playerHealth;
+    [SerializeField] private int maxHealth;
     [SerializeField] private int goldCount;
     [SerializeField] private List<Item> items;
 
@@ -15,6 +17,8 @@ public class Player : MonoBehaviour
     private bool isInvulnerable = false;
     private float invulnerabilityTimer = 0f;
 
+    public delegate void HealthChange(int health);
+    public event HealthChange onHealthChange;
 
     void Awake()
     {
@@ -24,7 +28,7 @@ public class Player : MonoBehaviour
     //constructor
     private void InitializePlayer()
     {
-        playerHealth = 100;
+        playerHealth = maxHealth;
         goldCount = 0;
         items = new List<Item>();
     }
@@ -58,11 +62,18 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damageTaken)
     {
-        playerHealth -= damageTaken;
+        playerHealth -= Math.Max(damageTaken, 0);
+        onHealthChange?.Invoke(playerHealth);
     }
 
     public void Heal(int healthHealed)
     {
-        playerHealth += healthHealed;
+        playerHealth += Math.Max(healthHealed, 0);
+        onHealthChange?.Invoke(playerHealth);
+    }
+
+    public int MaxHealth()
+    {
+        return maxHealth;
     }
 }
