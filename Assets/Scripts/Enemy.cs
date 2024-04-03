@@ -58,9 +58,13 @@ public class Enemy : MonoBehaviour
         setTarget(target);
     }
 
-    private void TakeDamage(float damageDone)
+    public void TakeDamage(float playerDamage)
     {
-        enemyHealth -= damageDone;
+        enemyHealth -= damage;
+        if(enemyHealth <= 0){
+            Destroy(gameObject);
+            Debug.Log("Enemy Died");
+        }
     }
 
     //set agent's target to any transform (default: player)
