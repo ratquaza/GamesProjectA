@@ -10,15 +10,14 @@ public class Player : MonoBehaviour
     [SerializeField] private int maxHealth;
     [SerializeField] private int goldCount;
     [SerializeField] private List<Item> items;
-
-    
-    //Invulnerability 
-    [SerializeField] private float invulnerabilityDuration = 1.5f;
-    private bool isInvulnerable = false;
-    private float invulnerabilityTimer = 0f;
-
+    private WeaponItem equippedWeapon = new HolySword();
     public delegate void HealthChange(int health);
     public event HealthChange onHealthChange;
+    
+    //Invulnerability
+    [SerializeField] private float iframes = 1.5f;
+    private float currentIframes = 0f;
+    [SerializeField] private Rigidbody2D rb2d;
 
     void Awake()
     {
@@ -33,34 +32,25 @@ public class Player : MonoBehaviour
         items = new List<Item>();
     }
 
-    //while player is collided with enemy, take damage depending on couroutine's invulnerabilityDuration
+    void Update()
+    {
+        if (currentIframes > 0) currentIframes -= Time.deltaTime;
+    }
+
+    //while player is collided with enemy and invulnerability is <= 0, take damage
     void OnCollisionStay2D(Collision2D collision)
     {
-        if (!isInvulnerable && collision.gameObject.GetComponent<Enemy>() != null && collision.contactCount > 0)
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        if (currentIframes <= 0 && enemy != null && collision.contactCount > 0)
         {
-            StartCoroutine(TakeDamageCoroutine(collision));
+            int damageTaken = enemy.GetDamage();
+            TakeDamage(damageTaken, enemy);
+            currentIframes = iframes;
             Debug.Log("Player Health: " + playerHealth);
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            transform.position = transform.position;
-        }
     }
 
-    IEnumerator TakeDamageCoroutine(Collision2D collision)
-    {
-        isInvulnerable = true;
-
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        int damageTaken = enemy.GetDamage();
-        TakeDamage(damageTaken);
-
-        yield return new WaitForSeconds(invulnerabilityDuration);
-
-        isInvulnerable = false;
-    }
-
-    public void TakeDamage(int damageTaken)
+    public void TakeDamage(int damageTaken, Enemy source = null)
     {
         playerHealth -= Math.Max(damageTaken, 0);
         onHealthChange?.Invoke(playerHealth);

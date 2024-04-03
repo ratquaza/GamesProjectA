@@ -48,10 +48,14 @@ public class Projectile : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(this.gameObject);
+        if (collision.gameObject == null) return;
+        Player player = collision.gameObject.GetComponent<Player>();
+        if (player == null) return;
+        player.TakeDamage(20);
         // Destroy when collided 
     }
 
-    void desPredictiveTrajectory()
+    void doesPredictiveTrajectory()
     {
 
     }

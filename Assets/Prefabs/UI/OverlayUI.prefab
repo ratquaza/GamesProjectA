@@ -421,7 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  healthImage: {fileID: 7813318658923478389}
+  heartImage: {fileID: 7813318658923478389}
   heartbeatImage: {fileID: 8795111728077954776}
   lowHealthPercent: 0.4
 --- !u!1 &7813318658923478395

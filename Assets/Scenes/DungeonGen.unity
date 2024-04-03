@@ -357,6 +357,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5592103563087808024, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
+      propertyPath: pushForceMultiplier
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808028, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: maxSpeed
       value: 5
@@ -575,5 +579,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1065031896}
   smoothSpeed: 10
-  velocityTrackingFactor: 0.2
-  mouseTrackingFactor: 0.1
+  velocityTrackingFactor: 0
+  mouseTrackingFactor: 0.25

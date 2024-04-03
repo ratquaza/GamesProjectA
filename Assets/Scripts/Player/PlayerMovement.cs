@@ -101,13 +101,13 @@ public class PlayerMovement : MonoBehaviour
                 // Reduce their total sidesteps, and cange the direction
                 currentDashSidesteps--;
                 lookDirection = input.normalized;
-                if (resetDashOnSidestep) currentDashDuration = dashDuration * .8f;
+                if (resetDashOnSidestep) currentDashDuration = dashDuration * .5f;
             }
         }
         // Force them to move towards their last direction at dashSpeed
         // Additional math that adds a little bit of an oomf at the start
         rb2d.velocity = lookDirection * dashSpeed;
-        // if (dashOomph) rb2d.velocity *= 1f + 2f * (currentDashDuration/dashDuration);
+        if (dashOomph) rb2d.velocity *= 1f + 2f * (currentDashDuration/dashDuration);
         currentDashDuration -= Time.deltaTime;
         // When player's dash ends, begin cooldown
         if (currentDashDuration <= 0) {

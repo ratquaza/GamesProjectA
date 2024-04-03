@@ -11,7 +11,6 @@ public class FollowMouse : MonoBehaviour
 		float angle = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-		Debug.Log(transform.rotation.z);
 		heldSprite.flipY = transform.rotation.z < -.6 || transform.rotation.z > .6;
     }
 }

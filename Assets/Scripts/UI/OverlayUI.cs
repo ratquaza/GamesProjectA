@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OverlayUI : MonoBehaviour
 {
     [SerializeField] private Player player;
-    [SerializeField] private Image healthImage;
+    [SerializeField] private Image heartImage;
     [SerializeField] private Image heartbeatImage;
     [SerializeField] private float lowHealthPercent = .4f;
 
@@ -21,13 +22,13 @@ public class OverlayUI : MonoBehaviour
         heartbeatBaseScale = heartbeatImage.transform.localScale;
 
         player.onHealthChange += (hp) => {
-            healthImage.fillAmount = hp/(float) player.MaxHealth();
-            if (!isLowHealth && healthImage.fillAmount <= lowHealthPercent)
+            heartImage.fillAmount = hp/(float) player.MaxHealth();
+            if (!isLowHealth && heartImage.fillAmount <= lowHealthPercent)
             {
                 isLowHealth = true;
                 heartbeatAnim = 0f;
             }
-            else if (isLowHealth && healthImage.fillAmount > lowHealthPercent)
+            else if (isLowHealth && heartImage.fillAmount > lowHealthPercent)
             {
                 isLowHealth = false;
                 heartbeatAnim = 0f;
