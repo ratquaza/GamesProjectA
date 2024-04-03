@@ -49,7 +49,7 @@ public class Projectile : MonoBehaviour
     {
         Destroy(this.gameObject);
         if (collision.gameObject == null) return;
-        Player player = collision.gameObject.GetComponent<Player>();
+        PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
         if (player == null) return;
         player.TakeDamage(20);
         // Destroy when collided 

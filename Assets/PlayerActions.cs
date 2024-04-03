@@ -46,15 +46,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""GrapplingHook"",
-                    ""type"": ""Button"",
-                    ""id"": ""2a71cc88-b1eb-499f-8d1d-1eb9cd0920c7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""RepelMouse"",
                     ""type"": ""Button"",
                     ""id"": ""e7f08200-cc89-4474-b82d-84023af039d5"",
@@ -133,23 +124,60 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ecf87f4b-cb79-46e2-a147-861ad3e1e6ee"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""GrapplingHook"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9761e48d-1330-495e-8e4f-c516916cbe5b"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RepelMouse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Attacks"",
+            ""id"": ""aca38e49-5d90-44e8-bf4d-dcd7c85af617"",
+            ""actions"": [
+                {
+                    ""name"": ""SecondaryAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""6febab7c-aae6-4f4a-afd3-6271a88ff7f3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrimaryAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""4f4343ee-9b41-45f3-bc75-5d09128bb2eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""42a64a91-86d2-44a6-8e23-9c94ab35012a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrimaryAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7d06166-46dc-4296-af26-87c1ac8b1fe8"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -162,8 +190,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
-        m_Movement_GrapplingHook = m_Movement.FindAction("GrapplingHook", throwIfNotFound: true);
         m_Movement_RepelMouse = m_Movement.FindAction("RepelMouse", throwIfNotFound: true);
+        // Attacks
+        m_Attacks = asset.FindActionMap("Attacks", throwIfNotFound: true);
+        m_Attacks_SecondaryAttack = m_Attacks.FindAction("SecondaryAttack", throwIfNotFound: true);
+        m_Attacks_PrimaryAttack = m_Attacks.FindAction("PrimaryAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,7 +258,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Walk;
     private readonly InputAction m_Movement_Dash;
-    private readonly InputAction m_Movement_GrapplingHook;
     private readonly InputAction m_Movement_RepelMouse;
     public struct MovementActions
     {
@@ -235,7 +265,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public MovementActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Walk => m_Wrapper.m_Movement_Walk;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
-        public InputAction @GrapplingHook => m_Wrapper.m_Movement_GrapplingHook;
         public InputAction @RepelMouse => m_Wrapper.m_Movement_RepelMouse;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
@@ -252,9 +281,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
-            @GrapplingHook.started += instance.OnGrapplingHook;
-            @GrapplingHook.performed += instance.OnGrapplingHook;
-            @GrapplingHook.canceled += instance.OnGrapplingHook;
             @RepelMouse.started += instance.OnRepelMouse;
             @RepelMouse.performed += instance.OnRepelMouse;
             @RepelMouse.canceled += instance.OnRepelMouse;
@@ -268,9 +294,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
-            @GrapplingHook.started -= instance.OnGrapplingHook;
-            @GrapplingHook.performed -= instance.OnGrapplingHook;
-            @GrapplingHook.canceled -= instance.OnGrapplingHook;
             @RepelMouse.started -= instance.OnRepelMouse;
             @RepelMouse.performed -= instance.OnRepelMouse;
             @RepelMouse.canceled -= instance.OnRepelMouse;
@@ -291,11 +314,69 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         }
     }
     public MovementActions @Movement => new MovementActions(this);
+
+    // Attacks
+    private readonly InputActionMap m_Attacks;
+    private List<IAttacksActions> m_AttacksActionsCallbackInterfaces = new List<IAttacksActions>();
+    private readonly InputAction m_Attacks_SecondaryAttack;
+    private readonly InputAction m_Attacks_PrimaryAttack;
+    public struct AttacksActions
+    {
+        private @PlayerActions m_Wrapper;
+        public AttacksActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @SecondaryAttack => m_Wrapper.m_Attacks_SecondaryAttack;
+        public InputAction @PrimaryAttack => m_Wrapper.m_Attacks_PrimaryAttack;
+        public InputActionMap Get() { return m_Wrapper.m_Attacks; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AttacksActions set) { return set.Get(); }
+        public void AddCallbacks(IAttacksActions instance)
+        {
+            if (instance == null || m_Wrapper.m_AttacksActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_AttacksActionsCallbackInterfaces.Add(instance);
+            @SecondaryAttack.started += instance.OnSecondaryAttack;
+            @SecondaryAttack.performed += instance.OnSecondaryAttack;
+            @SecondaryAttack.canceled += instance.OnSecondaryAttack;
+            @PrimaryAttack.started += instance.OnPrimaryAttack;
+            @PrimaryAttack.performed += instance.OnPrimaryAttack;
+            @PrimaryAttack.canceled += instance.OnPrimaryAttack;
+        }
+
+        private void UnregisterCallbacks(IAttacksActions instance)
+        {
+            @SecondaryAttack.started -= instance.OnSecondaryAttack;
+            @SecondaryAttack.performed -= instance.OnSecondaryAttack;
+            @SecondaryAttack.canceled -= instance.OnSecondaryAttack;
+            @PrimaryAttack.started -= instance.OnPrimaryAttack;
+            @PrimaryAttack.performed -= instance.OnPrimaryAttack;
+            @PrimaryAttack.canceled -= instance.OnPrimaryAttack;
+        }
+
+        public void RemoveCallbacks(IAttacksActions instance)
+        {
+            if (m_Wrapper.m_AttacksActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IAttacksActions instance)
+        {
+            foreach (var item in m_Wrapper.m_AttacksActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_AttacksActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public AttacksActions @Attacks => new AttacksActions(this);
     public interface IMovementActions
     {
         void OnWalk(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
-        void OnGrapplingHook(InputAction.CallbackContext context);
         void OnRepelMouse(InputAction.CallbackContext context);
+    }
+    public interface IAttacksActions
+    {
+        void OnSecondaryAttack(InputAction.CallbackContext context);
+        void OnPrimaryAttack(InputAction.CallbackContext context);
     }
 }

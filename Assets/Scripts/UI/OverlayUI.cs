@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class OverlayUI : MonoBehaviour
 {
-    [SerializeField] private Player player;
+    [SerializeField] private PlayerLiving player;
     [SerializeField] private Image heartImage;
     [SerializeField] private Image heartbeatImage;
     [SerializeField] private float lowHealthPercent = .4f;

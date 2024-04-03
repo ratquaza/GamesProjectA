@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5151377345053080365}
   - component: {fileID: 5151377345053080353}
   - component: {fileID: 5151377345053080355}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ MonoBehaviour:
   damage: 0
   projectileCooldown: 0
   target: {fileID: 0}
-  agent: {fileID: 0}
+  agent: {fileID: 5151377345053080355}
 --- !u!195 &5151377345053080355
 NavMeshAgent:
   m_ObjectHideFlags: 0

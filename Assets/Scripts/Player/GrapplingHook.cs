@@ -23,8 +23,8 @@ public class GrapplingHook : MonoBehaviour
     {
         playerActions = new PlayerActions();
 
-        playerActions.Movement.GrapplingHook.performed += ctx => GrappleButtonDown();
-        playerActions.Movement.GrapplingHook.canceled += ctx => GrappleButtonUp();
+        playerActions.Movement.Dash.performed += ctx => GrappleButtonDown();
+        playerActions.Movement.Dash.canceled += ctx => GrappleButtonUp();
 
         rope = GetComponentInChildren<LineRenderer>().gameObject;
         lineRenderer = rope.GetComponent<LineRenderer>();

@@ -1,4 +1,6 @@
-public class Item
+using UnityEngine;
+
+public abstract class Item
 {
     
 }

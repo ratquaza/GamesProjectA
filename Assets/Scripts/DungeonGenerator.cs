@@ -12,6 +12,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private GameObject[] suppliedRoomPool;
     [SerializeField] private int maxRooms = 5;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject enemy;
     private Room[] roomPool;
 
     private Grid grid;
@@ -115,6 +116,18 @@ public class DungeonGenerator : MonoBehaviour
             if (pieces.Count == 0) continue;
             Jigsaw selectedPiece = pieces[UnityEngine.Random.Range(0, pieces.Count)];
             Room targetRoom = selectedPiece.room.Clone(grid.transform);
+
+            if (enemy != null && UnityEngine.Random.Range(0, 3) == 0)
+            {
+                for (int x = 0; x < targetRoom.width; x++)
+                {
+                    for (int y = 0; y < targetRoom.height; y++)
+                    {
+                        GameObject enemyClone = Instantiate(enemy, targetRoom.transform);
+                        enemyClone.transform.localPosition = new Vector3(ROOM_WIDTH/2 + x * ROOM_WIDTH, ROOM_HEIGHT/2 + y * ROOM_HEIGHT, 3);
+                    }
+                }
+            }
 
             Place(targetRoom, targetLocation, selectedPiece.quad);
             baseRoom.OpenExit(baseExit);

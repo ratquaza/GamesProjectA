@@ -141,8 +141,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5592103563007689468}
   - component: {fileID: 5592103563007689469}
+  - component: {fileID: 3425989691832747645}
+  - component: {fileID: 7987457777416548258}
   m_Layer: 0
-  m_Name: RotatePoint
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,6 +179,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heldSprite: {fileID: 5592103563033121061}
+  primaryCollider: {fileID: 3425989691832747645}
+  secondaryCollider: {fileID: 7987457777416548258}
+--- !u!61 &3425989691832747645
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5592103563007689443}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.4, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.8}
+  m_EdgeRadius: 0
+--- !u!61 &7987457777416548258
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5592103563007689443}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.4, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.8}
+  m_EdgeRadius: 0
 --- !u!1 &5592103563033121067
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,8 +494,9 @@ MonoBehaviour:
   playerHealth: 0
   maxHealth: 0
   goldCount: 0
-  items: []
-  invulnerabilityDuration: 1.5
+  handler: {fileID: 5592103563007689469}
+  iframes: 1.5
+  rb2d: {fileID: 0}
 --- !u!231 &5592103563087808031
 SpringJoint2D:
   m_ObjectHideFlags: 0

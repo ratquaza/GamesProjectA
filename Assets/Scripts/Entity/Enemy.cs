@@ -53,11 +53,6 @@ public class Enemy : MonoBehaviour
         return damage;
     }
 
-    private void Update()
-    {
-        setTarget(target);
-    }
-
     private void TakeDamage(float damageDone)
     {
         enemyHealth -= damageDone;
