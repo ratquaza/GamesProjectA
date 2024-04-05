@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {   
-	[SerializeField] private SpriteRenderer heldSprite;
     [SerializeField] private BoxCollider2D primaryCollider;
     [SerializeField] private BoxCollider2D secondaryCollider;
+    [SerializeField] private Animator animator;
+    private float primaryAttackCooldown = 0f;
+    private float secondaryAttackCooldown = 0f;
     private WeaponItem currentEquipped;
 	
     void Start()
@@ -19,31 +21,41 @@ public class WeaponHandler : MonoBehaviour
 		float angle = Mathf.Atan2(pos.y, pos.x) * Mathf.Rad2Deg;
 		transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-		heldSprite.flipY = transform.rotation.z < -.6 || transform.rotation.z > .6;
+        if (primaryAttackCooldown > 0) primaryAttackCooldown -= Time.deltaTime;
+        if (secondaryAttackCooldown > 0) secondaryAttackCooldown -= Time.deltaTime;
     }
 
     public void UpdateWeapon(WeaponItem item)
     {
         item.DefineColliders(primaryCollider, secondaryCollider);
-        this.currentEquipped = item;
+        currentEquipped = item;
     }
 
     public WeaponItem GetWeapon()
     {
-        return this.currentEquipped;
+        return currentEquipped;
     }
 
-    public void PrimaryAttack(PlayerLiving player)
+    private bool CanAttack(float cd)
     {
-        primaryCollider.enabled = true;
-        currentEquipped.PrimaryAttack(player, primaryCollider);
-        primaryCollider.enabled = false;
+        return cd <= 0 && animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
     }
 
-    public void SecondaryAttack(PlayerLiving player)
+    public bool PrimaryAttack(PlayerLiving player)
     {
-        secondaryCollider.enabled = true;
-        currentEquipped.SecondaryAttack(player, secondaryCollider);
-        secondaryCollider.enabled = false;
+        if (!CanAttack(primaryAttackCooldown)) return false;
+        animator.SetTrigger("PrimaryAttack");
+        currentEquipped.PrimaryAttack(player, primaryCollider, this);
+        primaryAttackCooldown = currentEquipped.primaryCooldown;
+        return true;
+    }
+
+    public bool SecondaryAttack(PlayerLiving player)
+    {
+        if (!CanAttack(secondaryAttackCooldown)) return false;
+        animator.SetTrigger("SecondaryAttack");
+        currentEquipped.SecondaryAttack(player, secondaryCollider, this);
+        secondaryAttackCooldown = currentEquipped.secondaryCooldown;
+        return true;
     }
 }

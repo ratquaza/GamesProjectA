@@ -8,8 +8,6 @@ public class PlayerLiving : MonoBehaviour, Living
     // Health
     [SerializeField] private int maxHealth;
     private int health;
-    public delegate void HealthChange(int health);
-    public event HealthChange onHealthChange;
     
     //Invulnerability
     [SerializeField] private float iframes = 1.5f;
@@ -19,10 +17,10 @@ public class PlayerLiving : MonoBehaviour, Living
     // Attack actions
     [SerializeField] private WeaponHandler handler;
     private PlayerActions actions;
-    private float primaryAttackCooldown = 0f;
+   
     private InputAction primaryAttack;
-    private float secondaryAttackCooldown = 0f;
     private InputAction secondaryAttack;
+    public event Living.HealthChange onHealthChange;
 
     void Awake()
     {
@@ -38,8 +36,8 @@ public class PlayerLiving : MonoBehaviour, Living
         primaryAttack = actions.Attacks.PrimaryAttack;
         secondaryAttack = actions.Attacks.SecondaryAttack;
 
-        primaryAttack.performed += ctx => AttemptPrimaryAttack();
-        secondaryAttack.performed += ctx => AttemptSecondaryAttack();
+        primaryAttack.performed += ctx => handler.PrimaryAttack(this);
+        secondaryAttack.performed += ctx => handler.SecondaryAttack(this);
     }
 
     void OnEnable()
@@ -55,22 +53,6 @@ public class PlayerLiving : MonoBehaviour, Living
     void Update()
     {
         if (currentIframes > 0) currentIframes -= Time.deltaTime;
-        if (primaryAttackCooldown > 0) primaryAttackCooldown -= Time.deltaTime;
-        if (secondaryAttackCooldown > 0) secondaryAttackCooldown -= Time.deltaTime;
-    }
-
-    private void AttemptPrimaryAttack()
-    {
-        if (primaryAttackCooldown > 0) return;
-        handler.PrimaryAttack(this);
-        primaryAttackCooldown = handler.GetWeapon().primaryCooldown;
-    }
-
-    private void AttemptSecondaryAttack()
-    {
-        if (secondaryAttackCooldown > 0) return;
-        handler.SecondaryAttack(this);
-        secondaryAttackCooldown = handler.GetWeapon().secondaryCooldown;
     }
 
     public int Health() => health;
