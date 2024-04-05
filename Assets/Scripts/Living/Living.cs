@@ -5,4 +5,6 @@ public interface Living
     public void Damage(int amount);
     public void Heal(int amount);
     public int DamageDealt();
+    public delegate void HealthChange(int health);
+    public event HealthChange onHealthChange;
 }

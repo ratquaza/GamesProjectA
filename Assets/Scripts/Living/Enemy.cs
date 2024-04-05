@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour, Living
     [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
     private Rigidbody2D rb2d;
+    public event Living.HealthChange onHealthChange;
 
     //NOTE: IF YOU WANT TO TUNE THE SPEED AND ACCELERATION SETTINGS OF THE ENEMY, MODIFY THE NAVMESHAGENT COMPONENT. (Can do through code or inspector)
 
@@ -47,17 +48,20 @@ public class Enemy : MonoBehaviour, Living
 
     void Update()
     {
-        rb2d.velocity *= .99f;
+        rb2d.velocity *= .95f;
     }
 
     public void Damage(int damageDone)
     {
         health = Math.Max(0, health - damageDone);
+        onHealthChange.Invoke(health);
+        if (health == 0) Destroy(gameObject);
     }
 
     public void Heal(int amount)
     {
         health = Math.Min(maxHealth, health + amount);
+        onHealthChange.Invoke(health);
     }
     public int DamageDealt() => damage;
     public int Health() => health;
