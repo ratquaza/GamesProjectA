@@ -270,7 +270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1030507304792426988, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1030507304792426988, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -380,7 +380,12 @@ PrefabInstance:
       propertyPath: resetDashOnSidestep
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5592103563087808029, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
+      propertyPath: equippedWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 67ccf661a48249c4a8d150591d4af565, type: 2}
+    m_RemovedComponents:
+    - {fileID: 9099769062779272443, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
 --- !u!114 &1411325685 stripped
 MonoBehaviour:

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,19 +9,18 @@ public class PlayerLiving : MonoBehaviour, Living
     // Health
     [SerializeField] private int maxHealth;
     private int health;
+    public event Living.HealthChange onHealthChange;
     
     //Invulnerability
     [SerializeField] private float iframes = 1.5f;
     private float currentIframes = 0f;
+
     [SerializeField] private Rigidbody2D rb2d;
 
-    // Attack actions
-    [SerializeField] private WeaponHandler handler;
     private PlayerActions actions;
-   
     private InputAction primaryAttack;
     private InputAction secondaryAttack;
-    public event Living.HealthChange onHealthChange;
+    [SerializeField] private WeaponItem equippedWeapon;
 
     void Awake()
     {
@@ -36,8 +36,7 @@ public class PlayerLiving : MonoBehaviour, Living
         primaryAttack = actions.Attacks.PrimaryAttack;
         secondaryAttack = actions.Attacks.SecondaryAttack;
 
-        primaryAttack.performed += ctx => handler.PrimaryAttack(this);
-        secondaryAttack.performed += ctx => handler.SecondaryAttack(this);
+        if (equippedWeapon) OnWeaponEquip(equippedWeapon);
     }
 
     void OnEnable()
@@ -72,5 +71,24 @@ public class PlayerLiving : MonoBehaviour, Living
         Debug.Log($"Player HP: {health}");
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
+    }
+
+    public void EquipWeapon(WeaponItem item)
+    {
+        if (equippedWeapon != null) OnWeaponUnequip(equippedWeapon);
+        equippedWeapon = item;
+        OnWeaponEquip(item);
+    }
+
+    private void OnWeaponEquip(WeaponItem item)
+    {
+        item.GetOrCreateWeapon(this).OnEquip(this, item, primaryAttack, secondaryAttack);
+    }
+
+    private void OnWeaponUnequip(WeaponItem item)
+    {
+        Weapon weapon = item.GetOrCreateWeapon(this);
+        weapon.OnUnequip(this, item, primaryAttack, secondaryAttack);
+        Destroy(weapon.gameObject);
     }
 }
