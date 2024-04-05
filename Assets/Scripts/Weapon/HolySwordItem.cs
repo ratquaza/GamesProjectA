@@ -5,31 +5,23 @@ using UnityEngine;
 public class HolySwordItem : WeaponItem
 {
     public override string weaponName => "Holy Sword";
-    public override float primaryCooldown => 1f;
-    public override float secondaryCooldown => 3f;
+    public override float primaryCooldown => .7f;
+    public override float secondaryCooldown => .5f;
 
     public override void DefineColliders(BoxCollider2D primary, BoxCollider2D secondary)
     {
-        primary.size = new Vector2(.3f, 1f);
+        primary.size = new Vector2(.4f, .9f);
         secondary.size = new Vector2(.8f, .2f);
     }
 
-    public override void PrimaryAttack(PlayerLiving player, BoxCollider2D box)
+    public override void PrimaryAttack(PlayerLiving player, BoxCollider2D box, WeaponHandler handler)
     {
-        List<Collider2D> hits = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D { layerMask = LayerMask.GetMask("Enemy"), useLayerMask = true };
-
-        box.OverlapCollider(filter, hits);
-        foreach (var hit in hits)
-        {
-            Enemy enemy = hit.GetComponent<Enemy>();
-            Rigidbody2D rb2d = hit.GetComponent<Rigidbody2D>();
-            rb2d.velocity += (Vector2) (enemy.transform.position - player.transform.position).normalized * 30f;
-        }
+        WeaponItem.DamageInCollider(box, 3f, (Input.mousePosition - Camera.main.WorldToScreenPoint(player.transform.position)).normalized * 35f);
     }
 
-    public override void SecondaryAttack(PlayerLiving player, BoxCollider2D box)
+    public override void SecondaryAttack(PlayerLiving player, BoxCollider2D box, WeaponHandler handler)
     {
+        WeaponItem.DamageInCollider(box, 1f, (Input.mousePosition - Camera.main.WorldToScreenPoint(player.transform.position)).normalized * 55f);
     }
 
     
