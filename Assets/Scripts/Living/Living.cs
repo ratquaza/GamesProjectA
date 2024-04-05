@@ -1,8 +1,8 @@
 public interface Living
-{
-    public int maxHealth { get; }
-    public int health { get; }
-
+{   
+    public int Health();
+    public int MaxHealth();
     public void Damage(int amount);
     public void Heal(int amount);
+    public int DamageDealt();
 }

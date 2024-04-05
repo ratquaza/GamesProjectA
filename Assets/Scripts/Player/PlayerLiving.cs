@@ -1,17 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerLiving : MonoBehaviour
+public class PlayerLiving : MonoBehaviour, Living
 {
-    [SerializeField] private int playerHealth;
+    // Health
     [SerializeField] private int maxHealth;
-    [SerializeField] private int goldCount;
-    [SerializeField] private List<Item> items;
-    [SerializeField] private WeaponHandler handler;
+    private int health;
     public delegate void HealthChange(int health);
     public event HealthChange onHealthChange;
     
@@ -20,6 +16,8 @@ public class PlayerLiving : MonoBehaviour
     private float currentIframes = 0f;
     [SerializeField] private Rigidbody2D rb2d;
 
+    // Attack actions
+    [SerializeField] private WeaponHandler handler;
     private PlayerActions actions;
     private float primaryAttackCooldown = 0f;
     private InputAction primaryAttack;
@@ -34,9 +32,7 @@ public class PlayerLiving : MonoBehaviour
     //constructor
     private void InitializePlayer()
     {
-        playerHealth = maxHealth;
-        goldCount = 0;
-        items = new List<Item>();
+        health = maxHealth;
 
         actions = new PlayerActions();
         primaryAttack = actions.Attacks.PrimaryAttack;
@@ -63,36 +59,6 @@ public class PlayerLiving : MonoBehaviour
         if (secondaryAttackCooldown > 0) secondaryAttackCooldown -= Time.deltaTime;
     }
 
-    //while player is collided with enemy and invulnerability is <= 0, take damage
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        if (currentIframes <= 0 && enemy != null && collision.contactCount > 0)
-        {
-            int damageTaken = enemy.GetDamage();
-            TakeDamage(damageTaken, enemy);
-            currentIframes = iframes;
-            Debug.Log("Player Health: " + playerHealth);
-        }
-    }
-
-    public void TakeDamage(int damageTaken, Enemy source = null)
-    {
-        playerHealth -= Math.Max(damageTaken, 0);
-        onHealthChange?.Invoke(playerHealth);
-    }
-
-    public void Heal(int healthHealed)
-    {
-        playerHealth += Math.Max(healthHealed, 0);
-        onHealthChange?.Invoke(playerHealth);
-    }
-
-    public int MaxHealth()
-    {
-        return maxHealth;
-    }
-
     private void AttemptPrimaryAttack()
     {
         if (primaryAttackCooldown > 0) return;
@@ -105,5 +71,24 @@ public class PlayerLiving : MonoBehaviour
         if (secondaryAttackCooldown > 0) return;
         handler.SecondaryAttack(this);
         secondaryAttackCooldown = handler.GetWeapon().secondaryCooldown;
+    }
+
+    public int Health() => health;
+    public int MaxHealth() => maxHealth;
+    public int DamageDealt() => 5;
+    public void Heal(int healthHealed)
+    {
+        health = Math.Max(health + Math.Max(1, healthHealed), maxHealth);
+        Debug.Log($"Player HP: {health}");
+        onHealthChange?.Invoke(health);
+    }
+
+    public void Damage(int amount)
+    {
+        if (currentIframes > 0) return;
+        health = Math.Max(health - Math.Max(1, amount), 0);
+        Debug.Log($"Player HP: {health}");
+        onHealthChange?.Invoke(health);
+        currentIframes = iframes;
     }
 }

@@ -40,22 +40,22 @@ public class Projectile : MonoBehaviour
         // then return the position of the projectile using spawn point 
     }
 
-    void doesRicochet()
+    void DoesRicochet()
     {
 
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
         if (collision.gameObject == null) return;
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
         if (player == null) return;
-        player.TakeDamage(20);
+        player.Damage(20);
         // Destroy when collided 
     }
 
-    void doesPredictiveTrajectory()
+    void DoesPredictiveTrajectory()
     {
 
     }

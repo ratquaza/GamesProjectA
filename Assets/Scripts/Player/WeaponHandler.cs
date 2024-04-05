@@ -24,8 +24,7 @@ public class WeaponHandler : MonoBehaviour
 
     public void UpdateWeapon(WeaponItem item)
     {
-        item.DefinePrimaryCollider(primaryCollider);
-        item.DefineSecondaryCollider(secondaryCollider);
+        item.DefineColliders(primaryCollider, secondaryCollider);
         this.currentEquipped = item;
     }
 

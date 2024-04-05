@@ -147,8 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31cc8df8594cc32428584bcbc66f6b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  maxHealth: 10
+  damage: 20
   projectileCooldown: 0
+  goldDropAmount: 0
   target: {fileID: 0}
   agent: {fileID: 5151377345053080355}
 --- !u!195 &5151377345053080355
