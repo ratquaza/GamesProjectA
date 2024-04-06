@@ -12,9 +12,12 @@ public class ItemDatabase : MonoBehaviour
 
     void Start()
     {
-        if (Instance != null) Destroy(Instance.gameObject);
-        Instance = this;
-        Items = toLoad.ToDictionary((item) => item.name);
-        Object.DontDestroyOnLoad(this.gameObject);
+        if (Instance != null) Destroy(gameObject);
+        else
+        {
+            Instance = this;
+            Items = toLoad.ToDictionary((item) => item.name);
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 }
