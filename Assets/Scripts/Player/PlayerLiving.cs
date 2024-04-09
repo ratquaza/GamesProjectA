@@ -16,8 +16,6 @@ public class PlayerLiving : MonoBehaviour, Living
     [SerializeField] private float iframes = 1.5f;
     private float currentIframes = 0f;
 
-    [SerializeField] private Rigidbody2D rb2d;
-
     private PlayerActions actions;
     private InputAction primaryAttack;
     private InputAction secondaryAttack;
