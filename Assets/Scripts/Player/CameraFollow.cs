@@ -18,14 +18,16 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        transform.position = target.position;
+        transform.position = new Vector3(target.position.x, target.position.y, transform.position.z);
     }
 
     void Update()
     {
         if (target == null) return;
+
         Vector2 desiredPosition = target.position;
         desiredPosition = Vector2.Lerp(desiredPosition, Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseTrackingFactor);
+
         if (center != null && bounds != null) {
             float height = Camera.main.orthographicSize * 2;
             float width = height * Camera.main.aspect;
@@ -40,7 +42,8 @@ public class CameraFollow : MonoBehaviour
 
             desiredPosition = new Vector2(newX, newY);
         }
-        transform.position = Vector2.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+
+        transform.position = Vector3.Lerp(transform.position, new Vector3(desiredPosition.x, desiredPosition.y, transform.position.z), smoothSpeed * Time.deltaTime);
     }
 
     public void UpdateTarget(Transform target)
