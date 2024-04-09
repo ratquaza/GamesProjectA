@@ -34,9 +34,8 @@ public class Enemy : MonoBehaviour, Living
 
     private void Start()
     {
-        if (target == null){
-            target = GameObject.FindGameObjectWithTag("Player").transform;
-        }
+        if (target == null) target = GameObject.FindGameObjectWithTag("Player").transform;
+        rb2d.drag = drag;
 
         //initialize agent 
         agent = GetComponent<NavMeshAgent>();
@@ -46,7 +45,6 @@ public class Enemy : MonoBehaviour, Living
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        rb2d.drag = drag;
     }
 
     public void Damage(int damageDone)
