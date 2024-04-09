@@ -2151,7 +2151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329389814}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cfd554082d0bc74385a0ef6d5f596ca, type: 3}
   m_Name: 
@@ -2161,7 +2161,7 @@ MonoBehaviour:
     m_Bits: 64
   hookSpeed: 10
   cooldownDuration: 0
-  lineWidth: 5
+  lineWidth: 0.2
   numberOfPoints: 25
   waveFrequency: 5
   waveAmplitude: 12
@@ -2184,7 +2184,7 @@ SpringJoint2D:
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
-  m_Distance: 24
+  m_Distance: 1
   m_DampingRatio: 1
   m_Frequency: 4
 --- !u!114 &329389821

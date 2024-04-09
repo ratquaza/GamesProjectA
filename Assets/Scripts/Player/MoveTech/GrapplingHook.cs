@@ -13,7 +13,7 @@ public class GrapplingHook : MonoBehaviour
     private LineRenderer lineRenderer;
     private PlayerActions playerActions;
     private bool isOnCooldown = false;
-    [SerializeField] private int lineWidth = 25;
+    [SerializeField] private float lineWidth = 25;
     [SerializeField] private int numberOfPoints = 25; //number of points along curve
     [SerializeField] private float waveFrequency = 1f; //how curvy
     [SerializeField] private float waveAmplitude = 1f; //wave height
@@ -23,8 +23,8 @@ public class GrapplingHook : MonoBehaviour
     {
         playerActions = new PlayerActions();
 
-        playerActions.Movement.Dash.performed += ctx => GrappleButtonDown();
-        playerActions.Movement.Dash.canceled += ctx => GrappleButtonUp();
+        playerActions.Movement.GrapplingHook.performed += ctx => GrappleButtonDown();
+        playerActions.Movement.GrapplingHook.canceled += ctx => GrappleButtonUp();
 
         rope = GetComponentInChildren<LineRenderer>().gameObject;
         lineRenderer = rope.GetComponent<LineRenderer>();

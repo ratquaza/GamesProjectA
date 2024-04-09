@@ -89,6 +89,10 @@ public class PlayerMovement : MonoBehaviour
         currentDashSidesteps = dashSidesteps;
     }
 
+    public Vector2 GetLookDirection(){
+        return lookDirection;
+    }
+
     void HandleDash(Vector2 input)
     {
         // Check if the player is inputting, and if they have enough sidesteps

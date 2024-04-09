@@ -53,6 +53,24 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""GrapplingHook"",
+                    ""type"": ""Button"",
+                    ""id"": ""eb02ff57-22f4-4356-85f9-aba72441f0e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Blink"",
+                    ""type"": ""Button"",
+                    ""id"": ""31edb184-220a-4a1e-bd03-070f8e861ae0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +150,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""RepelMouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81437cb7-d357-40a0-87c3-09204668ba4b"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrapplingHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b988b15d-229b-4257-8031-b60065f20e85"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Blink"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -191,6 +231,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_RepelMouse = m_Movement.FindAction("RepelMouse", throwIfNotFound: true);
+        m_Movement_GrapplingHook = m_Movement.FindAction("GrapplingHook", throwIfNotFound: true);
+        m_Movement_Blink = m_Movement.FindAction("Blink", throwIfNotFound: true);
         // Attacks
         m_Attacks = asset.FindActionMap("Attacks", throwIfNotFound: true);
         m_Attacks_SecondaryAttack = m_Attacks.FindAction("SecondaryAttack", throwIfNotFound: true);
@@ -259,6 +301,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Walk;
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_RepelMouse;
+    private readonly InputAction m_Movement_GrapplingHook;
+    private readonly InputAction m_Movement_Blink;
     public struct MovementActions
     {
         private @PlayerActions m_Wrapper;
@@ -266,6 +310,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Walk => m_Wrapper.m_Movement_Walk;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @RepelMouse => m_Wrapper.m_Movement_RepelMouse;
+        public InputAction @GrapplingHook => m_Wrapper.m_Movement_GrapplingHook;
+        public InputAction @Blink => m_Wrapper.m_Movement_Blink;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -284,6 +330,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @RepelMouse.started += instance.OnRepelMouse;
             @RepelMouse.performed += instance.OnRepelMouse;
             @RepelMouse.canceled += instance.OnRepelMouse;
+            @GrapplingHook.started += instance.OnGrapplingHook;
+            @GrapplingHook.performed += instance.OnGrapplingHook;
+            @GrapplingHook.canceled += instance.OnGrapplingHook;
+            @Blink.started += instance.OnBlink;
+            @Blink.performed += instance.OnBlink;
+            @Blink.canceled += instance.OnBlink;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -297,6 +349,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @RepelMouse.started -= instance.OnRepelMouse;
             @RepelMouse.performed -= instance.OnRepelMouse;
             @RepelMouse.canceled -= instance.OnRepelMouse;
+            @GrapplingHook.started -= instance.OnGrapplingHook;
+            @GrapplingHook.performed -= instance.OnGrapplingHook;
+            @GrapplingHook.canceled -= instance.OnGrapplingHook;
+            @Blink.started -= instance.OnBlink;
+            @Blink.performed -= instance.OnBlink;
+            @Blink.canceled -= instance.OnBlink;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -373,6 +431,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnWalk(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnRepelMouse(InputAction.CallbackContext context);
+        void OnGrapplingHook(InputAction.CallbackContext context);
+        void OnBlink(InputAction.CallbackContext context);
     }
     public interface IAttacksActions
     {
