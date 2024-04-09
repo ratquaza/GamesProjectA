@@ -21,6 +21,7 @@ public class PlayerLiving : MonoBehaviour, Living
     private InputAction secondaryAttack;
     [SerializeField] private WeaponItem equippedWeaponItem;
     private Weapon equippedWeaponObject;
+    private int weaponIndex = 0;
 
     void Awake()
     {
@@ -55,7 +56,8 @@ public class PlayerLiving : MonoBehaviour, Living
         if (Input.GetKeyDown(KeyCode.G))
         {
             Dictionary<string, Item> items = ItemDatabase.Instance.Items;
-            EquipWeapon(items.ElementAt(UnityEngine.Random.Range(0, items.Count)).Value as WeaponItem);
+            weaponIndex = (weaponIndex + 1) % items.Count;
+            EquipWeapon(items.ElementAt(weaponIndex).Value as WeaponItem);
         }
     }
 
