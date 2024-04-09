@@ -16,6 +16,6 @@ public class Xenoscythe : SimpleWeapon
 
     void SecondaryEvent()
     {
-        DamageInCollider(secondaryCollider, 5, (enemy) => (enemy.transform.position - transform.position).normalized * 90f);
+        DamageInCollider(secondaryCollider, 2, (enemy) => (enemy.transform.position - transform.position).normalized * 120f);
     }
 }
