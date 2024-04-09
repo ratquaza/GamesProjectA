@@ -46,6 +46,11 @@ public class Enemy : MonoBehaviour, Living
         agent.updateUpAxis = false;
 
     }
+    
+    void Update()
+    {
+        agent.SetDestination(target.position);
+    }
 
     public void Damage(int damageDone)
     {
@@ -63,10 +68,9 @@ public class Enemy : MonoBehaviour, Living
     public int Health() => health;
     public int MaxHealth() => maxHealth;
 
-    //set agent's target to any transform (default: player)
     public void SetTarget(Transform target)
     {
-        agent.SetDestination(target.position);
+        this.target = target;
     }
 
     void OnCollisionStay2D(Collision2D collision)
