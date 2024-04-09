@@ -86,12 +86,12 @@ public class PlayerLiving : MonoBehaviour, Living
     {
         equippedWeaponItem = item;
         equippedWeaponObject = item.GetOrCreateWeapon(this);
-        equippedWeaponObject.OnEquip(this, item, primaryAttack, secondaryAttack);
+        equippedWeaponObject.OnEquip(this, primaryAttack, secondaryAttack);
     }
 
     private void OnWeaponUnequip()
     {
-        equippedWeaponObject.OnUnequip(this, equippedWeaponItem, primaryAttack, secondaryAttack);
+        equippedWeaponObject.OnUnequip(this, primaryAttack, secondaryAttack);
         DestroyImmediate(equippedWeaponObject.gameObject);
         equippedWeaponItem = null;
     }
