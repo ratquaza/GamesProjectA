@@ -30,10 +30,15 @@ public class CameraFollow : MonoBehaviour
             float height = Camera.main.orthographicSize * 2;
             float width = height * Camera.main.aspect;
 
-            desiredPosition = new Vector2( 
-                Math.Clamp(desiredPosition.x, center.Value.x - bounds.Value.x/2 + width/2, center.Value.x + bounds.Value.x/2 - width/2), 
-                Math.Clamp(desiredPosition.y, center.Value.y - bounds.Value.y/2 + height/2, center.Value.y + bounds.Value.y/2 - height/2)
-            );
+            float xMin = center.Value.x - bounds.Value.x/2 + width/2;
+            float xMax = center.Value.x + bounds.Value.x/2 - width/2;
+            float yMin = center.Value.y - bounds.Value.y/2 + height/2;
+            float yMax = center.Value.y + bounds.Value.y/2 - height/2;
+
+            float newX = xMin < xMax ? Math.Clamp(desiredPosition.x, xMin, xMax) : center.Value.x;
+            float newY = yMin < yMax ? Math.Clamp(desiredPosition.y, yMin, yMax) : center.Value.y;
+
+            desiredPosition = new Vector2(newX, newY);
         }
         transform.position = Vector2.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
     }
