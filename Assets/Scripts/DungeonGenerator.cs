@@ -13,6 +13,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private int maxRooms = 5;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemy;
+    [SerializeField] private CameraFollow cameraScript;
     private Room[] roomPool;
 
     private Grid grid;
@@ -210,6 +211,8 @@ public class DungeonGenerator : MonoBehaviour
 
             width = (int) Math.Ceiling(roomBounds.size.x/(double)ROOM_WIDTH);
             height = (int) Math.Ceiling(roomBounds.size.y/(double)ROOM_HEIGHT);
+
+            triggerBounds = room.GetComponent<BoxCollider2D>();
         }
 
         // Width and height of the room by floor grid coords, not tiles
@@ -223,6 +226,7 @@ public class DungeonGenerator : MonoBehaviour
         public Vector2Int area { get { return new Vector2Int(width, height); } }
         // Position of the room in the grid
         public Vector2Int gridPosition { get; set; } = new Vector2Int(-1, -1);
+        public BoxCollider2D triggerBounds { get; }
 
         // Gets the specific exit by the quadrant of the room and the direction
         public Transform GetExitAt(Vector2Int quadrant, ExitDirection direction)
