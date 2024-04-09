@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f;
-    [SerializeField] private float dampening = 0.85f;
+    [SerializeField] private float drag = 10f;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
@@ -49,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         dashInput.performed += ctx => AttemptDash();
         currentDashSidesteps = dashSidesteps;
         currentDashGrace = dashGrace;
+        rb2d.drag = drag;
     }
 
     void OnEnable()
@@ -69,13 +70,12 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             if (inputDir.magnitude > 0) HandleInput(inputDir);
-            else HandleNoInput();
             if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
             if (graceAfterDash && currentDashGrace > 0) currentDashGrace -= Time.deltaTime;
         }
     }
 
-    bool IsDashing()
+    public bool IsDashing()
     {
         return currentDashDuration > 0f;
     }
@@ -127,11 +127,5 @@ public class PlayerMovement : MonoBehaviour
         if (input.magnitude > 0) lookDirection = input.normalized;
         float relativeMaxSpeed = graceAfterDash ? Math.Max(dashSpeed * (currentDashGrace/dashGrace), maxSpeed) : maxSpeed;
         rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, relativeMaxSpeed);
-    }
-
-    void HandleNoInput()
-    {
-        // Begin decceleration/dampening
-        rb2d.velocity *= dampening;
     }
 }

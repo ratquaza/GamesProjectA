@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour, Living
     [SerializeField] private int damage;
     [SerializeField] private float projectileCooldown;
     [SerializeField] private int goldDropAmount;
+    [SerializeField] private float drag = 10f;
 
 
     [Header("Navigation Settings")]
@@ -44,11 +45,8 @@ public class Enemy : MonoBehaviour, Living
         //don't touch: recommomended settings from NavMeshPlus -->   https://github.com/h8man/NavMeshPlus
         agent.updateRotation = false;
         agent.updateUpAxis = false;
-    }
 
-    void Update()
-    {
-        rb2d.velocity *= .95f;
+        rb2d.drag = drag;
     }
 
     public void Damage(int damageDone)
