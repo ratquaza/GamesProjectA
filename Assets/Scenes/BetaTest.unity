@@ -186,7 +186,7 @@ MonoBehaviour:
   m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 9efe89dd54ccd714fa44eff6f8456148, type: 2}
 --- !u!4 &27433689
 Transform:
   m_ObjectHideFlags: 0
@@ -1907,7 +1907,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 25.5, y: -8.6}
+  m_Offset: {x: 25.5, y: -8.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1918,7 +1918,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 8.5}
+  m_Size: {x: 14, y: 8}
   m_EdgeRadius: 0
 --- !u!114 &290525005
 MonoBehaviour:
@@ -1933,6 +1933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsCollider: {fileID: 290525004}
+  boundsOffset: {x: 1, y: 1}
   cameraScript: {fileID: 1352332310}
 --- !u!1 &316839331
 GameObject:
@@ -1994,7 +1995,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 9}
+  m_Size: {x: 14, y: 8}
   m_EdgeRadius: 0
 --- !u!114 &316839334
 MonoBehaviour:
@@ -2009,6 +2010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsCollider: {fileID: 316839333}
+  boundsOffset: {x: 1, y: 1}
   cameraScript: {fileID: 1352332310}
 --- !u!1 &321984977
 GameObject:
@@ -2071,7 +2073,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 9}
+  m_Size: {x: 14, y: 8}
   m_EdgeRadius: 0
 --- !u!114 &321984980
 MonoBehaviour:
@@ -2086,6 +2088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsCollider: {fileID: 321984979}
+  boundsOffset: {x: 1, y: 1}
   cameraScript: {fileID: 1352332310}
 --- !u!1 &329389814
 GameObject:
@@ -2148,7 +2151,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329389814}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cfd554082d0bc74385a0ef6d5f596ca, type: 3}
   m_Name: 
@@ -2171,7 +2174,7 @@ SpringJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329389814}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_EnableCollision: 1
   m_ConnectedRigidBody: {fileID: 0}
@@ -3116,7 +3119,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 9}
+  m_Size: {x: 14, y: 8}
   m_EdgeRadius: 0
 --- !u!114 &399555650
 MonoBehaviour:
@@ -3131,6 +3134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsCollider: {fileID: 399555649}
+  boundsOffset: {x: 1, y: 1}
   cameraScript: {fileID: 1352332310}
 --- !u!1 &412712653
 GameObject:
@@ -11665,7 +11669,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 18}
+  m_Size: {x: 14, y: 17}
   m_EdgeRadius: 0
 --- !u!114 &905695212
 MonoBehaviour:
@@ -11680,6 +11684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsCollider: {fileID: 905695211}
+  boundsOffset: {x: 1, y: 1}
   cameraScript: {fileID: 1352332310}
 --- !u!1 &932870165
 GameObject:
@@ -15268,7 +15273,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15, y: 9}
+  m_Size: {x: 14, y: 8}
   m_EdgeRadius: 0
 --- !u!114 &1442128335
 MonoBehaviour:
@@ -15283,6 +15288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundsCollider: {fileID: 1442128334}
+  boundsOffset: {x: 1, y: 1}
   cameraScript: {fileID: 1352332310}
 --- !u!1 &1577221579
 GameObject:

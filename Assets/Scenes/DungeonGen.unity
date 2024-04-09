@@ -189,6 +189,7 @@ MonoBehaviour:
   maxRooms: 20
   player: {fileID: 1411325687}
   enemy: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+  cameraScript: {fileID: 0}
 --- !u!1 &308034199
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,7 +667,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75ed9bce240644c44963083dbe3302d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1411325688}
+  target: {fileID: 1411325686}
   smoothSpeed: 10
-  velocityTrackingFactor: 0
   mouseTrackingFactor: 0.35
