@@ -31,8 +31,8 @@ public class Blink : MonoBehaviour
 
     void Update()
     {
-        if (currentBlinkCooldown >= 0) currentBlinkCooldown -= Time.deltaTime;
-        else if (currentBlinkTime >= 0)
+        if (currentBlinkCooldown > 0) currentBlinkCooldown -= Time.deltaTime;
+        else if (currentBlinkTime > 0)
         {
             currentBlinkTime -= Time.deltaTime;
             OnBlinking();
