@@ -19,7 +19,7 @@ public class ManaTome : SimpleWeapon
         mousePos = Vector2.ClampMagnitude(mousePos, PRIMARY_MAX_DISTANCE);
         mousePos = player.transform.TransformPoint(mousePos);
         gizmoPos = mousePos;
-        DamageInSquare(mousePos, Vector2.one, 1, (enemy) => ((Vector2) enemy.transform.position - mousePos).normalized * 20f);
+        DamageInSquare(mousePos, Vector2.one * 1.5f, 1, (enemy) => ((Vector2) enemy.transform.position - mousePos).normalized * 30f);
     }
 
     protected override void OnSecondary(InputAction.CallbackContext ctx)
@@ -35,6 +35,6 @@ public class ManaTome : SimpleWeapon
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(gizmoPos, Vector2.one);
+        Gizmos.DrawWireCube(gizmoPos, Vector2.one * 1.5f);
     }
 }

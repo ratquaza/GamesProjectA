@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3965578152656827038}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.22, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 3965578152681726281}
   - component: {fileID: 9079299564917098857}
   - component: {fileID: 3018599588716680144}
+  - component: {fileID: 5106311209416793615}
   m_Layer: 0
   m_Name: ManaTome
   m_TagString: Untagged
@@ -144,8 +145,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primaryCollider: {fileID: 0}
   secondaryCollider: {fileID: 0}
-  animator: {fileID: 0}
+  animator: {fileID: 5106311209416793615}
   manaBubble: {fileID: 8833112280448785847, guid: 05af1574f2d558d41bcc0218553b4a31, type: 3}
+--- !u!95 &5106311209416793615
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3965578152681726294}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d2c7604a139f5e34eb7ee760c27e93e6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4478161858561797069
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +192,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4478161858561797069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.15, y: 0, z: 0}
+  m_LocalPosition: {x: 0.227, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
