@@ -9,7 +9,7 @@ public class ManaTome : SimpleWeapon
     private Vector2 gizmoPos;
     public static readonly float PRIMARY_MAX_DISTANCE = 5f;
 
-    public ManaTome() : base(.4f, 2f)
+    public ManaTome() : base(.4f, 1f)
     {}
 
     protected override void OnPrimary(InputAction.CallbackContext ctx)
@@ -19,7 +19,8 @@ public class ManaTome : SimpleWeapon
         mousePos = Vector2.ClampMagnitude(mousePos, PRIMARY_MAX_DISTANCE);
         mousePos = player.transform.TransformPoint(mousePos);
         gizmoPos = mousePos;
-        DamageInSquare(mousePos, Vector2.one * 1.5f, 1, (enemy) => ((Vector2) enemy.transform.position - mousePos).normalized * 30f);
+
+        DamageInSquare(mousePos, Vector2.one * 1.5f, 1, (enemy) => ((Vector2) (enemy.transform.position - player.transform.position)).normalized * 30f);
     }
 
     protected override void OnSecondary(InputAction.CallbackContext ctx)
