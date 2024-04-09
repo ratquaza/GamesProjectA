@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -54,12 +52,12 @@ public class Xenoscythe : Weapon
 
     void PrimaryEvent()
     {
-        Vector2 kbAngle = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized * 35f;
+        Vector2 kbAngle = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized * 20f;
         DamageInCollider(primaryCollider, 3, kbAngle);
     }
 
     void SecondaryEvent()
     {
-        DamageInCollider(secondaryCollider, 5, (enemy) => (enemy.transform.position - transform.position).normalized * 80f);
+        DamageInCollider(secondaryCollider, 5, (enemy) => (enemy.transform.position - transform.position).normalized * 90f);
     }
 }

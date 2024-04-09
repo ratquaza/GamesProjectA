@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +14,8 @@ public class HolySword : Weapon
     private float primaryCooldown = 0f;
     private float secondaryCooldown = 0f;
 
+    private PlayerMovement player;
+
     private bool CanAttack(float cd)
     {
         return cd <= 0 && animator.GetCurrentAnimatorStateInfo(0).IsName("Idle");
@@ -22,6 +23,7 @@ public class HolySword : Weapon
 
     public override void OnEquip(PlayerLiving player, WeaponItem item, InputAction primaryInput, InputAction secondaryInput)
     {
+        this.player = player.GetComponent<PlayerMovement>();
         primaryInput.started += AttemptPrimary;
         secondaryInput.started += AttemptSecondary;
     }
@@ -43,7 +45,7 @@ public class HolySword : Weapon
         if (!CanAttack(primaryCooldown)) return;
         primaryCooldown = PRIMARY_CD;
         animator.SetTrigger("Primary");
-        Vector2 kbAngle = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized * 35f;
+        Vector2 kbAngle = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized * 15f;
         DamageInCollider(primaryCollider, 3, kbAngle);
     }
 
@@ -51,8 +53,13 @@ public class HolySword : Weapon
     {
         if (!CanAttack(secondaryCooldown)) return;
         secondaryCooldown = SECONDARY_CD;
-        Vector2 kbAngle = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized * 55f;
         animator.SetTrigger("Secondary");
-        DamageInCollider(secondaryCollider, 1, kbAngle);
+
+        Vector2 kbAngle = (Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position)).normalized * 35f;
+        Vector2 velocity = player.GetComponent<Rigidbody2D>().velocity;
+        float velocityBonus = player.IsDashing() ? (float) Math.Floor(Math.Max(0, Vector2.Dot(velocity.normalized, kbAngle.normalized) + .2f)) : 0;
+        
+        // Deals +5damage if player is dashing towards poke direction
+        DamageInCollider(secondaryCollider, 1 + 5 * velocityBonus, kbAngle);
     }
 }
