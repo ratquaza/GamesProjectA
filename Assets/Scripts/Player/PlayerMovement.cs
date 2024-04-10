@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f;
-    [SerializeField] private float drag = 10f;
     [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
@@ -50,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
         dashInput.performed += ctx => AttemptDash();
         currentDashSidesteps = dashSidesteps;
         currentDashGrace = dashGrace;
-        rb2d.drag = drag;
     }
 
     void OnEnable()
