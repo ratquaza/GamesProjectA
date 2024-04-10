@@ -18850,6 +18850,32 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1987036744 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+  m_PrefabInstance: {fileID: 871437214}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1987036749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987036744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb02da6e1a4843d294605f965de5e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 8795176043056997148, guid: db26ed03f80948640b803c0853e9f176, type: 3}
+  player: {fileID: 329389814}
+  bulletMoveSpeed: 5
+  burstCount: 0
+  projectilesPerBurst: 0
+  angleSpread: 0
+  startingDistance: 0.1
+  timeBetweenBursts: 0
+  restTime: 1
 --- !u!1 &2091379612
 GameObject:
   m_ObjectHideFlags: 0
