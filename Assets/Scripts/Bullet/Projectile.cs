@@ -33,11 +33,7 @@ public class Projectile : MonoBehaviour
 
     private Vector2 ProjectileMovement(float timer)
     {
-        float x = timer * projectileSpeed * transform.right.x;
-        float y = timer * projectileSpeed * transform.right.y;
-        // transform bullet x y to the right
-        return new Vector2(x + spawnPoint.x, y + spawnPoint.y);
-        // then return the position of the projectile using spawn point 
+        return timer * projectileSpeed * (Vector2) transform.right + spawnPoint;
     }
 
     void DoesRicochet()

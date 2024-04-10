@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: d3f9bfe405a0b9c468bddd43578be12f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -152,6 +152,7 @@ MonoBehaviour:
   damage: 20
   projectileCooldown: 0
   goldDropAmount: 0
+  drag: 10
   target: {fileID: 0}
   agent: {fileID: 5151377345053080355}
 --- !u!195 &5151377345053080355

@@ -55,7 +55,7 @@ public class ManaBubbleProjectile : MonoBehaviour
             {
                 Rigidbody2D rb2d = hit.GetComponent<Rigidbody2D>();
                 enemy.Damage(3);
-                rb2d.velocity += ((Vector2) (enemy.transform.position - transform.position)).normalized * 80f;
+                rb2d.velocity += ((Vector2) (enemy.transform.position - transform.position)).normalized * 50f;
             }
             ManaBubbleProjectile bubble = hit.GetComponent<ManaBubbleProjectile>();
             if (bubble != null) bubble.SetToPop();

@@ -26,7 +26,7 @@ public class Blink : MonoBehaviour
         originalMaxSpeed = playerMovement.GetMaxSpeed();
 
         currentBlinkCooldown = blinkCooldown;
-        playerActions.Movement.Dash.performed += AttemptBlink;
+        playerActions.Movement.Blink.performed += AttemptBlink;
     }
 
     void Update()

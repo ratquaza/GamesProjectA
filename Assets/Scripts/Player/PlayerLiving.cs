@@ -21,6 +21,8 @@ public class PlayerLiving : MonoBehaviour, Living
     private InputAction secondaryAttack;
     [SerializeField] private WeaponItem equippedWeaponItem;
     private Weapon equippedWeaponObject;
+
+    private WeaponItem toEquip;
     private int weaponIndex = 0;
 
     void Awake()
@@ -53,11 +55,10 @@ public class PlayerLiving : MonoBehaviour, Living
     void Update()
     {
         if (currentIframes > 0) currentIframes -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.G))
+        if (toEquip != null)
         {
-            Dictionary<string, Item> items = ItemDatabase.Instance.Items;
-            weaponIndex = (weaponIndex + 1) % items.Count;
-            EquipWeapon(items.ElementAt(weaponIndex).Value as WeaponItem);
+            OnWeaponEquip(toEquip);
+            toEquip = null;
         }
     }
 
@@ -81,7 +82,7 @@ public class PlayerLiving : MonoBehaviour, Living
     public void EquipWeapon(WeaponItem item)
     {
         if (equippedWeaponItem != null) OnWeaponUnequip();
-        OnWeaponEquip(item);
+        toEquip = item;
     }
 
     private void OnWeaponEquip(WeaponItem item)
@@ -94,7 +95,8 @@ public class PlayerLiving : MonoBehaviour, Living
     private void OnWeaponUnequip()
     {
         equippedWeaponObject.OnUnequip(this, primaryAttack, secondaryAttack);
-        DestroyImmediate(equippedWeaponObject.gameObject);
+        Destroy(equippedWeaponObject.gameObject);
         equippedWeaponItem = null;
+        equippedWeaponObject = null;
     }
 }
