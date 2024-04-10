@@ -36,6 +36,10 @@ public class Projectile : MonoBehaviour
         return timer * projectileSpeed * (Vector2) transform.right + spawnPoint;
     }
 
+    public void UpdateMoveSpeed(float projectileSpeed){
+        this.projectileSpeed = projectileSpeed;
+    }
+
     void DoesRicochet()
     {
 
