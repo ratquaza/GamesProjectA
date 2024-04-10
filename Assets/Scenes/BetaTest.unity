@@ -11654,7 +11654,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080355, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_Speed
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151377345053080355, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080355, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_Acceleration
@@ -11666,7 +11670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080355, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_StoppingDistance
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_Name
@@ -11742,6 +11746,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080366, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151377345053080367, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.32549024
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151377345053080367, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9789426
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151377345053080367, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -18864,18 +18880,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1987036744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bb02da6e1a4843d294605f965de5e08, type: 3}
+  m_Script: {fileID: 11500000, guid: 47a9ff1a6863e4c20aa0c7a56de590ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 8795176043056997148, guid: db26ed03f80948640b803c0853e9f176, type: 3}
-  player: {fileID: 329389814}
-  bulletMoveSpeed: 5
-  burstCount: 0
-  projectilesPerBurst: 0
-  angleSpread: 0
-  startingDistance: 0.1
-  timeBetweenBursts: 0
-  restTime: 1
+  player: {fileID: 329389822}
+  shootTime: 2
+  degree: 10
+  shootCount: 7
 --- !u!1 &2091379612
 GameObject:
   m_ObjectHideFlags: 0
