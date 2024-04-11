@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class HolySword : SimpleWeapon
 {
     protected PlayerMovement playerMovement;
-    public HolySword() : base(1f, .5f)
+    public HolySword() : base(0f, .5f)
     {
     }
 
