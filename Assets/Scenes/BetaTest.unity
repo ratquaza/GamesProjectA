@@ -2534,7 +2534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   iframes: 1.5
-  equippedWeaponItem: {fileID: 11400000, guid: b3446aad7bb01834fbfc02d13b868f89, type: 2}
+  equippedWeaponItem: {fileID: 11400000, guid: ab3302aec0fb943efabfeca85a559418, type: 2}
 --- !u!114 &329389822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7723,6 +7723,8 @@ GameObject:
   - component: {fileID: 601028474}
   - component: {fileID: 601028476}
   - component: {fileID: 601028475}
+  - component: {fileID: 601028478}
+  - component: {fileID: 601028477}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -7966,6 +7968,34 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &601028477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601028473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a4bcce6cd88b4bf1b80a9cb853bdc5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!19719996 &601028478
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601028473}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
 --- !u!1 &636826659
 GameObject:
   m_ObjectHideFlags: 0
