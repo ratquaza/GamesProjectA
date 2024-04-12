@@ -2534,7 +2534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   iframes: 1.5
-  equippedWeaponItem: {fileID: 11400000, guid: ab3302aec0fb943efabfeca85a559418, type: 2}
+  equippedWeaponItem: {fileID: 11400000, guid: 853c7e5e60ab2614e8bd5672a18e6dbc, type: 2}
 --- !u!114 &329389822
 MonoBehaviour:
   m_ObjectHideFlags: 0

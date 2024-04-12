@@ -57,8 +57,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1922742540532906285}
   m_LocalRotation: {x: -0, y: -0, z: -0.48048788, w: 0.87700135}
-  m_LocalPosition: {x: 0.195, y: -0.048, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalPosition: {x: 0.357, y: 0.006, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6447123076796572138}
@@ -126,9 +126,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1922742540540504826}
   - component: {fileID: 8700496884178923131}
-  - component: {fileID: 4173981639718717348}
-  - component: {fileID: 2255665485255727431}
   - component: {fileID: 6027578472093188826}
+  - component: {fileID: 2407951645622756908}
   - component: {fileID: 6489696688739331915}
   m_Layer: 0
   m_Name: Xenoscythe
@@ -166,32 +165,6 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.8, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.43, y: 0.5}
-  m_EdgeRadius: 0
---- !u!61 &4173981639718717348
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922742540540504805}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,23 +176,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2255665485255727431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922742540540504805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4fd7f007480ed1419601b5ddf6abf5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  primaryCollider: {fileID: 8700496884178923131}
-  secondaryCollider: {fileID: 4173981639718717348}
-  animator: {fileID: 6489696688739331915}
 --- !u!114 &6027578472093188826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +190,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091ec6b6547b341968b023688c1c16d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2407951645622756908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922742540540504805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb899558a263a6e4c8baf31965fd6121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6489696688739331915}
+  primaryTrigger: Primary
+  secondaryTrigger: Secondary
+  primaryCooldown: 0.5
+  secondaryCooldown: 3
+  hitboxes:
+  - box: {fileID: 8700496884178923131}
+    knockbackType: 5
+    knockback: 30
+    damage: 1
+  - box: {fileID: 8700496884178923131}
+    knockbackType: 0
+    knockback: 40
+    damage: 2
 --- !u!95 &6489696688739331915
 Animator:
   serializedVersion: 5

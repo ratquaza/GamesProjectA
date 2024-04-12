@@ -1,23 +1,26 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public abstract class SimpleWeapon : Weapon
+public class SimpleWeapon : Weapon
 {
-    [SerializeField] protected BoxCollider2D primaryCollider;
-    [SerializeField] protected BoxCollider2D secondaryCollider;
+    [Header("Animations")]
     [SerializeField] protected Animator animator;
+    [SerializeField] protected string primaryTrigger;
+    [SerializeField] protected string secondaryTrigger;
+    [SerializeField] protected float primaryCooldown;
+    [SerializeField] protected float secondaryCooldown;
+
+    [Header("Hitbox List")]
+    [SerializeField] protected Hitbox[] hitboxes;
 
     protected PlayerLiving player;
-    protected readonly float PRIMARY_COOLDOWN;
-    protected readonly float SECONDARY_COOLDOWN;
 
-    protected float primaryCooldown = 0f;
-    protected float secondaryCooldown = 0f;
+    protected float currPrimaryCooldown = 0f;
+    protected float currSecondaryCooldown = 0f;
 
-    public SimpleWeapon(float primaryCooldown, float secondaryCooldown)
+    public SimpleWeapon()
     {
-        this.PRIMARY_COOLDOWN = primaryCooldown;
-        this.SECONDARY_COOLDOWN = secondaryCooldown;
     }
 
     public override void OnEquip(PlayerLiving player, InputAction primaryInput, InputAction secondaryInput)
@@ -40,26 +43,96 @@ public abstract class SimpleWeapon : Weapon
 
     void Update()
     {
-        if (primaryCooldown > 0) primaryCooldown -= Time.deltaTime;
-        if (secondaryCooldown > 0) secondaryCooldown -= Time.deltaTime;
+        if (currPrimaryCooldown > 0) currPrimaryCooldown -= Time.deltaTime;
+        if (currSecondaryCooldown > 0) currSecondaryCooldown -= Time.deltaTime;
     }
 
-    void AttemptPrimary(InputAction.CallbackContext ctx)
+    protected virtual void AttemptPrimary(InputAction.CallbackContext ctx)
     {   
-        if (!CanAttack(primaryCooldown)) return;
-        primaryCooldown = PRIMARY_COOLDOWN;
-        if (animator != null) animator.SetTrigger("Primary");
-        OnPrimary(ctx);
+        if (!CanAttack(currPrimaryCooldown)) return;
+        currPrimaryCooldown = primaryCooldown;
+        if (animator != null) animator.SetTrigger(primaryTrigger);
     }
 
-    void AttemptSecondary(InputAction.CallbackContext ctx)
+    protected virtual void AttemptSecondary(InputAction.CallbackContext ctx)
     {
-        if (!CanAttack(secondaryCooldown)) return;
-        secondaryCooldown = SECONDARY_COOLDOWN;
-        if (animator != null) animator.SetTrigger("Secondary");
-        OnSecondary(ctx);
+        if (!CanAttack(currSecondaryCooldown)) return;
+        currSecondaryCooldown = secondaryCooldown;
+        if (animator != null) animator.SetTrigger(secondaryTrigger);
     }
 
-    protected virtual void OnPrimary(InputAction.CallbackContext ctx) {}
-    protected virtual void OnSecondary(InputAction.CallbackContext ctx) {}
+    protected virtual void PerformHitbox(int hitboxID)
+    {
+        Hitbox hitbox = hitboxes[hitboxID];
+        hitbox.box.enabled = true;
+        DamageInCollider(hitbox.box, hitbox.damage, (enemy) =>
+        {
+            Vector2 angle = GetDirection(enemy, hitbox.box, hitbox.knockbackType);
+            return angle * hitbox.knockback;
+        });
+        hitbox.box.enabled = false;
+    }
+
+    protected virtual Vector2 GetDirection(Enemy enemy, BoxCollider2D collider, KnockbackType type)
+    {
+        Vector2 from = Vector2.zero;
+        Vector2 to = Vector2.zero;
+
+        switch (type)
+        {
+            case KnockbackType.AwayFromPlayer:
+                from = player.transform.position;
+                to = enemy.transform.position;
+                break;
+            case KnockbackType.AwayFromHitbox:
+                from = (Vector2) collider.transform.position + collider.offset;
+                to = enemy.transform.position;
+                break;
+            case KnockbackType.AwayFromMouse:
+                from = (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                to = enemy.transform.position;
+                break;
+            case KnockbackType.ToPlayer:
+                to = player.transform.position;
+                from = enemy.transform.position;
+                break;
+            case KnockbackType.ToHitbox:
+                to = (Vector2) collider.transform.position + collider.offset;
+                from = enemy.transform.position;
+                break;
+            case KnockbackType.ToMouse:
+                to = (Vector2) Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                from = enemy.transform.position;
+                break;
+        }
+
+        return (to - from).normalized;
+    }
+
+    [System.Serializable]
+    public struct Hitbox
+    {
+        public BoxCollider2D box;
+        public KnockbackType knockbackType;
+        public float knockback;
+        public int damage;
+
+        public Hitbox(BoxCollider2D box, KnockbackType knockbackType, float knockback, int damage)
+        {
+            this.box = box;
+            this.knockbackType = knockbackType;
+            this.knockback = knockback;
+            this.damage =  damage;
+        }
+    }
+
+    public enum KnockbackType
+    {
+        AwayFromPlayer,
+        AwayFromHitbox,
+        AwayFromMouse,
+        ToPlayer,
+        ToHitbox,
+        ToMouse,
+    }
 }

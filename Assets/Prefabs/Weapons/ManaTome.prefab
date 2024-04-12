@@ -143,10 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aee7c0151f178148a91d5f1dbed6852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryCollider: {fileID: 0}
-  secondaryCollider: {fileID: 0}
   animator: {fileID: 5106311209416793615}
+  primaryTrigger: Primary
+  secondaryTrigger: Secondary
+  primaryCooldown: 0.5
+  secondaryCooldown: 1
+  hitboxes: []
   manaBubble: {fileID: 8833112280448785847, guid: 05af1574f2d558d41bcc0218553b4a31, type: 3}
+  primaryMaxDistance: 5
 --- !u!95 &5106311209416793615
 Animator:
   serializedVersion: 5

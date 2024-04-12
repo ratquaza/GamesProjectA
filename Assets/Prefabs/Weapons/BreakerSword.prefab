@@ -160,9 +160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1922742540540504826}
   - component: {fileID: 2069901945874060696}
-  - component: {fileID: 617437669357259170}
   - component: {fileID: 6027578472093188826}
-  - component: {fileID: 6710525635003173655}
+  - component: {fileID: 14499704121243576}
   - component: {fileID: 5313514326903976739}
   m_Layer: 0
   m_Name: BreakerSword
@@ -200,7 +199,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.3, y: 0}
+  m_Offset: {x: 1, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -211,33 +210,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.02, y: 0.97}
-  m_EdgeRadius: 0
---- !u!61 &617437669357259170
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1922742540540504805}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 1.76, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.61, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &6027578472093188826
 MonoBehaviour:
@@ -251,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091ec6b6547b341968b023688c1c16d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6710525635003173655
+--- !u!114 &14499704121243576
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,12 +233,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1922742540540504805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d38322b4b5641c58e8c4bf41e6b7e5, type: 3}
+  m_Script: {fileID: 11500000, guid: bb899558a263a6e4c8baf31965fd6121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primaryCollider: {fileID: 2069901945874060696}
-  secondaryCollider: {fileID: 617437669357259170}
   animator: {fileID: 5313514326903976739}
+  primaryTrigger: Primary
+  secondaryTrigger: Secondary
+  primaryCooldown: 0.5
+  secondaryCooldown: 1
+  hitboxes:
+  - box: {fileID: 2069901945874060696}
+    knockbackType: 1
+    knockback: 30
+    damage: 1
+  - box: {fileID: 2069901945874060696}
+    knockbackType: 1
+    knockback: 15
+    damage: 1
+  - box: {fileID: 2069901945874060696}
+    knockbackType: 1
+    knockback: 20
+    damage: 1
 --- !u!95 &5313514326903976739
 Animator:
   serializedVersion: 5

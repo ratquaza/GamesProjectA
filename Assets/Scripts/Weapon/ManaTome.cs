@@ -6,24 +6,21 @@ using UnityEngine.InputSystem;
 public class ManaTome : SimpleWeapon
 {
     [SerializeField] protected GameObject manaBubble;
+    [SerializeField] protected float primaryMaxDistance = 5f;
     private Vector2 gizmoPos;
-    public static readonly float PRIMARY_MAX_DISTANCE = 5f;
 
-    public ManaTome() : base(.4f, 1f)
-    {}
-
-    protected override void OnPrimary(InputAction.CallbackContext ctx)
+    protected void Primary()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos = player.transform.InverseTransformPoint(mousePos);
-        mousePos = Vector2.ClampMagnitude(mousePos, PRIMARY_MAX_DISTANCE);
+        mousePos = Vector2.ClampMagnitude(mousePos, primaryMaxDistance);
         mousePos = player.transform.TransformPoint(mousePos);
         gizmoPos = mousePos;
 
         DamageInSquare(mousePos, Vector2.one * 1.5f, 1, (enemy) => ((Vector2) (enemy.transform.position - player.transform.position)).normalized * 30f);
     }
 
-    protected override void OnSecondary(InputAction.CallbackContext ctx)
+    protected void Secondary()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         for (int i = 0; i < 3; i++)
