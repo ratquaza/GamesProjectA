@@ -2,5 +2,6 @@ using UnityEngine;
 
 public abstract class Item : ScriptableObject
 {
-    [SerializeField] public string itemName;
+    [SerializeField] private string itemName;
+    [SerializeField] private float cost;
 }
