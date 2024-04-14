@@ -122,10 +122,12 @@ public class PlayerMovement : MonoBehaviour
     void HandleInput(Vector2 input)
     {
         // Add player's input to the velocity and clamp it
+
         rb2d.velocity += input * moveSpeed;
+
         if (input.magnitude > 0) lookDirection = input.normalized;
         float relativeMaxSpeed = graceAfterDash ? Math.Max(dashSpeed * (currentDashGrace/dashGrace), maxSpeed) : maxSpeed;
-        rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, relativeMaxSpeed);
+        rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, relativeMaxSpeed); 
     }
 
     public float GetMaxSpeed()
