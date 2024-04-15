@@ -5,15 +5,15 @@ using UnityEngine;
 public class WaterTile : MonoBehaviour
 {
     private PlayerMovement player;
-    private float maxSpeed;
+    private float moveSpeed;
 
     void OnTriggerEnter2D(Collider2D coll)
     {
         PlayerMovement currPlayer = coll.GetComponent<PlayerMovement>();
         if (currPlayer == null) return;
         player = currPlayer;
-        maxSpeed = currPlayer.GetMaxSpeed();
-        currPlayer.SetMaxSpeed(maxSpeed/3f);
+        moveSpeed = currPlayer.GetMoveSpeed();
+        currPlayer.SetMoveSpeed(moveSpeed/3f);
         currPlayer.GetComponent<SpriteRenderer>().color = new Color(0.37f, 0.37f, 1);
     }
 
@@ -21,7 +21,7 @@ public class WaterTile : MonoBehaviour
     {
         PlayerMovement currPlayer = coll.GetComponent<PlayerMovement>();
         if (currPlayer == null) return;
-        currPlayer.SetMaxSpeed(maxSpeed);
+        currPlayer.SetMoveSpeed(moveSpeed);
         currPlayer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
     }
 }

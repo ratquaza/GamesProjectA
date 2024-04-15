@@ -16,14 +16,14 @@ public class Blink : MonoBehaviour
     private PlayerMovement playerMovement;
     private PlayerActions playerActions;
     private Vector3 originalScale;
-    private float originalMaxSpeed;
+    private float moveSpd;
 
     void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerActions = new PlayerActions();
         originalScale = transform.localScale;
-        originalMaxSpeed = playerMovement.GetMaxSpeed();
+        moveSpd = playerMovement.GetMoveSpeed();
 
         currentBlinkCooldown = blinkCooldown;
         playerActions.Movement.Blink.performed += AttemptBlink;
@@ -49,7 +49,7 @@ public class Blink : MonoBehaviour
     void OnBlinking()
     {
         transform.localScale = Vector3.Lerp(originalScale * scaleMultiplier, originalScale, currentBlinkTime/blinkDelay);
-        playerMovement.SetMaxSpeed(originalMaxSpeed * (currentBlinkTime/blinkDelay));
+        playerMovement.SetMoveSpeed(moveSpd * (currentBlinkTime/blinkDelay));
     }
 
     void OnBlinkEnd()
@@ -61,7 +61,7 @@ public class Blink : MonoBehaviour
         //teleport to destination
         transform.position = blinkPosition;
         currentBlinkCooldown = blinkCooldown;
-        playerMovement.SetMaxSpeed(originalMaxSpeed);
+        playerMovement.SetMoveSpeed(moveSpd);
     }
 
     private void OnEnable()

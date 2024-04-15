@@ -31,7 +31,7 @@ Transform:
   - {fileID: 1922742540632221704}
   m_Father: {fileID: 1922742540540504826}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -1.4423828}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1922742540532906285
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,14 +56,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1922742540532906285}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.285, y: -0.161, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.251, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6447123076796572138}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1922742540532906275
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 09a4dc2fafc1755488cec480c29a6067, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dec7d5edfcd443a4b8b3265956d5de41, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,10 +127,10 @@ GameObject:
   - component: {fileID: 1922742540540504826}
   - component: {fileID: 8700496884178923131}
   - component: {fileID: 6027578472093188826}
-  - component: {fileID: 2407951645622756908}
-  - component: {fileID: 6489696688739331915}
+  - component: {fileID: 5814080498849045494}
+  - component: {fileID: 3717940381765556757}
   m_Layer: 0
-  m_Name: Xenoscythe
+  m_Name: BluesteelLance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 1922742540540504805}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6447123076796572138}
@@ -165,7 +165,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.59, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -176,7 +176,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8, y: 0.86}
   m_EdgeRadius: 0
 --- !u!114 &6027578472093188826
 MonoBehaviour:
@@ -190,8 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091ec6b6547b341968b023688c1c16d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flipSprite: 1
---- !u!114 &2407951645622756908
+  flipSprite: 0
+--- !u!114 &5814080498849045494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,24 +200,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1922742540540504805}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb899558a263a6e4c8baf31965fd6121, type: 3}
+  m_Script: {fileID: 11500000, guid: 546091ec7e490d748a10a1483b65bb09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 6489696688739331915}
+  animator: {fileID: 3717940381765556757}
   primaryTrigger: Primary
   secondaryTrigger: Secondary
   primaryCooldown: 0.5
-  secondaryCooldown: 3
+  secondaryCooldown: 1
   hitboxes:
   - box: {fileID: 8700496884178923131}
-    knockbackType: 5
-    knockback: 30
-    damage: 1
-  - box: {fileID: 8700496884178923131}
     knockbackType: 0
-    knockback: 40
-    damage: 2
---- !u!95 &6489696688739331915
+    knockback: 15
+    damage: 1
+  followMouseScript: {fileID: 6027578472093188826}
+--- !u!95 &3717940381765556757
 Animator:
   serializedVersion: 5
   m_ObjectHideFlags: 0
@@ -227,7 +224,7 @@ Animator:
   m_GameObject: {fileID: 1922742540540504805}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 468164972ef155740b193e5aaa545deb, type: 2}
+  m_Controller: {fileID: 9100000, guid: e2062c1bef7a56c46a4f83b966f47049, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -41,7 +41,7 @@ public class SimpleWeapon : Weapon
         return cd <= 0 && (animator == null || animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"));
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (currPrimaryCooldown > 0) currPrimaryCooldown -= Time.deltaTime;
         if (currSecondaryCooldown > 0) currSecondaryCooldown -= Time.deltaTime;
@@ -73,7 +73,7 @@ public class SimpleWeapon : Weapon
         hitbox.box.enabled = false;
     }
 
-    protected virtual Vector2 GetDirection(Enemy enemy, BoxCollider2D collider, KnockbackType type)
+    protected virtual Vector2 GetDirection(Enemy enemy, Collider2D collider, KnockbackType type)
     {
         Vector2 from = Vector2.zero;
         Vector2 to = Vector2.zero;
@@ -112,12 +112,12 @@ public class SimpleWeapon : Weapon
     [System.Serializable]
     public struct Hitbox
     {
-        public BoxCollider2D box;
+        public Collider2D box;
         public KnockbackType knockbackType;
         public float knockback;
         public int damage;
 
-        public Hitbox(BoxCollider2D box, KnockbackType knockbackType, float knockback, int damage)
+        public Hitbox(Collider2D box, KnockbackType knockbackType, float knockback, int damage)
         {
             this.box = box;
             this.knockbackType = knockbackType;

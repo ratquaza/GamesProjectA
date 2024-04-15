@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float drag = 10f;
-    [SerializeField] private float maxSpeed = 10f;
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
@@ -23,8 +22,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool resetDashOnSidestep = false;
     [Tooltip("During the dash, should the velocity have an 'oomph' to it - where the velocity is higher at the start then regular speed at the end.")]
     [SerializeField] private bool dashOomph = false;
-    [Tooltip("When a dash ends but the player is still moving, give them a grace on their maxspeed. Fixes the hard stopping after dash.")]
-    [SerializeField] private bool graceAfterDash = false;
 
     private PlayerActions playerActions;
     private InputAction walkInput;
@@ -33,11 +30,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lookDirection = Vector2.down; 
     private float currentDashDuration = 0f;
     private float currentDashCooldown = 0f;
-    private int currentDashSidesteps ;
-    private float dashGrace = .2f;
-    private float currentDashGrace;
+    private int currentDashSidesteps = 1;
 
-    
+    [SerializeField] private Sprite downSprite;
+    [SerializeField] private Sprite upSprite;
+    [SerializeField] private Sprite sideSprite;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     void Awake()
     {
@@ -49,8 +47,9 @@ public class PlayerMovement : MonoBehaviour
 
         dashInput.performed += ctx => AttemptDash();
         currentDashSidesteps = dashSidesteps;
-        currentDashGrace = dashGrace;
         rb2d.drag = drag;
+
+        spriteRenderer.sprite = downSprite;
     }
 
     void OnEnable()
@@ -72,7 +71,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (inputDir.magnitude > 0) HandleInput(inputDir);
             if (currentDashCooldown > 0) currentDashCooldown -= Time.deltaTime;
-            if (graceAfterDash && currentDashGrace > 0) currentDashGrace -= Time.deltaTime;
         }
     }
 
@@ -117,26 +115,35 @@ public class PlayerMovement : MonoBehaviour
         // When player's dash ends, begin cooldown
         if (currentDashDuration <= 0) {
             currentDashCooldown = dashCooldown;
-            if (graceAfterDash) currentDashGrace = dashGrace;
         }
     }
 
     void HandleInput(Vector2 input)
     {
+        float xInput = input.x;
+        float yInput = input.y;
+
+        if (yInput != 0)
+        {
+            spriteRenderer.sprite  = yInput < 0 ? downSprite : upSprite;
+        }
+        else if (xInput != 0)
+        {
+            spriteRenderer.sprite = sideSprite;
+            spriteRenderer.flipX = xInput < 0;
+        }
         // Add player's input to the velocity and clamp it
         rb2d.velocity += input * moveSpeed;
         if (input.magnitude > 0) lookDirection = input.normalized;
-        float relativeMaxSpeed = graceAfterDash ? Math.Max(dashSpeed * (currentDashGrace/dashGrace), maxSpeed) : maxSpeed;
-        rb2d.velocity = Vector2.ClampMagnitude(rb2d.velocity, relativeMaxSpeed);
     }
 
-    public float GetMaxSpeed()
+    public float GetMoveSpeed()
     {
-        return maxSpeed;
+        return moveSpeed;
     }
 
-    public void SetMaxSpeed(float amount)
+    public void SetMoveSpeed(float amount)
     {
-        this.maxSpeed = Math.Max(1, amount);
+        this.moveSpeed = amount;
     }
 }

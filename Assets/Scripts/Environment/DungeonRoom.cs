@@ -46,8 +46,6 @@ public class DungeonRoom : MonoBehaviour
     {
         PlayerLiving player = data.GetComponent<PlayerLiving>();
         if (player == null) return;
-        Debug.Log(player);
-        Debug.Log(player.transform.position);
         foreach (var enemy in enemies) enemy.gameObject.SetActive(false);
     }
 

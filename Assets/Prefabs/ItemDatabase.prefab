@@ -47,3 +47,5 @@ MonoBehaviour:
   toLoad:
   - {fileID: 11400000, guid: b3446aad7bb01834fbfc02d13b868f89, type: 2}
   - {fileID: 11400000, guid: 67ccf661a48249c4a8d150591d4af565, type: 2}
+  - {fileID: 11400000, guid: 853c7e5e60ab2614e8bd5672a18e6dbc, type: 2}
+  - {fileID: 11400000, guid: ab3302aec0fb943efabfeca85a559418, type: 2}

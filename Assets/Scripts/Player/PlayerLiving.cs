@@ -21,9 +21,7 @@ public class PlayerLiving : MonoBehaviour, Living
     private InputAction secondaryAttack;
     [SerializeField] private WeaponItem equippedWeaponItem;
     private Weapon equippedWeaponObject;
-
     private WeaponItem toEquip;
-    private int weaponIndex = 0;
 
     void Awake()
     {
