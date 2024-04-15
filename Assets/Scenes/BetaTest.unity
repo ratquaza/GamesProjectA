@@ -13258,6 +13258,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5592103563087808029, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
+      propertyPath: equippedWeaponItem
+      value: 
+      objectReference: {fileID: 11400000, guid: b3446aad7bb01834fbfc02d13b868f89, type: 2}
     - target: {fileID: 6312467067201508328, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_Distance
       value: 0.5
