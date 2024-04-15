@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: ManaTome
   m_EditorClassIdentifier: 
   itemName: Mana Tome
+  cost: 100
+  icon: {fileID: 21300000, guid: 54c634be0a818b0479c299a93fa32861, type: 3}
+  description: Magic weapno test
+  rarity: 2
+  weaponType: 1
   weapon: {fileID: 3965578152681726294, guid: fafd1ddaba31c4b41820d910e80268a4, type: 3}

@@ -30,7 +30,7 @@ public class UIShop : MonoBehaviour
         {
             InstantiateItemButton(items.ElementAt(Random.Range(0, items.Count)).Value.name, 50, 1); 
             InstantiateItemButton(items.ElementAt(Random.Range(0, items.Count)).Value.name, 60, 2); 
-            InstantiateItemButton(items.ElementAt(Random.Range(0, items.Count)).Value.name, 80, 3); 
+            InstantiateItemButton(items.ElementAt(Random.Range(0, items.Count)).Value.ItemName, 80, 3);
         }
 
     }

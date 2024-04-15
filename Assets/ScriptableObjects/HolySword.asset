@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: HolySword
   m_EditorClassIdentifier: 
   itemName: Holy Sword
+  cost: 10
+  icon: {fileID: 21300000, guid: 11d438501ae56c24b8d9dbe23776617f, type: 3}
+  description: holy jeepers
+  rarity: 0
+  weaponType: 0
   weapon: {fileID: 1922742540540504805, guid: 59cf3eb687835f348a9d7782e3329a2f, type: 3}
