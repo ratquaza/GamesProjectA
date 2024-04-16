@@ -1,62 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float projectileLife = 1f;
-    public float projectileRotation = 0f;
     public float projectileSpeed = 1f;
 
+    private Rigidbody2D rb;
     private float timer = 0f;
     private Vector2 spawnPoint;
-    void Start()
+
+    private void Start()
     {
-        spawnPoint = new Vector2(transform.position.x, transform.position.y);
-        // Save the spawn cordinate of the projectile
+        rb = GetComponent<Rigidbody2D>();
+        spawnPoint = rb.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if(timer > projectileLife)
-        {
-            Destroy(this.gameObject);
-            //destroy projectile if Projectile Life greater than timer
-        }
-        //if not keep counting and move projectile
         timer += Time.deltaTime;
-        transform.position = ProjectileMovement(timer);
-
+        if (timer > projectileLife)
+        {
+            Destroy(gameObject);
+        }
     }
 
-    private Vector2 ProjectileMovement(float timer)
+    private void FixedUpdate()
     {
-        return timer * projectileSpeed * (Vector2) transform.right + spawnPoint;
+        MoveProjectile();
     }
 
-    public void UpdateMoveSpeed(float projectileSpeed){
-        this.projectileSpeed = projectileSpeed;
-    }
-
-    void DoesRicochet()
+    private void MoveProjectile()
     {
-
+        Vector2 movement = rb.position + (Vector2)transform.right * projectileSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(movement);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    public void UpdateMoveSpeed(float newProjectileSpeed)
+    {
+        projectileSpeed = newProjectileSpeed;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
-        if (collision.gameObject == null) return;
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
-        if (player == null) return;
-        player.Damage(20);
-        // Destroy when collided 
+        if (player != null)
+        {
+            player.Damage(20);
+        }
     }
 
-    void DoesPredictiveTrajectory()
+    public void SetProjectileAttributes(float speed, float life)
     {
-
+        projectileSpeed = speed;
+        projectileLife = life;
     }
+    
 }

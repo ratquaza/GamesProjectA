@@ -11,7 +11,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 4f;
+<<<<<<< HEAD
     [SerializeField] private float drag = 10f;
+=======
+    [SerializeField] private float maxSpeed = 10f;
+>>>>>>> kerry_dev_branch
     [SerializeField] private float dashSpeed = 12f;
     [SerializeField] private float dashDuration = 0.2f;
     [SerializeField] private float dashCooldown = 1f;
@@ -47,9 +51,13 @@ public class PlayerMovement : MonoBehaviour
 
         dashInput.performed += ctx => AttemptDash();
         currentDashSidesteps = dashSidesteps;
+<<<<<<< HEAD
         rb2d.drag = drag;
 
         spriteRenderer.sprite = downSprite;
+=======
+        currentDashGrace = dashGrace;
+>>>>>>> kerry_dev_branch
     }
 
     void OnEnable()
@@ -133,7 +141,9 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = xInput < 0;
         }
         // Add player's input to the velocity and clamp it
+
         rb2d.velocity += input * moveSpeed;
+
         if (input.magnitude > 0) lookDirection = input.normalized;
     }
 

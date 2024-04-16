@@ -10,7 +10,7 @@ public class ItemDatabase : MonoBehaviour
     [SerializeField] private List<Item> toLoad = new List<Item>();
     public Dictionary<string, Item> Items { get; private set; }
 
-    void Start()
+    void Awake()
     {
         if (Instance != null) Destroy(gameObject);
         else
@@ -19,5 +19,10 @@ public class ItemDatabase : MonoBehaviour
             Items = toLoad.ToDictionary((item) => item.name);
             DontDestroyOnLoad(this.gameObject);
         }
+    }
+
+    public Dictionary<string, Item> GetItems()
+    {
+        return Items;
     }
 }

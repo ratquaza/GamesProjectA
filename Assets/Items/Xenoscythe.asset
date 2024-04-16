@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: Xenoscythe
   m_EditorClassIdentifier: 
   itemName: Xenoscythe
+  cost: 50
+  icon: {fileID: 21300000, guid: 09a4dc2fafc1755488cec480c29a6067, type: 3}
+  description: xeno wepaon test
+  rarity: 3
+  weaponType: 2
   weapon: {fileID: 1922742540540504805, guid: 95162f6616a62194ab8e81723959f4c8, type: 3}

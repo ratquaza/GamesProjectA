@@ -1,58 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
     enum SpawnerType
     {
-        Straight, 
+        Straight,
         Spin
     }
 
     [Header("Projectile Attributes")]
-    public GameObject projectile;
+    public GameObject projectilePrefab;
     [SerializeField] private float projectileLife = 10f;
     [SerializeField] private float projectileSpeed = 5f;
 
-    [Header("Spawner Attributes")] 
+    [Header("Spawner Attributes")]
     [SerializeField] private SpawnerType spawnerType;
     [SerializeField] private float firingRate = 1f;
 
-    private GameObject spawnedProjectile;
     private float timer = 0f;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
-        if(spawnerType == SpawnerType.Spin)
+
+        switch (spawnerType)
         {
-            transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z+1f);
+            case SpawnerType.Straight:
+                UpdateStraightSpawner();
+                break;
+            case SpawnerType.Spin:
+                UpdateSpinSpawner();
+                break;
         }
-        if(timer >= firingRate)
+
+        if (timer >= firingRate)
         {
             Fire();
             timer = 0;
         }
     }
 
+    private void UpdateStraightSpawner()
+    {
+        /* Add logic if needed uwu */
+    }
+
+    private void UpdateSpinSpawner()
+    {
+        transform.Rotate(Vector3.forward, Time.deltaTime * 360f);
+    }
+
+
     private void Fire()
     {
-        if(projectile)
+        if (projectilePrefab)
         {
-            spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
-            spawnedProjectile.GetComponent<Projectile>().projectileSpeed = projectileSpeed;
-            spawnedProjectile.GetComponent<Projectile>().projectileLife =projectileLife;
-            spawnedProjectile.transform.rotation = transform.rotation;
-
+            GameObject spawnedProjectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
+            Projectile projectile = spawnedProjectile.GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                projectile.SetProjectileAttributes(projectileSpeed, projectileLife);
+            }
         }
     }
+
+    
 }
- 

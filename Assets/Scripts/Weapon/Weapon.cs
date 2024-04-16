@@ -18,14 +18,23 @@ public abstract class Weapon : MonoBehaviour
     public static void DamageInCollider(Collider2D collider, float baseDamage, Func<Enemy, Vector2> kb)
     {
         List<Collider2D> hits = new List<Collider2D>();
-        ContactFilter2D filter = new ContactFilter2D { layerMask = LayerMask.GetMask("Enemy"), useLayerMask = true };
+        ContactFilter2D filter = new ContactFilter2D { layerMask = LayerMask.GetMask("Enemy", "EnemyProjectile"), useLayerMask = true };
         collider.OverlapCollider(filter, hits);
         foreach (var hit in hits)
         {
             Enemy enemy = hit.GetComponent<Enemy>();
             Rigidbody2D rb2d = hit.GetComponent<Rigidbody2D>();
-            enemy.Damage((int) Math.Round(baseDamage));
-            rb2d.velocity += kb.Invoke(enemy);
+
+            if(enemy != null){
+                enemy.Damage((int) Math.Round(baseDamage));
+                rb2d.velocity += kb.Invoke(enemy);
+            }
+
+            if (hit.gameObject.layer == LayerMask.NameToLayer("EnemyProjectile"))
+            {
+                Destroy(hit.gameObject);
+            }
+
         }
     }
 
