@@ -13,6 +13,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float smoothSpeed = 5f; 
     [SerializeField] private float mouseTrackingFactor = 0f;
 
+    private bool trackMouse = true;
+
     private Vector2? center = null;
     private Vector2? bounds = null;
 
@@ -26,7 +28,7 @@ public class CameraFollow : MonoBehaviour
         if (target == null) return;
 
         Vector2 desiredPosition = target.position;
-        desiredPosition = Vector2.Lerp(desiredPosition, Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseTrackingFactor);
+        if (trackMouse) desiredPosition = Vector2.Lerp(desiredPosition, Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseTrackingFactor);
 
         if (center != null && bounds != null) {
             float height = Camera.main.orthographicSize * 2;
@@ -61,5 +63,10 @@ public class CameraFollow : MonoBehaviour
     {
         this.center = null;
         this.bounds = null;
+    }
+
+    public void SetFollowMouse(bool value)
+    {
+        trackMouse = value;
     }
 }

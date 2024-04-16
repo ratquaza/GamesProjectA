@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: Fingergun
   m_EditorClassIdentifier: 
   itemName: Fingergun
+  cost: 0
+  icon: {fileID: 21300000, guid: cdcc812df22681145b07b0e17c830663, type: 3}
+  description: 
+  rarity: 0
+  weaponType: 0
   weapon: {fileID: 1922742540540504805, guid: 190a67f362b380e498824341bdaead11, type: 3}

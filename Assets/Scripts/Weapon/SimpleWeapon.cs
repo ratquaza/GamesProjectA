@@ -23,6 +23,11 @@ public class SimpleWeapon : Weapon
     {
     }
 
+    public virtual void Start()
+    {
+        if (animator != null) animator.keepAnimatorStateOnDisable = true;
+    }
+
     public override void OnEquip(PlayerLiving player, InputAction primaryInput, InputAction secondaryInput)
     {
         this.player = player;

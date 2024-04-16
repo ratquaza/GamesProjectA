@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +9,9 @@ public class PlayerLiving : MonoBehaviour, Living
     private int health;
     public event Living.HealthChange onHealthChange;
     
+    public delegate void WeaponChange(WeaponItem item, int index);
+    public event WeaponChange onWeaponChange;
+
     //Invulnerability
     [SerializeField] private float iframes = 1.5f;
     private float currentIframes = 0f;
@@ -19,9 +19,14 @@ public class PlayerLiving : MonoBehaviour, Living
     private PlayerActions actions;
     private InputAction primaryAttack;
     private InputAction secondaryAttack;
-    [SerializeField] private WeaponItem equippedWeaponItem;
-    private Weapon equippedWeaponObject;
-    private WeaponItem toEquip;
+
+    private ItemStack[] inventory = new ItemStack[3];
+
+    [SerializeField] private WeaponItem[] weapons = new WeaponItem[2];
+    private Weapon[] weaponObjects = new Weapon[2];
+    private int equippedWeaponIndex = 0;
+    private InputAction firstWeapon;
+    private InputAction secondWeapon;
 
     void Awake()
     {
@@ -37,7 +42,24 @@ public class PlayerLiving : MonoBehaviour, Living
         primaryAttack = actions.Attacks.PrimaryAttack;
         secondaryAttack = actions.Attacks.SecondaryAttack;
 
-        if (equippedWeaponItem) OnWeaponEquip(equippedWeaponItem);
+        firstWeapon = actions.Inventory.FirstWeapon;
+        secondWeapon = actions.Inventory.SecondWeapon;
+
+        firstWeapon.performed += (ctx) => { if (weapons[0] != null) EquipWeapon(weapons[0]); };
+        secondWeapon.performed += (ctx) => { if (weapons[1] != null) EquipWeapon(weapons[1]); };
+
+        // ugly ass weapon init, could probs be done better
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            WeaponItem weapon = weapons[i];
+            if (weapon == null) continue;
+
+            onWeaponChange?.Invoke(weapon, i);
+
+            weaponObjects[i] = weapon.GetOrCreateWeapon(this);
+            if (i != 0) weaponObjects[i].gameObject.SetActive(false);
+            else weaponObjects[i].OnEquip(this, primaryAttack, secondaryAttack);
+        }
     }
 
     void OnEnable()
@@ -53,11 +75,6 @@ public class PlayerLiving : MonoBehaviour, Living
     void Update()
     {
         if (currentIframes > 0) currentIframes -= Time.deltaTime;
-        if (toEquip != null)
-        {
-            OnWeaponEquip(toEquip);
-            toEquip = null;
-        }
     }
 
     public int Health() => health;
@@ -77,24 +94,62 @@ public class PlayerLiving : MonoBehaviour, Living
         currentIframes = iframes;
     }
 
-    public void EquipWeapon(WeaponItem item)
+    public ItemStack[] GetItems()
     {
-        if (equippedWeaponItem != null) OnWeaponUnequip();
-        toEquip = item;
+        return this.inventory;
     }
 
-    private void OnWeaponEquip(WeaponItem item)
+    public WeaponItem GetEquipped()
     {
-        equippedWeaponItem = item;
-        equippedWeaponObject = item.GetOrCreateWeapon(this);
-        equippedWeaponObject.OnEquip(this, primaryAttack, secondaryAttack);
+        return weapons[equippedWeaponIndex];
     }
 
-    private void OnWeaponUnequip()
+    public WeaponItem[] GetWeapons()
     {
-        equippedWeaponObject.OnUnequip(this, primaryAttack, secondaryAttack);
-        Destroy(equippedWeaponObject.gameObject);
-        equippedWeaponItem = null;
-        equippedWeaponObject = null;
+        return weapons;
+    }
+
+    public void ChangeWeapon(WeaponItem item, int index)
+    {
+        if (weapons[index] != null)
+        {
+            weaponObjects[index].OnUnequip(this, primaryAttack, secondaryAttack);
+            Destroy(weaponObjects[index].gameObject);
+            
+            weaponObjects[index] = null;
+            weapons[index] = null;
+        }
+
+        GiveWeapon(item);
+        if (equippedWeaponIndex == index) EquipWeapon(item);
+
+        onWeaponChange?.Invoke(item, index);
+    }
+
+    public bool GiveWeapon(WeaponItem weapon)
+    {
+        if (weapons.Length > 2) return false;
+        int index = Array.IndexOf(weapons, null);
+        weapons[index] = weapon;
+        weaponObjects[index] = weapon.GetOrCreateWeapon(this);
+
+        onWeaponChange?.Invoke(weapon, index);
+
+        return true;
+    }
+
+    public bool EquipWeapon(WeaponItem weapon)
+    {
+        int index = Array.IndexOf(weapons, weapon);
+        if (index == -1) return false;
+        if (equippedWeaponIndex == index) return false;
+
+        weaponObjects[equippedWeaponIndex].OnUnequip(this, primaryAttack, secondaryAttack);
+        weaponObjects[equippedWeaponIndex].gameObject.SetActive(false);
+        equippedWeaponIndex = index;
+        weaponObjects[equippedWeaponIndex].gameObject.SetActive(true);
+        weaponObjects[equippedWeaponIndex].OnEquip(this, primaryAttack, secondaryAttack);
+
+        return true;
     }
 }
