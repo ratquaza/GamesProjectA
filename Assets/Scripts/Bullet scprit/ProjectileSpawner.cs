@@ -8,13 +8,14 @@ public class ProjectileSpawner : MonoBehaviour
     enum SpawnerType
     {
         Straight, 
-        Spin
+        Spin, 
     }
 
     [Header("Projectile Attributes")]
     public GameObject projectile;
     [SerializeField] private float projectileLife = 10f;
     [SerializeField] private float projectileSpeed = 5f;
+    [SerializeField] private float firingDistance = 200f;
 
     [Header("Spawner Attributes")] 
     [SerializeField] private SpawnerType spawnerType;
@@ -22,24 +23,32 @@ public class ProjectileSpawner : MonoBehaviour
 
     private GameObject spawnedProjectile;
     private float timer = 0f;
+    private GameObject player;
 
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-        if(spawnerType == SpawnerType.Spin)
+        
+        float distance = Vector2.Distance(transform.position, player.transform.position);
+
+        if(distance < firingDistance)
         {
-            transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z+1f);
-        }
-        if(timer >= firingRate)
-        {
-            Fire();
-            timer = 0;
+            timer += Time.deltaTime;
+
+            if(spawnerType == SpawnerType.Spin)
+            {
+                transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z+1f);
+            }
+            if(timer >= firingRate)
+            {
+                Fire();
+                timer = 0;
+            }
         }
     }
 

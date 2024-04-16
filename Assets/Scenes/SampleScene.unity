@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414738, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -243,19 +243,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: firingRate
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: projectile
       value: 
-      objectReference: {fileID: 8795176043056997148, guid: db26ed03f80948640b803c0853e9f176, type: 3}
+      objectReference: {fileID: 8795176043056997148, guid: d42f460f5682adf4b9ef577cd4750d4c, type: 3}
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: spawnerType
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
+      propertyPath: firingDistance
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 2609137518359775740, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: projectileSpeed
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4417288453538245553, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: agent
@@ -267,11 +271,11 @@ PrefabInstance:
       objectReference: {fileID: 575944555}
     - target: {fileID: 4417288453538245553, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4417288453538245555, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4417288453538245562, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: m_Name
@@ -283,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4417288453538245566, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4417288453538245566, guid: 00c1086472372af429d7259d6af45a66, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4349,7 +4353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080366, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080366, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_LocalPosition.x

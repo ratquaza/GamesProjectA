@@ -5,16 +5,33 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     // Start is called before the first frame update
+    enum BulletType
+    {
+        Straight,
+        Aiming
+    }
     public float projectileLife = 1f;
     public float projectileRotation = 0f;
     public float projectileSpeed = 1f;
+    [SerializeField] private BulletType bulletType;
 
     private float timer = 0f;
     private Vector2 spawnPoint;
+    private GameObject player;
+    private Rigidbody2D rb;
+
     void Start()
     {
         spawnPoint = new Vector2(transform.position.x, transform.position.y);
         // Save the spawn cordinate of the projectile
+        
+        if(bulletType == BulletType.Aiming)
+        {
+            rb = GetComponent<Rigidbody2D>();
+            player = GameObject.FindGameObjectWithTag("Player");
+
+           ProjectileAiming();
+        }
     }
 
     // Update is called once per frame
@@ -27,11 +44,26 @@ public class Projectile : MonoBehaviour
         }
         //if not keep counting and move projectile
         timer += Time.deltaTime;
-        transform.position = ProjectileMovement(timer);
-
+        
+        if (bulletType == BulletType.Straight)
+        {
+            transform.position = ProjectileStraight(timer);
+        }
     }
 
-    private Vector2 ProjectileMovement(float timer)
+
+    void ProjectileAiming()
+    {
+     
+        Vector3 direction = player.transform.position - transform.position;
+        rb.velocity = new Vector2(direction.x, direction.y).normalized * projectileSpeed;
+
+        float rotation= Mathf.Atan2(-direction.y, -direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, rotation + 90);
+        
+    }
+
+    private Vector2 ProjectileStraight(float timer)
     {
         float x = timer * projectileSpeed * transform.right.x;
         float y = timer * projectileSpeed * transform.right.y;
