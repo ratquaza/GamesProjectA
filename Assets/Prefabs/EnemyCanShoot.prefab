@@ -85,26 +85,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
---- !u!1 &4417288453538245562 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
-  m_PrefabInstance: {fileID: 8804539569928589456}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2609137518359775740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4417288453538245562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a44862392befe2147a0327c026e6f569, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 8795176043056997148, guid: db26ed03f80948640b803c0853e9f176, type: 3}
-  projectileLife: 5
-  projectileSpeed: 30
-  firingDistance: 200
-  spawnerType: 0
-  firingRate: 1
