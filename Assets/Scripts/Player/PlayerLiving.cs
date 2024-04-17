@@ -130,9 +130,9 @@ public class PlayerLiving : MonoBehaviour, Living
     // Gives the player the weapon, if they have room. Returns false if no room is found or the player already has the same weapon equipped
     public bool GiveWeapon(WeaponItem weapon)
     {
-        if (weapons.Length > 2) return false;
         if (Array.IndexOf(weapons, weapon) != -1) return false;
         int index = Array.IndexOf(weapons, null);
+        if (index == -1) return false;
         weapons[index] = weapon;
         weaponObjects[index] = weapon.GetOrCreateWeapon(this);
 
@@ -154,6 +154,11 @@ public class PlayerLiving : MonoBehaviour, Living
         weaponObjects[equippedWeaponIndex].OnEquip(this, primaryAttack, secondaryAttack);
 
         return true;
+    }
+
+    public WeaponItem GetWeaponAt(int index)
+    {
+        return weapons[index];
     }
 
     public int GetEquippedIndex()
