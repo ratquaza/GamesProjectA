@@ -20119,7 +20119,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   iframes: 1.5
-  equippedWeaponItem: {fileID: 11400000, guid: b3446aad7bb01834fbfc02d13b868f89, type: 2}
+  weapons:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1816377106
 MonoBehaviour:
   m_ObjectHideFlags: 0
