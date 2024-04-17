@@ -26,7 +26,7 @@ public abstract class Weapon : MonoBehaviour
             Rigidbody2D rb2d = hit.GetComponent<Rigidbody2D>();
 
             if(enemy != null){
-                enemy.Damage((int) Math.Round(baseDamage));
+                enemy.TakeDamage((int) Math.Round(baseDamage));
                 rb2d.velocity += kb.Invoke(enemy);
             }
 
@@ -48,7 +48,7 @@ public abstract class Weapon : MonoBehaviour
             GameObject obj = hit.collider.gameObject;
             Enemy enemy = obj.GetComponent<Enemy>();
             Rigidbody2D rb2d = obj.GetComponent<Rigidbody2D>();
-            enemy.Damage((int) Math.Round(baseDamage));
+            enemy.TakeDamage((int) Math.Round(baseDamage));
             rb2d.velocity += kb.Invoke(enemy);
         }
     }

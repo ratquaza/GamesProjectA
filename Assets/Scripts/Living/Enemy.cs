@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour, Living
         agent.SetDestination(target.position);
     }
 
-    public void Damage(int damageDone)
+    public void TakeDamage(int damageDone)
     {
         health = Math.Max(0, health - damageDone);
         onHealthChange.Invoke(health);
@@ -76,6 +76,6 @@ public class Enemy : MonoBehaviour, Living
     void OnCollisionStay2D(Collision2D collision)
     {
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
-        if (player != null) player.Damage(DamageDealt());
+        if (player != null) player.TakeDamage(DamageDealt());
     }
 }

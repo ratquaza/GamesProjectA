@@ -8,7 +8,7 @@ public class DamageTile : MonoBehaviour
     {
         PlayerLiving player = collider.GetComponent<PlayerLiving>();
         if (player == null) return;
-        player.Damage(15);
+        player.TakeDamage(15);
 
         Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
         Vector2 point = collider.ClosestPoint(transform.position);
