@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,12 +25,16 @@ public class ShopUIButtons : MonoBehaviour
     private Item selectedItem;
     private GameObject selectedCell;
 
+    [SerializeField] private PlayerLiving player;
+
 
 
     Dictionary<string, Item> items;
 
     private void Start()
     {
+        player = FindObjectOfType<PlayerLiving>();
+
         items = ItemDatabase.Instance.GetItems();
 
         DeactivateAllSprites();
@@ -107,9 +112,28 @@ public class ShopUIButtons : MonoBehaviour
 
     public void PurchaseItem()
     {
-        // TODO: Add player purchasing logic 
+        Debug.Log(player);
+        if (player == null) return;
 
-        Debug.Log("Purchased Item: " + selectedItem.ItemName);
+        if (selectedItem is WeaponItem){
+
+            WeaponItem selectedWeaponItem = (WeaponItem) selectedItem;
+
+            Debug.Log(player.GiveWeapon(selectedWeaponItem));
+
+            if (player.GiveWeapon(selectedWeaponItem))
+            {
+                Debug.Log("test");
+
+                player.EquipWeapon(selectedWeaponItem);
+                Destroy(gameObject);
+                return;
+            }
+
+            WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
+            player.EquipWeapon(selectedWeaponItem, true);
+            selectedWeaponItem = oldWeapon;
+        }
     }
 
 }
