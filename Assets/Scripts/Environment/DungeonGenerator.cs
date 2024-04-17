@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class DungeonGenerator : MonoBehaviour
 {
     public static readonly int ROOM_WIDTH = 15;
-    public static readonly int ROOM_HEIGHT = 11;
+    public static readonly int ROOM_HEIGHT = 9;
 
     [SerializeField] private GameObject[] suppliedRoomPool;
     [SerializeField] private int maxRooms = 5;

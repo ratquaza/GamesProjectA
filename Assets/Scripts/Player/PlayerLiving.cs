@@ -109,6 +109,7 @@ public class PlayerLiving : MonoBehaviour, Living
         return weapons;
     }
 
+    // Changes the weapon at the given index to the supplied one
     public void ChangeWeapon(WeaponItem item, int index)
     {
         if (weapons[index] != null)
@@ -126,9 +127,11 @@ public class PlayerLiving : MonoBehaviour, Living
         onWeaponChange?.Invoke(item, index);
     }
 
+    // Gives the player the weapon, if they have room. Returns false if no room is found
     public bool GiveWeapon(WeaponItem weapon)
     {
         if (weapons.Length > 2) return false;
+        if (Array.IndexOf(weapons, weapon) != -1) return false;
         int index = Array.IndexOf(weapons, null);
         weapons[index] = weapon;
         weaponObjects[index] = weapon.GetOrCreateWeapon(this);
@@ -138,11 +141,11 @@ public class PlayerLiving : MonoBehaviour, Living
         return true;
     }
 
+    // Checks to see if the player has weapon, and makes them equip it as their active weapon
     public bool EquipWeapon(WeaponItem weapon)
     {
         int index = Array.IndexOf(weapons, weapon);
         if (index == -1) return false;
-        if (equippedWeaponIndex == index) return false;
 
         weaponObjects[equippedWeaponIndex].OnUnequip(this, primaryAttack, secondaryAttack);
         weaponObjects[equippedWeaponIndex].gameObject.SetActive(false);
