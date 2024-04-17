@@ -222,6 +222,74 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Inventory"",
+            ""id"": ""2bfdf2f2-df33-4434-a630-ed873a0e111a"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""aba2fb86-4ba2-45bb-92c4-8bff11b84ec9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FirstWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""1950a01a-36f7-426c-a605-de309692c86e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SecondWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f337b44-52eb-41dc-979d-2be6c0f5bbef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6d4587d0-e882-45f8-88b3-f255f3677dc2"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""047a9c3a-68d9-4d20-98d9-0e270af78681"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirstWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4230bf0b-621b-4c72-a0d0-c55fb5e0bff3"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -237,6 +305,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Attacks = asset.FindActionMap("Attacks", throwIfNotFound: true);
         m_Attacks_SecondaryAttack = m_Attacks.FindAction("SecondaryAttack", throwIfNotFound: true);
         m_Attacks_PrimaryAttack = m_Attacks.FindAction("PrimaryAttack", throwIfNotFound: true);
+        // Inventory
+        m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
+        m_Inventory_ToggleInventory = m_Inventory.FindAction("ToggleInventory", throwIfNotFound: true);
+        m_Inventory_FirstWeapon = m_Inventory.FindAction("FirstWeapon", throwIfNotFound: true);
+        m_Inventory_SecondWeapon = m_Inventory.FindAction("SecondWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -426,6 +499,68 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         }
     }
     public AttacksActions @Attacks => new AttacksActions(this);
+
+    // Inventory
+    private readonly InputActionMap m_Inventory;
+    private List<IInventoryActions> m_InventoryActionsCallbackInterfaces = new List<IInventoryActions>();
+    private readonly InputAction m_Inventory_ToggleInventory;
+    private readonly InputAction m_Inventory_FirstWeapon;
+    private readonly InputAction m_Inventory_SecondWeapon;
+    public struct InventoryActions
+    {
+        private @PlayerActions m_Wrapper;
+        public InventoryActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleInventory => m_Wrapper.m_Inventory_ToggleInventory;
+        public InputAction @FirstWeapon => m_Wrapper.m_Inventory_FirstWeapon;
+        public InputAction @SecondWeapon => m_Wrapper.m_Inventory_SecondWeapon;
+        public InputActionMap Get() { return m_Wrapper.m_Inventory; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InventoryActions set) { return set.Get(); }
+        public void AddCallbacks(IInventoryActions instance)
+        {
+            if (instance == null || m_Wrapper.m_InventoryActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_InventoryActionsCallbackInterfaces.Add(instance);
+            @ToggleInventory.started += instance.OnToggleInventory;
+            @ToggleInventory.performed += instance.OnToggleInventory;
+            @ToggleInventory.canceled += instance.OnToggleInventory;
+            @FirstWeapon.started += instance.OnFirstWeapon;
+            @FirstWeapon.performed += instance.OnFirstWeapon;
+            @FirstWeapon.canceled += instance.OnFirstWeapon;
+            @SecondWeapon.started += instance.OnSecondWeapon;
+            @SecondWeapon.performed += instance.OnSecondWeapon;
+            @SecondWeapon.canceled += instance.OnSecondWeapon;
+        }
+
+        private void UnregisterCallbacks(IInventoryActions instance)
+        {
+            @ToggleInventory.started -= instance.OnToggleInventory;
+            @ToggleInventory.performed -= instance.OnToggleInventory;
+            @ToggleInventory.canceled -= instance.OnToggleInventory;
+            @FirstWeapon.started -= instance.OnFirstWeapon;
+            @FirstWeapon.performed -= instance.OnFirstWeapon;
+            @FirstWeapon.canceled -= instance.OnFirstWeapon;
+            @SecondWeapon.started -= instance.OnSecondWeapon;
+            @SecondWeapon.performed -= instance.OnSecondWeapon;
+            @SecondWeapon.canceled -= instance.OnSecondWeapon;
+        }
+
+        public void RemoveCallbacks(IInventoryActions instance)
+        {
+            if (m_Wrapper.m_InventoryActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IInventoryActions instance)
+        {
+            foreach (var item in m_Wrapper.m_InventoryActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_InventoryActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public InventoryActions @Inventory => new InventoryActions(this);
     public interface IMovementActions
     {
         void OnWalk(InputAction.CallbackContext context);
@@ -438,5 +573,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     {
         void OnSecondaryAttack(InputAction.CallbackContext context);
         void OnPrimaryAttack(InputAction.CallbackContext context);
+    }
+    public interface IInventoryActions
+    {
+        void OnToggleInventory(InputAction.CallbackContext context);
+        void OnFirstWeapon(InputAction.CallbackContext context);
+        void OnSecondWeapon(InputAction.CallbackContext context);
     }
 }

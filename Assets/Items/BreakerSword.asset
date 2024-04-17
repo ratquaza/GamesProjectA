@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: BreakerSword
   m_EditorClassIdentifier: 
   itemName: Breaker Sword
+  cost: 0
+  icon: {fileID: 21300000, guid: fc68ce0a3f33d46cd9c737cb69b5af1b, type: 3}
+  description: 
+  rarity: 0
+  weaponType: 0
   weapon: {fileID: 1922742540540504805, guid: 365fafeef68a9498c886da85d4b96777, type: 3}
