@@ -13,6 +13,7 @@ public class ProjectileSpawner : MonoBehaviour
     public GameObject projectilePrefab;
     [SerializeField] private float projectileLife = 10f;
     [SerializeField] private float projectileSpeed = 5f;
+    [SerializeField] private int burstCount = 3;
     private float angle = 1 ;
 
     [Header("Spawner Attributes")]
@@ -56,8 +57,14 @@ public class ProjectileSpawner : MonoBehaviour
 
             if (timer >= firingRate)
             {
+            
+            for (int i = 0; i < burstCount; i++)
+            {    
                 Fire();
-                timer = 0;
+            }
+            
+            timer = 0;
+            
             }
         }
     }
@@ -74,7 +81,7 @@ public class ProjectileSpawner : MonoBehaviour
 
     public void UpdateNewArc()
     {
-      
+
     }
 
     private void Fire()
@@ -99,7 +106,8 @@ public class ProjectileSpawner : MonoBehaviour
                 projectile.SetProjectileAttributes(projectileSpeed, projectileLife);
             }
         }
-    }
 
+       }
+    
     
 }
