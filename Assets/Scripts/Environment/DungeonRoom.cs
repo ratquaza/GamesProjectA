@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,8 +11,8 @@ public class DungeonRoom : MonoBehaviour
     // [SerializeField] private CameraFollow cameraScript;
     [SerializeField] private Tilemap wallTilemap;
     [SerializeField] public Quadrant[] borders = new Quadrant[0];
-    public Vector2Int gridPosition;
 
+    public Vector2Int gridPosition;
     public int width { 
         get => (int) Math.Ceiling((double) wallTilemap.cellBounds.size.x/DungeonGenerator.ROOM_WIDTH); 
     }
@@ -109,7 +110,8 @@ public class DungeonRoom : MonoBehaviour
                 transform.position + offset + new Vector3(DungeonGenerator.ROOM_WIDTH/2f, DungeonGenerator.ROOM_HEIGHT/2f), 
                 new Vector2(DungeonGenerator.ROOM_WIDTH, DungeonGenerator.ROOM_HEIGHT)
             );
-
+            
+            Handles.Label(transform.position + offset + new Vector3(.2f, .5f), $"Quadrant {quad.position.x} {quad.position.y}");
             Gizmos.color = Color.blue;
             if (quad.northExit) Gizmos.DrawCube(ExitPosition(quad, ExitDirection.North), transform.localScale);
             if (quad.eastExit) Gizmos.DrawCube(ExitPosition(quad, ExitDirection.East), transform.localScale);
