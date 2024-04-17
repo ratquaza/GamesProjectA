@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
-    [SerializeField] private ProjectileInfo[] projectileBehaviours;
+    [SerializeField] private ProjectileInfo projectileBehaviours;
     [SerializeField] private ProjectileShootInfo shootStyle;
 
     enum SpawnerType
