@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ProjectileSpawner : MonoBehaviour
 {
+    [SerializeField] private ProjectileInfo[] projectileBehaviours;
+    [SerializeField] private ProjectileShootInfo shootStyle;
+
     enum SpawnerType
     {
         Straight,
@@ -25,9 +28,6 @@ public class ProjectileSpawner : MonoBehaviour
     [SerializeField] private float degree = 10f;
     [SerializeField] private int shootCount = 7;
 
-
-
-
     private float timer = 0f;
 
     private GameObject player;
@@ -45,12 +45,12 @@ public class ProjectileSpawner : MonoBehaviour
         {
             timer += Time.deltaTime;
             
-            switch (spawnerType)
+            switch (shootStyle.shootStyle)
             {
-                case SpawnerType.Straight:
+                case ProjectileShootInfo.ShootStyle.Straight:
                     UpdateStraightSpawner();
                     break;
-                case SpawnerType.Spin:
+                case ProjectileShootInfo.ShootStyle.Spin:
                     UpdateSpinSpawner();
                     break;
             }
