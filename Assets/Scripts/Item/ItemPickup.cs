@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
@@ -10,7 +11,15 @@ public class ItemPickup : MonoBehaviour
     {
         PlayerLiving player = coll.GetComponent<PlayerLiving>();
         if (player == null) return;
-        player.EquipWeapon(itemPickup);
-        Destroy(gameObject);
+        if (player.GiveWeapon(itemPickup))
+        {
+            player.EquipWeapon(itemPickup);
+            Destroy(gameObject);
+            return;
+        }
+        
+        WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
+        player.EquipWeapon(itemPickup, true);
+        itemPickup = oldWeapon;
     }
 }
