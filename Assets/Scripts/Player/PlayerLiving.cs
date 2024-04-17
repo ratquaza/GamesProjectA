@@ -152,4 +152,9 @@ public class PlayerLiving : MonoBehaviour, Living
 
         return true;
     }
+
+    public int GetEquippedIndex()
+    {
+        return equippedWeaponIndex;
+    }
 }
