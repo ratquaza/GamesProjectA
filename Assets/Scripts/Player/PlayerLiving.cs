@@ -127,7 +127,7 @@ public class PlayerLiving : MonoBehaviour, Living
         onWeaponChange?.Invoke(item, index);
     }
 
-    // Gives the player the weapon, if they have room. Returns false if no room is found
+    // Gives the player the weapon, if they have room. Returns false if no room is found or the player already has the same weapon equipped
     public bool GiveWeapon(WeaponItem weapon)
     {
         if (weapons.Length > 2) return false;
