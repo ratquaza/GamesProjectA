@@ -2,39 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class DungeonGenerator : MonoBehaviour
 {
     public static readonly int ROOM_WIDTH = 15;
     public static readonly int ROOM_HEIGHT = 9;
 
-    [SerializeField] private GameObject[] suppliedRoomPool;
+    [SerializeField] private DungeonRoom[] roomPool;
     [SerializeField] private int maxRooms = 5;
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemy;
     [SerializeField] private CameraFollow cameraScript;
-    private Room[] roomPool;
 
     private Grid grid;
-    private Room[,] floor;
+    private DungeonRoom[,] floor;
     
     void Start()
     {
         grid = GetComponent<Grid>();
 
-        // Take the supplied room GameObjects, turn them into Rooms
-        roomPool = suppliedRoomPool.Select(room => new Room(room.transform)).ToArray();
         // Create the 2D array thats the current dungeon floor
-        floor = new Room[10, 10];
+        floor = new DungeonRoom[10, 10];
 
         int x = 0;
         int y = x;
 
-        Room spawnRoom = roomPool[0].Clone(grid.transform);
+        DungeonRoom spawnRoom =  Instantiate(roomPool[0], grid.transform);
         Place(spawnRoom, new Vector2Int(x, y));
 
-        List<Room> queue = new List<Room>(FillExits(spawnRoom, 1));
+        List<DungeonRoom> queue = new List<DungeonRoom>(FillExits(spawnRoom, 1));
         while (maxRooms > 0) {
             int count = queue.Count;
             for (int i = 0; i < count; i++)
@@ -51,92 +47,98 @@ public class DungeonGenerator : MonoBehaviour
 
     // Convert a Vector2Int coordinate position for the floor into a Vector3 position 
     // for Transform#localPosition 
-    public Vector3 FloorToLocal(Vector2Int pos)
+    public Vector3 GridToLocal(Vector2Int pos)
     {
         return new Vector3(pos.x * ROOM_WIDTH, pos.y * ROOM_HEIGHT, 0);
     }
 
     // Convert a 3D Vector3 position into a Vector2Int coordinate for the floor grid 
-    public Vector2Int LocalToFloor(Vector3 position)
+    public Vector2Int LocalToGrid(Vector3 position)
     {
         return new Vector2Int((int) position.x/ROOM_WIDTH, (int) position.y/ROOM_HEIGHT);
     }
 
     // Get all Rooms that fit the criteria
-    private Room[] FilterRooms(Predicate<Room> predicate)
+    private DungeonRoom[] FilterRooms(Predicate<DungeonRoom> predicate)
     {
         return roomPool.Where(predicate.Invoke).ToArray();
     }
 
-    // Attempt to generate Rooms on every exit for the supplied Room
-    // generateChance is a 1/x chance that a Room is successfully made
-    // conjoinChance is a 1/x chance that when an exit is adjacent to another existing Room, it joins them together 
-    private Room[] FillExits(Room baseRoom, int generanteChance = 1, int conjoinChance = 3)
+    // Attempt to generate Rooms on every exit for the supplied DungeonRoom
+    // generateChance is a 1/x chance that a DungeonRoom is successfully made
+    // conjoinChance is a 1/x chance that when an exit is adjacent to another existing DungeonRoom, it joins them together 
+    private DungeonRoom[] FillExits(DungeonRoom room, int generanteChance = 1, int conjoinChance = 3)
     {
         generanteChance = Math.Max(1, generanteChance);
         conjoinChance = Math.Max(1, conjoinChance);
 
-        Vector2Int basePos = LocalToFloor(baseRoom.transform.localPosition);
-        List<Room> generatedRooms = new List<Room>();
+        Vector2Int origin = LocalToGrid(room.transform.localPosition);
+        List<DungeonRoom> generatedRooms = new List<DungeonRoom>();
 
-        foreach (Transform baseExit in baseRoom.wallTransform)
+        foreach (Quadrant border in room.borders)
         {
-            if (generanteChance > 1 && UnityEngine.Random.Range(1, generanteChance) != 1) continue;
-            
-            Vector2Int baseExitQuadrant = baseRoom.GetExitsQuadrant(baseExit);
-            ExitDirection baseExitDirection = ExitDirections.From(baseExit.name);
-            Vector2Int targetLocation = basePos + baseExitQuadrant + baseExitDirection.Vector();
-            if (!InBounds(targetLocation)) continue;
-
-            if (floor[targetLocation.x, targetLocation.y] != null)
+            foreach (ExitDirection exit in border.Directions())
             {
-                if (conjoinChance > 1 && UnityEngine.Random.Range(1, conjoinChance) != 1) continue;
-                Room existingRoom = floor[targetLocation.x, targetLocation.y];
-                Vector2Int quadrantHit = existingRoom.gridPosition - targetLocation;
-                Transform possibleExit = existingRoom.GetExitAt(quadrantHit, baseExitDirection.Opposite());
+                if (generanteChance > 1 && UnityEngine.Random.Range(1, generanteChance) != 1) continue;
+                
+                Vector2Int targetLocation = origin + border.position + exit.Vector();
+                if (!InBounds(targetLocation)) continue;
 
-                if (possibleExit == null) continue;
-                baseRoom.OpenExit(baseExit);
-                existingRoom.OpenExit(possibleExit);
-                continue;
-            }
-
-            List<Jigsaw> pieces = new List<Jigsaw>();
-            foreach (Room possibleRoom in FilterRooms(g => g.wallTransform.Find(baseExitDirection.Opposite().ToString()) != null))
-            {
-                Transform[] possibleExits = possibleRoom.GetAllExits(baseExitDirection.Opposite());
-                foreach (Transform pExit in possibleExits)
+                if (floor[targetLocation.x, targetLocation.y] != null)
                 {
-                    Vector2Int quad = possibleRoom.GetExitsQuadrant(pExit);
-                    if (Fits(possibleRoom, targetLocation, quad)) pieces.Add(
-                        new Jigsaw(possibleRoom, baseExitDirection.Opposite(), quad)
-                    );
+                    if (conjoinChance > 1 && UnityEngine.Random.Range(1, conjoinChance) != 1) continue;
+                    ConjoinRooms(room, border, exit);
+                    continue;
                 }
+                
+                DungeonRoom targetRoom = AttachRandomRoom(room, border, exit);
+                if (targetRoom) generatedRooms.Add(targetRoom);
             }
-            
-            if (pieces.Count == 0) continue;
-            Jigsaw selectedPiece = pieces[UnityEngine.Random.Range(0, pieces.Count)];
-            Room targetRoom = selectedPiece.room.Clone(grid.transform);
-
-            if (enemy != null && UnityEngine.Random.Range(0, 3) == 0)
-            {
-                for (int x = 0; x < targetRoom.width; x++)
-                {
-                    for (int y = 0; y < targetRoom.height; y++)
-                    {
-                        GameObject enemyClone = Instantiate(enemy, targetRoom.transform);
-                        enemyClone.transform.localPosition = new Vector3(ROOM_WIDTH/2 + x * ROOM_WIDTH, ROOM_HEIGHT/2 + y * ROOM_HEIGHT, 3);
-                    }
-                }
-            }
-
-            Place(targetRoom, targetLocation, selectedPiece.quad);
-            baseRoom.OpenExit(baseExit);
-            targetRoom.OpenExit(targetRoom.GetExitAt(selectedPiece.quad, selectedPiece.direction));
-            generatedRooms.Add(targetRoom);
         }
 
         return generatedRooms.ToArray();
+    }
+
+    // Attach a random room to the supplied room at the given quadrant and exit
+    private DungeonRoom AttachRandomRoom(DungeonRoom room, Quadrant quad, ExitDirection exit)
+    {
+        Vector2Int targetLocation = room.gridPosition + quad.position + exit.Vector();
+        Jigsaw[] pieces = FindJigsaws(targetLocation, exit.Opposite());
+        if (pieces.Length == 0) return null;
+        Jigsaw selectedPiece = pieces[UnityEngine.Random.Range(0, pieces.Length)];
+        DungeonRoom targetRoom = Instantiate(selectedPiece.room.gameObject, grid.transform).GetComponent<DungeonRoom>();
+
+        Place(targetRoom, targetLocation, selectedPiece.quad.position);
+        room.ClearExit(quad, exit);
+        targetRoom.ClearExit(selectedPiece.quad, exit.Opposite());
+        return targetRoom;
+    }
+
+    // Generalte all valid jigsaw pieces at the given position with the given exit direction
+    private Jigsaw[] FindJigsaws(Vector2Int position, ExitDirection exit)
+    {
+        List<Jigsaw> pieces = new List<Jigsaw>();
+        foreach (DungeonRoom possibleRoom in FilterRooms(g =>  g.GetWithExit(exit.Opposite()).Count() != 0))
+        {
+            Quadrant[] validQuads = possibleRoom.GetWithExit(exit.Opposite());
+            foreach (Quadrant quadExit in validQuads)
+            {
+                if (Fits(possibleRoom, position, quadExit.position)) pieces.Add(new Jigsaw(possibleRoom, exit.Opposite(), quadExit));
+            }
+        }
+        return pieces.ToArray();
+    }
+
+    // Finds the room oppositng the supplied room at it's given quadrant for its given exit and opens the exits
+    private void ConjoinRooms(DungeonRoom room, Quadrant quad, ExitDirection exit)
+    {
+        Vector2Int targetLocation = room.gridPosition + quad.position + exit.Vector();
+        DungeonRoom existingRoom = floor[targetLocation.x, targetLocation.y];
+        if (existingRoom == null) return;
+        Quadrant? possibleExit = existingRoom.GetQuadrant(existingRoom.gridPosition - targetLocation);
+        if (possibleExit == null || !possibleExit.Value.CanExit(exit.Opposite())) return;
+        room.ClearExit(quad, exit);
+        existingRoom.ClearExit(possibleExit.Value, exit.Opposite());
     }
 
     // Whether the coordinate is within bounds
@@ -151,9 +153,9 @@ public class DungeonGenerator : MonoBehaviour
         return at.x >= 0 && at.x + size.x < floor.GetLength(0) && at.y >= 0 && at.y + size.y < floor.GetLength(1);
     }
 
-    // Whether the Room fits at a coordinate, checking whether its within bounds
+    // Whether the DungeonRoom fits at a coordinate, checking whether its within bounds
     // and not overlapping other rooms
-    private bool Fits(Room room, Vector2Int at)
+    private bool Fits(DungeonRoom room, Vector2Int at)
     {
         if (!InBounds(at, room.area)) return false;
         for (int x = at.x; x < at.x + room.width; x++) {
@@ -161,23 +163,21 @@ public class DungeonGenerator : MonoBehaviour
                 if (floor[x, y] != null) return false;
             }
         }
-
         return true;
     }
 
-    // Whether the Room fits at a coordinate, checking whether its within bounds
-    // and not overlapping other rooms, using a specific quadrant of the Room
-    private bool Fits(Room room, Vector2Int at, Vector2Int quadrant)
+    // Whether the DungeonRoom fits at a coordinate, checking whether its within bounds
+    // and not overlapping other rooms, using a specific quadrant of the DungeonRoom
+    private bool Fits(DungeonRoom room, Vector2Int at, Vector2Int quadrant)
     {
         return Fits(room, at - quadrant);
     }
 
-
-    // Places a Room at the given coordinate, updating the floor grid
+    // Places a DungeonRoom at the given coordinate, updating the floor grid
     // NOTE: Does not perform checks, call Fits() before calling this to prevent errors
-    private void Place(Room room, Vector2Int position)
+    private void Place(DungeonRoom room, Vector2Int position)
     {
-        Vector3 localSpace = FloorToLocal(position);
+        Vector3 localSpace = GridToLocal(position);
         room.transform.localPosition = localSpace;
         room.gridPosition = position;
         room.transform.name = position.ToString();
@@ -190,99 +190,54 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    // Places a Room at the given coordinate, updating the floor grid, using a 
-    // specific quadrant of the Room
-    private void Place(Room room, Vector2Int position, Vector2Int quadrant)
+    // Places a DungeonRoom at the given coordinate, updating the floor grid, using a 
+    // specific quadrant of the DungeonRoom
+    private void Place(DungeonRoom room, Vector2Int position, Vector2Int quadrant)
     {
         Place(room, position - quadrant);
     }
-
-    // Room class, provides helper functions
-    private class Room
-    {
-        public Room(Transform room) {
-            this.transform = room;
-            this.wallTransform = room.Find("Walls");
-            
-            // Auto-compress bounds
-            Tilemap map = wallTransform.GetComponent<Tilemap>();
-            map.CompressBounds();
-            BoundsInt roomBounds = map.cellBounds;
-
-            width = (int) Math.Ceiling(roomBounds.size.x/(double)ROOM_WIDTH);
-            height = (int) Math.Ceiling(roomBounds.size.y/(double)ROOM_HEIGHT);
-
-            triggerBounds = room.GetComponent<BoxCollider2D>();
-        }
-
-        // Width and height of the room by floor grid coords, not tiles
-        public int width { get; }
-        public int height { get; }
-        // The transform of the root GameObject
-        public Transform transform { get; }
-        // The transform of the wall GameObject, holds all exits and colliders
-        public Transform wallTransform { get; }
-        // Area of the room by floor grid coords
-        public Vector2Int area { get { return new Vector2Int(width, height); } }
-        // Position of the room in the grid
-        public Vector2Int gridPosition { get; set; } = new Vector2Int(-1, -1);
-        public BoxCollider2D triggerBounds { get; }
-
-        // Gets the specific exit by the quadrant of the room and the direction
-        public Transform GetExitAt(Vector2Int quadrant, ExitDirection direction)
-        {
-            foreach (Transform exit in GetAllExits(direction))
-            {
-                if (GetExitsQuadrant(exit) == quadrant) return exit;   
-            }
-            return null;
-        }
-
-        // Gets all exits by a direction
-        public Transform[] GetAllExits(ExitDirection direction)
-        {
-            List<Transform> exits = new List<Transform>();
-            foreach (Transform exit in wallTransform)
-            {
-                if (exit.name == direction.ToString()) exits.Add(exit);
-            }
-            return exits.ToArray();
-        }
-
-        // Gets the quadrant that an exit is in
-        public Vector2Int GetExitsQuadrant(Transform exit)
-        {
-            return new Vector2Int(
-                (int) Math.Floor(exit.transform.localPosition.x/(double)ROOM_WIDTH),
-                (int) Math.Floor(exit.transform.localPosition.y/(double)ROOM_HEIGHT)
-            );
-        }
-
-        // 'Opens' an exit by removing the wall tile
-        public void OpenExit(Transform exit)
-        {
-            if (exit.parent != wallTransform) return;
-            wallTransform.GetComponent<Tilemap>().SetTile(Vector3Int.FloorToInt(exit.transform.localPosition), null);
-        }
-
-        // Copies the room
-        public Room Clone(Transform parent)
-        {
-            return new Room(Instantiate(transform, parent));
-        }
-    }
-    
     private struct Jigsaw
     {
-        public Room room;
+        public DungeonRoom room;
         public ExitDirection direction;
-        public Vector2Int quad;
+        public Quadrant quad;
 
-        public Jigsaw(Room room, ExitDirection direction, Vector2Int quad)
+        public Jigsaw(DungeonRoom room, ExitDirection direction, Quadrant quad)
         {
             this.room = room;
             this.direction = direction;
             this.quad = quad;
+        }
+    }
+}
+
+[Serializable]
+public struct Quadrant
+{
+    public Vector2Int position;
+    public bool northExit;
+    public bool eastExit;
+    public bool southExit;
+    public bool westExit;
+
+    public ExitDirection[] Directions()
+    {
+        List<ExitDirection> directions = new List<ExitDirection>();
+        if (northExit) directions.Add(ExitDirection.North);
+        if (eastExit) directions.Add(ExitDirection.East);
+        if (southExit) directions.Add(ExitDirection.South);
+        if (westExit) directions.Add(ExitDirection.West);
+        return directions.ToArray();
+    }
+
+    public bool CanExit(ExitDirection exit)
+    {
+        switch (exit)
+        {
+            case ExitDirection.North: return northExit;
+            case ExitDirection.East: return eastExit;
+            case ExitDirection.South: return southExit;
+            default: return westExit;
         }
     }
 }
