@@ -181,15 +181,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 425a58505f8de4d408871974de6f3608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  suppliedRoomPool:
-  - {fileID: 4934217682675267443, guid: e3d369aa31a36498d94b897134400e52, type: 3}
-  - {fileID: 4934217682675267443, guid: bd9b5fe2ec29fdb4484b8e07f5ce16ef, type: 3}
-  - {fileID: 4934217682675267443, guid: adfa960048070af4eb1a0507837391e8, type: 3}
-  - {fileID: 4934217682675267443, guid: 5218c03e61eac6940b56c792e62ff887, type: 3}
-  maxRooms: 20
+  roomPool:
+  - {fileID: 3379778524581104403, guid: e3d369aa31a36498d94b897134400e52, type: 3}
+  - {fileID: 9157625129022580422, guid: bd9b5fe2ec29fdb4484b8e07f5ce16ef, type: 3}
+  - {fileID: 1229494536641804453, guid: adfa960048070af4eb1a0507837391e8, type: 3}
+  - {fileID: 7575957491731507725, guid: 5218c03e61eac6940b56c792e62ff887, type: 3}
+  maxRooms: 10
   player: {fileID: 1411325687}
   enemy: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
-  cameraScript: {fileID: 0}
+  cameraScript: {fileID: 2144705651}
 --- !u!1 &308034199
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,15 +311,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalPosition.x
