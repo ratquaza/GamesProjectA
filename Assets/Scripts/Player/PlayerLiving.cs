@@ -8,6 +8,8 @@ public class PlayerLiving : MonoBehaviour, Living
     [SerializeField] private int maxHealth;
     private int health;
     public event Living.HealthChange onHealthChange;
+
+    private int goldCount;
     
     public delegate void WeaponChange(WeaponItem item, int index);
     public event WeaponChange onWeaponChange;
@@ -159,5 +161,25 @@ public class PlayerLiving : MonoBehaviour, Living
     public int GetEquippedIndex()
     {
         return equippedWeaponIndex;
+    }
+
+    public int GetGold()
+    {
+        return goldCount;
+    }
+
+    public void AddGold(int amount)
+    {
+        goldCount += Math.Max(0, amount);
+    }
+
+    public void SubtractGold(int amount)
+    {
+        goldCount -= Math.Max(0, amount);
+    }
+
+    public void SetGold(int amount)
+    {
+        goldCount = Math.Max(0, amount);
     }
 }

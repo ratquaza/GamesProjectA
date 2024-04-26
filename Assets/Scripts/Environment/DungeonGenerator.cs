@@ -22,7 +22,7 @@ public class DungeonGenerator : MonoBehaviour
         grid = GetComponent<Grid>();
 
         // Create the 2D array thats the current dungeon floor
-        floor = new DungeonRoom[10, 10];
+        floor = new DungeonRoom[15, 15];
 
         int x = 0;
         int y = x;
@@ -30,16 +30,15 @@ public class DungeonGenerator : MonoBehaviour
         DungeonRoom spawnRoom =  Instantiate(roomPool[0], grid.transform);
         Place(spawnRoom, new Vector2Int(x, y));
 
-        List<DungeonRoom> queue = new List<DungeonRoom>(FillExits(spawnRoom, 1));
-        while (maxRooms > 0) {
-            int count = queue.Count;
-            for (int i = 0; i < count; i++)
-            {
-                queue.AddRange(FillExits(queue[i], 1, 3));
-            }
-            queue.RemoveRange(0, count);
-            if (queue.Count == 0) break;
-            maxRooms -= count;
+        List<DungeonRoom> rooms = new List<DungeonRoom>(FillExits(spawnRoom, 1, 1));
+        while (maxRooms > 0)
+        {
+            if (rooms.Count == 0) break;
+            DungeonRoom room = rooms[0];
+            rooms.RemoveAt(0);
+            DungeonRoom[] genRooms = FillExits(room, 3, 3);
+            rooms.AddRange(genRooms);
+            maxRooms -= genRooms.Length;
         }
 
         player.transform.localPosition = new Vector3(ROOM_WIDTH/2, ROOM_HEIGHT/2, 1);
@@ -118,12 +117,12 @@ public class DungeonGenerator : MonoBehaviour
     private Jigsaw[] FindJigsaws(Vector2Int position, ExitDirection exit)
     {
         List<Jigsaw> pieces = new List<Jigsaw>();
-        foreach (DungeonRoom possibleRoom in FilterRooms(g =>  g.GetWithExit(exit.Opposite()).Count() != 0))
+        foreach (DungeonRoom possibleRoom in FilterRooms(g => g.GetWithExit(exit).Count() != 0))
         {
-            Quadrant[] validQuads = possibleRoom.GetWithExit(exit.Opposite());
+            Quadrant[] validQuads = possibleRoom.GetWithExit(exit);
             foreach (Quadrant quadExit in validQuads)
             {
-                if (Fits(possibleRoom, position, quadExit.position)) pieces.Add(new Jigsaw(possibleRoom, exit.Opposite(), quadExit));
+                if (Fits(possibleRoom, position, quadExit.position)) pieces.Add(new Jigsaw(possibleRoom, exit, quadExit));
             }
         }
         return pieces.ToArray();
