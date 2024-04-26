@@ -3,6 +3,8 @@ using UnityEngine;
 public class AreaEffectorController : MonoBehaviour
 {
     public AreaEffector2D areaEffector;
+    private float originalMagnitude;
+
 
     public enum Direction
     {
@@ -17,6 +19,7 @@ public class AreaEffectorController : MonoBehaviour
     void Start()
     {
         SetDirection();
+        originalMagnitude = areaEffector.forceMagnitude;
     }
 
     void SetDirection()
@@ -53,5 +56,22 @@ public class AreaEffectorController : MonoBehaviour
     {
         direction = newDirection;
         SetDirection();
+    }
+
+
+    [SerializeField] private bool accelerateMode = false; 
+    [SerializeField] private float acceleration = 9.8f;
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (accelerateMode)
+        {
+            areaEffector.forceMagnitude += acceleration * Time.deltaTime;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        areaEffector.forceMagnitude = originalMagnitude;    
     }
 }
