@@ -6,6 +6,7 @@ using UnityEngine;
 public class ItemPickup : MonoBehaviour
 {
     [SerializeField] private WeaponItem itemPickup;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     void OnTriggerEnter2D(Collider2D coll)
     {
@@ -21,5 +22,6 @@ public class ItemPickup : MonoBehaviour
         WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
         player.EquipWeapon(itemPickup, true);
         itemPickup = oldWeapon;
+        spriteRenderer.sprite = oldWeapon.Icon;
     }
 }
