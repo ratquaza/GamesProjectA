@@ -10,12 +10,15 @@ public class PlayerLiving : MonoBehaviour, Living
     private int health;
     public event Living.HealthChange onHealthChange;
 
+    // Gold
     private int goldCount;
+    public event System.Action<int> OnGoldCountChanged;
     
+    // Weapons
     public delegate void WeaponChange(WeaponItem item, int index);
     public event WeaponChange onWeaponChange;
 
-    //Invulnerability
+    // Invulnerability
     [SerializeField] private float iframes = 1.5f;
     private float currentIframes = 0f;
 
@@ -39,6 +42,9 @@ public class PlayerLiving : MonoBehaviour, Living
     //constructor
     private void InitializePlayer()
     {
+
+        SetGold(1000);
+
         health = maxHealth;
 
         actions = new PlayerActions();
@@ -188,15 +194,18 @@ public class PlayerLiving : MonoBehaviour, Living
     public void AddGold(int amount)
     {
         goldCount += Math.Max(0, amount);
+        OnGoldCountChanged?.Invoke(goldCount);
     }
 
     public void SubtractGold(int amount)
     {
         goldCount -= Math.Max(0, amount);
+        OnGoldCountChanged?.Invoke(goldCount);
     }
 
     public void SetGold(int amount)
     {
         goldCount = Math.Max(0, amount);
+        OnGoldCountChanged?.Invoke(goldCount);
     }
 }

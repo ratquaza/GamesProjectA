@@ -21,22 +21,28 @@ public class AreaEffectorController : MonoBehaviour
 
     void SetDirection()
     {
+        Quaternion newRotation = Quaternion.identity;
+
         switch (direction)
         {
             case Direction.Up:
-                areaEffector.forceAngle = 90f;
+                newRotation = Quaternion.Euler(0f, 0f, 0f);
                 break;
             case Direction.Down:
-                areaEffector.forceAngle = 270f;
+                newRotation = Quaternion.Euler(0f, 0f, 180f);
                 break;
             case Direction.Left:
-                areaEffector.forceAngle = 180f;
+                newRotation = Quaternion.Euler(0f, 0f, 90f);
                 break;
             case Direction.Right:
-                areaEffector.forceAngle = 0f;
+                newRotation = Quaternion.Euler(0f, 0f, -90f);
                 break;
         }
+
+        // Set rotation of the parent GameObject
+        transform.rotation = newRotation;
     }
+
 
     void OnValidate()
     {

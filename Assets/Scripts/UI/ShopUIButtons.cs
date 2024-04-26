@@ -108,31 +108,42 @@ public class ShopUIButtons : MonoBehaviour
         rarityImage.color = selectedItem.GetRarityColor();
         itemTypeTxt.text = selectedItem.ItemType;
         itemTypeImage.color = selectedItem.GetWeaponTypeColor();
+
+        Debug.Log(selectedCell);
     }
 
     public void PurchaseItem()
     {
-        Debug.Log(player);
-        if (player == null) return;
+        if (player == null || selectedItem == null)
+        {
+            Debug.LogError("Player or selected item is null.");
+            return;
+        }
 
-        if (selectedItem is WeaponItem){
+        if (selectedItem is WeaponItem)
+        {
+            WeaponItem selectedWeaponItem = (WeaponItem)selectedItem;
 
-            WeaponItem selectedWeaponItem = (WeaponItem) selectedItem;
-
-            Debug.Log(player.GiveWeapon(selectedWeaponItem));
-
-            if (player.GiveWeapon(selectedWeaponItem))
+            int itemCost = selectedWeaponItem.CostFloat;
+            if (player.GetGold() < itemCost)
             {
-                Debug.Log("test");
-
-                player.EquipWeapon(selectedWeaponItem);
-                Destroy(gameObject);
+                Debug.LogWarning("Not enough gold to purchase the item.");
                 return;
             }
 
-            WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
-            player.EquipWeapon(selectedWeaponItem, true);
-            selectedWeaponItem = oldWeapon;
+            player.SubtractGold(itemCost);
+
+            if (player.GiveWeapon(selectedWeaponItem))
+            {
+                player.EquipWeapon(selectedWeaponItem);
+            }
+            else
+            {
+                // If the player already has a weapon equipped, swap it with the purchased one
+                WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
+                player.EquipWeapon(selectedWeaponItem, true);
+                selectedWeaponItem = oldWeapon;
+            }
         }
     }
 

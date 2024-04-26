@@ -151,8 +151,14 @@ MonoBehaviour:
   maxHealth: 10
   damage: 20
   projectileCooldown: 0
-  goldDropAmount: 0
   drag: 10
+  enemyWeight: 20
+  goldDropAmount: 10
+  GoldCoinPrefab: {fileID: 6042184383104457068, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+  SilverCoinPrefab: {fileID: 6851201229595012873, guid: 97d281bdf2e23934d8a2a1f72f827052, type: 3}
+  coinPrefabs:
+  - {fileID: 6042184383104457068, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+  - {fileID: 6851201229595012873, guid: 97d281bdf2e23934d8a2a1f72f827052, type: 3}
   target: {fileID: 0}
   agent: {fileID: 5151377345053080355}
 --- !u!195 &5151377345053080355

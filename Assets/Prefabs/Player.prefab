@@ -311,7 +311,7 @@ MonoBehaviour:
   maxHealth: 100
   iframes: 1.5
   weapons:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 853c7e5e60ab2614e8bd5672a18e6dbc, type: 2}
   - {fileID: 0}
 --- !u!114 &154515862207065674
 MonoBehaviour:

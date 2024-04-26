@@ -31,18 +31,28 @@ public class ShopInteract : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        inTrigger = true;
+        if(other.CompareTag("Player"))
+        {
+            inTrigger = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        inTrigger = true;    
+        if(other.CompareTag("Player"))
+        {
+            inTrigger = true;    
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        ShopUIButtons.SetActive(false);
-        inTrigger = false;
+        if(other.CompareTag("Player"))
+        {
+            ShopUIButtons.SetActive(false);
+            inTrigger = false;
+        }
+
     }
 
     private void ToggleShopUI()
