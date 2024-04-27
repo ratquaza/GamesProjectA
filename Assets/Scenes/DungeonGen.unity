@@ -182,10 +182,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPool:
-  - {fileID: 3379778524581104403, guid: e3d369aa31a36498d94b897134400e52, type: 3}
-  - {fileID: 9157625129022580422, guid: bd9b5fe2ec29fdb4484b8e07f5ce16ef, type: 3}
-  - {fileID: 1229494536641804453, guid: adfa960048070af4eb1a0507837391e8, type: 3}
-  - {fileID: 7575957491731507725, guid: 5218c03e61eac6940b56c792e62ff887, type: 3}
+  - {fileID: 5177440913106258438, guid: e5ceb758536482f43800e573bfbedc79, type: 3}
+  - {fileID: 8629062187207920160, guid: bd305c09b63ac3e45a898dbb9bd92573, type: 3}
+  - {fileID: 424107283129171506, guid: f7c7911f14ac20a409ccd0cd538410fb, type: 3}
+  - {fileID: 3302723935274168826, guid: 52bfca1fd914a0e4a9dce1e59a4eee25, type: 3}
+  - {fileID: 6354272556376122247, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+  - {fileID: 834407292776039272, guid: e00eefb178716bb42b1707130e3703ad, type: 3}
+  - {fileID: 3900719429243463005, guid: 20b9e6cdc9c5fd343ab8eafa1b7167b0, type: 3}
   maxRooms: 10
   player: {fileID: 1411325687}
   enemy: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
