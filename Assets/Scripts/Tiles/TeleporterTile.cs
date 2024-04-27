@@ -15,7 +15,7 @@ public class TeleporterTile : MonoBehaviour
         if (other.GetComponent<Rigidbody2D>() != null)
         {
             if(Vector2.Distance(other.transform.position, transform.position) > 0.2f)
-            other.transform.position = teleportTarget.position;
+            other.transform.position = new Vector3(teleportTarget.position.x, teleportTarget.position.y, other.transform.position.z);
         }
     }
 }
