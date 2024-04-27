@@ -9,7 +9,7 @@ public class PlayerLiving : MonoBehaviour, Living
     private int health;
     public event Living.HealthChange onHealthChange;
 
-    private int goldCount;
+    public int goldCount { get; protected set; }
     
     public delegate void WeaponChange(WeaponItem item, int index);
     public event WeaponChange onWeaponChange;
@@ -162,12 +162,7 @@ public class PlayerLiving : MonoBehaviour, Living
     {
         return equippedWeaponIndex;
     }
-
-    public int GetGold()
-    {
-        return goldCount;
-    }
-
+    
     public void AddGold(int amount)
     {
         goldCount += Math.Max(0, amount);
