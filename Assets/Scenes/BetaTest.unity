@@ -2114,9 +2114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9665cbb7eac7a084b9e012ae2ab94d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundsCollider: {fileID: 290525004}
-  boundsOffset: {x: 1, y: 1}
-  cameraScript: {fileID: 1352332310}
+  wallTilemap: {fileID: 0}
+  borders: []
+  gridPosition: {x: 0, y: 0}
 --- !u!1001 &304016135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2310,6 +2310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPickup: {fileID: 11400000, guid: 853c7e5e60ab2614e8bd5672a18e6dbc, type: 2}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &316839331
 GameObject:
   m_ObjectHideFlags: 0
@@ -2383,9 +2384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9665cbb7eac7a084b9e012ae2ab94d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundsCollider: {fileID: 316839333}
-  boundsOffset: {x: 1, y: 1}
-  cameraScript: {fileID: 1352332310}
+  wallTilemap: {fileID: 0}
+  borders: []
+  gridPosition: {x: 0, y: 0}
 --- !u!1 &321984977
 GameObject:
   m_ObjectHideFlags: 0
@@ -2461,9 +2462,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9665cbb7eac7a084b9e012ae2ab94d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundsCollider: {fileID: 321984979}
-  boundsOffset: {x: 1, y: 1}
-  cameraScript: {fileID: 1352332310}
+  wallTilemap: {fileID: 0}
+  borders: []
+  gridPosition: {x: 0, y: 0}
 --- !u!1 &325031876
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,9 +3422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9665cbb7eac7a084b9e012ae2ab94d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundsCollider: {fileID: 399555649}
-  boundsOffset: {x: 1, y: 1}
-  cameraScript: {fileID: 1352332310}
+  wallTilemap: {fileID: 0}
+  borders: []
+  gridPosition: {x: 0, y: 0}
 --- !u!1 &412712653
 GameObject:
   m_ObjectHideFlags: 0
@@ -13675,9 +13676,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9665cbb7eac7a084b9e012ae2ab94d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundsCollider: {fileID: 905695211}
-  boundsOffset: {x: 1, y: 1}
-  cameraScript: {fileID: 1352332310}
+  wallTilemap: {fileID: 0}
+  borders: []
+  gridPosition: {x: 0, y: 0}
 --- !u!1 &932817988
 GameObject:
   m_ObjectHideFlags: 0
@@ -18034,9 +18035,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9665cbb7eac7a084b9e012ae2ab94d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boundsCollider: {fileID: 1442128334}
-  boundsOffset: {x: 1, y: 1}
-  cameraScript: {fileID: 1352332310}
+  wallTilemap: {fileID: 0}
+  borders: []
+  gridPosition: {x: 0, y: 0}
 --- !u!1 &1489711448
 GameObject:
   m_ObjectHideFlags: 0
