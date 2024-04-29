@@ -35,14 +35,15 @@ public class ShootBehaviour_Editor : Editor
 
         switch ((SpawnerType) spawnBehaviour.enumValueIndex)
         {
-            case SpawnerType.Spinning:
-                EditorGUILayout.PropertyField(spinSpeed);
-                break;
             case SpawnerType.Arc:
                 EditorGUILayout.PropertyField(gap);
                 break;
+            case SpawnerType.Spinning:
+                EditorGUILayout.PropertyField(spinSpeed);
+                if (shootCount.intValue > 1) EditorGUILayout.PropertyField(delayBetweenShoots);
+                break;
             default:
-                EditorGUILayout.PropertyField(delayBetweenShoots);
+                if (shootCount.intValue > 1) EditorGUILayout.PropertyField(delayBetweenShoots);
                 break;
         }
 

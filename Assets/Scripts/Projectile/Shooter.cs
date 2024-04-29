@@ -10,55 +10,95 @@ public class Shooter : MonoBehaviour
     [SerializeField] public bool shootManually = false;
 
     protected float delay = 0f;
+
+    // For towards player
     protected bool currentlyShooting = false;
     protected float currentShootingDelay = 0f;
     protected int currentShootCount = 0;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // For spinning
+    protected float currRotation = 0f;
 
     void Update()
     {
+        currRotation += Time.deltaTime * shootBehaviour.spinSpeed;
+        currRotation %= 360;
+
         if (currentlyShooting)
         {
-            currentShootingDelay += Time.deltaTime;
-            if (currentShootingDelay < shootBehaviour.delayBetweenShoots) return;
-            currentShootingDelay = 0f;
-            currentShootCount--;
-
-            Projectile projectile = Instantiate(projectilePrefab.gameObject, transform).GetComponent<Projectile>();
-            Vector2 startPos = shootBehaviour.spawnBehaviour == SpawnerType.Forwards ? 
-                transform.right :
-                ((Vector2) (PlayerLiving.Instance.transform.position - transform.position)).normalized;
-
-            projectile.transform.localPosition = startPos;
-            projectile.behaviour = projectileBehaviour;
-            projectile.transform.rotation = transform.rotation; 
-
-            if (currentShootCount == 0) currentlyShooting = false;
+            WhileShooting();
             return;
         }
 
-        delay += Time.deltaTime;
-        if (delay < shootBehaviour.delay) return;
-        delay = 0f;
+        if (!shootManually) delay += Time.deltaTime;
+        if (delay >= shootBehaviour.delay) HandleSpawn();
+    }
 
+    void HandleSpawn()
+    {
+        delay = 0f;
         switch (shootBehaviour.spawnBehaviour)
         {
-            case SpawnerType.Forwards:
-            case SpawnerType.TowardsPlayer:
+            case SpawnerType.Arc:
+                HandleArc();
+                break;
+            default:
                 currentShootCount = shootBehaviour.shootCount;
                 currentlyShooting = true;
                 break;
-            case SpawnerType.Spinning:
-
-                break;
-            case SpawnerType.Arc:
-
-                break;
         }
+    }
+
+    void HandleArc()
+    {
+        Vector2 dir = ((Vector2) transform.InverseTransformPoint(PlayerLiving.Instance.transform.position)).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        for (int i = 0; i < shootBehaviour.shootCount; i++)
+        {
+            Projectile projectile = CreateProjectile(projectileBehaviour);
+            projectile.transform.rotation = Quaternion.Euler(0, 0, angle - (shootBehaviour.gap * (shootBehaviour.shootCount/2)) + (shootBehaviour.gap * i) - 90);
+        }
+    }
+
+    void WhileShooting()
+    {
+        currentShootingDelay += Time.deltaTime;
+        if (currentShootingDelay < shootBehaviour.delayBetweenShoots) return;
+        currentShootingDelay = 0f;
+        currentShootCount--;
+
+        if (shootBehaviour.spawnBehaviour == SpawnerType.TowardsPlayer) HandleTowardsPlayer();
+        else HandleSpin();
+
+        if (currentShootCount == 0) currentlyShooting = false;
+    }
+
+    void HandleTowardsPlayer()
+    {
+        Projectile projectile = CreateProjectile(projectileBehaviour);
+        Vector2 dir = ((Vector2) transform.InverseTransformPoint(PlayerLiving.Instance.transform.position)).normalized;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle - 90);
+
+        projectile.transform.rotation = rotation;
+    }
+
+    void HandleSpin()
+    {
+        Projectile projectile = CreateProjectile(projectileBehaviour);
+        projectile.transform.rotation = Quaternion.Euler(0, 0, currRotation);
+    }
+
+    Projectile CreateProjectile(ProjectileBehaviour behaviour = null)
+    {
+        Projectile projectile = Instantiate(projectilePrefab.gameObject, transform).GetComponent<Projectile>();
+        projectile.transform.localPosition = Vector3.zero;
+        if (behaviour) projectile.behaviour = behaviour;
+        return projectile;
+    }
+
+    public void ForceShoot()
+    {
+        delay = shootBehaviour.delay;
     }
 }

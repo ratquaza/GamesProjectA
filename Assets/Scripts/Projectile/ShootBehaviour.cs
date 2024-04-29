@@ -9,7 +9,7 @@ public class ShootBehaviour : ScriptableObject
     [SerializeField] public float delay;
     [SerializeField] public int shootCount;
 
-    // For SpawnerType.Forwards & TowardsPlayer - determines delay between each projectile if shootCount > 1
+    // For SpawnerType.TowardsPlayer & Spinning - determines delay between each projectile if shootCount > 1
     [SerializeField] public float delayBetweenShoots = 0.5f;
     // For SpawnerType.Spinning - determines speeed that the starting position of projectile spins at
     [SerializeField] public float spinSpeed = 5;
@@ -19,7 +19,6 @@ public class ShootBehaviour : ScriptableObject
 
 public enum SpawnerType
 {
-    Forwards,
     TowardsPlayer,
     Spinning,
     Arc

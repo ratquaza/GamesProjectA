@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80943b59f02148944a267843fd3a5622, type: 3}
   m_Name: GenericShoot
   m_EditorClassIdentifier: 
-  spawnBehaviour: 1
-  delay: 0
+  spawnBehaviour: 0
+  delay: 1
   shootCount: 1
-  delayBetweenShoots: 0.5
-  spinSpeed: 5
-  gap: 10
+  delayBetweenShoots: 0.2
+  spinSpeed: 50
+  gap: 30
