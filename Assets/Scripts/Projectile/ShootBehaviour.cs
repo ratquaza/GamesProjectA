@@ -13,8 +13,8 @@ public class ShootBehaviour : ScriptableObject
     [SerializeField] public float delayBetweenShoots = 0.5f;
     // For SpawnerType.Spinning - determines speeed that the starting position of projectile spins at
     [SerializeField] public float spinSpeed = 5;
-    // For SpawnerType.Arc - determines the gap between each projectile
-    [SerializeField] public float gap = 10;
+    // For SpawnerType.Arc - determines the area that the arc shoots
+    [SerializeField] public float arcDegrees = 30;
 }
 
 public enum SpawnerType

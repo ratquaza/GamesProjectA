@@ -13,7 +13,7 @@ public class ShootBehaviour_Editor : Editor
     SerializedProperty shootCount;
     SerializedProperty delayBetweenShoots;
     SerializedProperty spinSpeed;
-    SerializedProperty gap;
+    SerializedProperty arcDegrees;
 
     void OnEnable()
     {
@@ -22,7 +22,7 @@ public class ShootBehaviour_Editor : Editor
         shootCount = serializedObject.FindProperty("shootCount");
         delayBetweenShoots = serializedObject.FindProperty("delayBetweenShoots");
         spinSpeed = serializedObject.FindProperty("spinSpeed");
-        gap = serializedObject.FindProperty("gap");
+        arcDegrees = serializedObject.FindProperty("arcDegrees");
     }
 
     public override void OnInspectorGUI()
@@ -36,7 +36,8 @@ public class ShootBehaviour_Editor : Editor
         switch ((SpawnerType) spawnBehaviour.enumValueIndex)
         {
             case SpawnerType.Arc:
-                EditorGUILayout.PropertyField(gap);
+                EditorGUILayout.PropertyField(arcDegrees);
+                if (shootCount.intValue < 2) shootCount.intValue = 2;
                 break;
             case SpawnerType.Spinning:
                 EditorGUILayout.PropertyField(spinSpeed);
@@ -46,6 +47,8 @@ public class ShootBehaviour_Editor : Editor
                 if (shootCount.intValue > 1) EditorGUILayout.PropertyField(delayBetweenShoots);
                 break;
         }
+
+        shootCount.intValue = Math.Max(1, shootCount.intValue);
 
         serializedObject.ApplyModifiedProperties();
     }

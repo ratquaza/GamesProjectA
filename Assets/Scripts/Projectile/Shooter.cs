@@ -51,12 +51,14 @@ public class Shooter : MonoBehaviour
     void HandleArc()
     {
         Vector2 dir = ((Vector2) transform.InverseTransformPoint(PlayerLiving.Instance.transform.position)).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        float angleToPlayer = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float gap = shootBehaviour.arcDegrees/(shootBehaviour.shootCount - 1);
 
         for (int i = 0; i < shootBehaviour.shootCount; i++)
         {
             Projectile projectile = CreateProjectile(projectileBehaviour);
-            projectile.forwardsDirection = Quaternion.Euler(0, 0, angle - (shootBehaviour.gap * (shootBehaviour.shootCount/2)) + (shootBehaviour.gap * i) - 90) * Vector2.up;
+            projectile.forwardsDirection = Quaternion.Euler(0, 0, angleToPlayer - shootBehaviour.arcDegrees/2f + gap * i) * Vector2.right;
         }
     }
 

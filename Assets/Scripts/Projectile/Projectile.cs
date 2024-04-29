@@ -51,8 +51,7 @@ public class Projectile : MonoBehaviour
             {
                 Vector2 closestPoint = collider.ClosestPoint((Vector2) transform.position + GetMovement() * .1f);
                 Vector2 normal = ((Vector2) transform.position - closestPoint).normalized;
-                
-                forwardsDirection = forwardsDirection - 2 * Vector2.Dot(normal, forwardsDirection) * normal;
+                forwardsDirection = Vector2.Reflect(forwardsDirection, normal);
             }
             return;
         }
