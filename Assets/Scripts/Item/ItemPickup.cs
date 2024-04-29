@@ -19,7 +19,7 @@ public class ItemPickup : MonoBehaviour
             return;
         }
         
-        WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
+        WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedWeaponIndex());
         player.EquipWeapon(itemPickup, true);
         itemPickup = oldWeapon;
         spriteRenderer.sprite = oldWeapon.Icon;

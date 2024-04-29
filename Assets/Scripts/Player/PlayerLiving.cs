@@ -29,7 +29,7 @@ public class PlayerLiving : MonoBehaviour, Living
 
     // Inventory
     [SerializeField] 
-    private ArmourItem equippedArmour;
+    private EquipableItem equippedArmour;
     private ItemStack[] inventory = new ItemStack[5];
 
     // Weapons
@@ -109,7 +109,7 @@ public class PlayerLiving : MonoBehaviour, Living
     public void Damage(int amount)
     {
         if (currentIframes > 0) return;
-        if (equippedArmour != null) amount = Math.Max(1, equippedArmour.ReduceValue(amount));
+        if (equippedArmour != null) amount = Math.Max(1, equippedArmour.ReduceDamage(amount));
         health = Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
@@ -120,7 +120,7 @@ public class PlayerLiving : MonoBehaviour, Living
         return this.inventory;
     }
 
-    public WeaponItem GetEquipped()
+    public WeaponItem GetEquippedWeapon()
     {
         return weapons[equippedWeapon];
     }
@@ -177,9 +177,23 @@ public class PlayerLiving : MonoBehaviour, Living
         return weapons[index];
     }
 
-    public int GetEquippedIndex()
+    public int GetEquippedWeaponIndex()
     {
         return equippedWeapon;
+    }
+
+    public EquipableItem GetArmour()
+    {
+        return equippedArmour;
+    }
+
+    public bool EquipArmour(EquipableItem item)
+    {
+        if (item != null && !item.IsArmour()) return false;
+        equippedArmour?.OnUnequip(this);
+        equippedArmour = item;
+        equippedArmour?.OnEquip(this);
+        return true;
     }
     
     public void AddGold(int amount)
