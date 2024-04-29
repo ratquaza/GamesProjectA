@@ -11,26 +11,30 @@ public class PlayerLiving : MonoBehaviour, Living
     private int health;
     public event Living.HealthChange onHealthChange;
 
+    // Currency
     public int goldCount { get; protected set; }
-    
-    public delegate void WeaponChange(WeaponItem item, int index);
-    public event WeaponChange onWeaponChange;
 
     //Invulnerability
     [SerializeField] private float iframes = 1.5f;
     private float currentIframes = 0f;
 
+    // Inputs
     private PlayerActions actions;
     private InputAction primaryAttack;
     private InputAction secondaryAttack;
 
-    private ItemStack[] inventory = new ItemStack[3];
+    // Inventory
+    private ItemStack[] inventory = new ItemStack[5];
+    private ArmourItem equippedArmour;
 
+    // Weapons
     [SerializeField] private WeaponItem[] weapons = new WeaponItem[2] { null, null };
     private Weapon[] weaponObjects = new Weapon[2] { null, null };
     private int equippedWeaponIndex = 0;
     private InputAction firstWeapon;
     private InputAction secondWeapon;
+    public delegate void WeaponChange(WeaponItem item, int index);
+    public event WeaponChange onWeaponChange;
 
     void Awake()
     {
@@ -89,7 +93,7 @@ public class PlayerLiving : MonoBehaviour, Living
 
     public int Health() => health;
     public int MaxHealth() => maxHealth;
-    public int DamageDealt() => 5;
+    public int GetStrength() => 5;
     public void Heal(int healthHealed)
     {
         health = Math.Max(health + Math.Max(1, healthHealed), maxHealth);
@@ -99,6 +103,7 @@ public class PlayerLiving : MonoBehaviour, Living
     public void Damage(int amount)
     {
         if (currentIframes > 0) return;
+        if (equippedArmour != null) amount = Math.Max(1, equippedArmour.ReduceValue(amount));
         health = Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;

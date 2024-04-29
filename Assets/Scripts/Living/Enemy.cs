@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour, Living
         health = Math.Min(maxHealth, health + amount);
         onHealthChange.Invoke(health);
     }
-    public int DamageDealt() => damage;
+    public int GetStrength() => damage;
     public int Health() => health;
     public int MaxHealth() => maxHealth;
 
@@ -76,6 +76,6 @@ public class Enemy : MonoBehaviour, Living
     void OnCollisionStay2D(Collision2D collision)
     {
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
-        if (player != null) player.Damage(DamageDealt());
+        if (player != null) player.Damage(GetStrength());
     }
 }

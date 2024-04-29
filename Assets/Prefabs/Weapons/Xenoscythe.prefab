@@ -212,11 +212,13 @@ MonoBehaviour:
   - box: {fileID: 8700496884178923131}
     knockbackType: 5
     knockback: 30
-    damage: 1
+    baseDamage: 3
+    playerStrengthScale: 0.2
   - box: {fileID: 8700496884178923131}
     knockbackType: 0
     knockback: 40
-    damage: 2
+    baseDamage: 2
+    playerStrengthScale: 0.1
 --- !u!95 &6489696688739331915
 Animator:
   serializedVersion: 5

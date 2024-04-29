@@ -199,11 +199,13 @@ MonoBehaviour:
   - box: {fileID: 8700496884178923131}
     knockbackType: 5
     knockback: 15
-    damage: 5
+    baseDamage: 3
+    playerStrengthScale: 0.5
   - box: {fileID: 8700496884178923131}
     knockbackType: 5
     knockback: 30
-    damage: 1
+    baseDamage: 1
+    playerStrengthScale: 0.1
 --- !u!114 &6027578472093188826
 MonoBehaviour:
   m_ObjectHideFlags: 0
