@@ -7,32 +7,38 @@ public class PlayerLiving : MonoBehaviour, Living
     public static PlayerLiving Instance { protected set; get; }
 
     // Health
-    [SerializeField] private int maxHealth;
+    [SerializeField] 
+    private int maxHealth;
     private int health;
     public event Living.HealthChange onHealthChange;
 
     // Currency
     public int goldCount { get; protected set; }
 
-    //Invulnerability
-    [SerializeField] private float iframes = 1.5f;
+    // Invulnerability
+    [SerializeField]
+    private float iframes = 1.5f;
     private float currentIframes = 0f;
 
     // Inputs
     private PlayerActions actions;
     private InputAction primaryAttack;
     private InputAction secondaryAttack;
+    private InputAction switchToFirstWeapon;
+    private InputAction switchToSecondWeapon;
 
     // Inventory
-    private ItemStack[] inventory = new ItemStack[5];
+    [SerializeField] 
     private ArmourItem equippedArmour;
+    private ItemStack[] inventory = new ItemStack[5];
 
     // Weapons
-    [SerializeField] private WeaponItem[] weapons = new WeaponItem[2] { null, null };
+    [SerializeField] 
+    private WeaponItem[] weapons = new WeaponItem[2] { null, null };
     private Weapon[] weaponObjects = new Weapon[2] { null, null };
-    private int equippedWeaponIndex = 0;
-    private InputAction firstWeapon;
-    private InputAction secondWeapon;
+    private int equippedWeapon = 0;
+
+    // Events
     public delegate void WeaponChange(WeaponItem item, int index);
     public event WeaponChange onWeaponChange;
 
@@ -56,11 +62,11 @@ public class PlayerLiving : MonoBehaviour, Living
         primaryAttack = actions.Attacks.PrimaryAttack;
         secondaryAttack = actions.Attacks.SecondaryAttack;
 
-        firstWeapon = actions.Inventory.FirstWeapon;
-        secondWeapon = actions.Inventory.SecondWeapon;
+        switchToFirstWeapon = actions.Inventory.FirstWeapon;
+        switchToSecondWeapon = actions.Inventory.SecondWeapon;
 
-        firstWeapon.performed += (ctx) => { if (weapons[0] != null) EquipWeapon(weapons[0]); };
-        secondWeapon.performed += (ctx) => { if (weapons[1] != null) EquipWeapon(weapons[1]); };
+        switchToFirstWeapon.performed += (ctx) => { if (weapons[0] != null) EquipWeapon(weapons[0]); };
+        switchToSecondWeapon.performed += (ctx) => { if (weapons[1] != null) EquipWeapon(weapons[1]); };
 
         // ugly ass weapon init, could probs be done better
         for (int i = 0; i < weapons.Length; i++)
@@ -116,7 +122,7 @@ public class PlayerLiving : MonoBehaviour, Living
 
     public WeaponItem GetEquipped()
     {
-        return weapons[equippedWeaponIndex];
+        return weapons[equippedWeapon];
     }
 
     public WeaponItem[] GetWeapons()
@@ -143,24 +149,24 @@ public class PlayerLiving : MonoBehaviour, Living
         {
             int index = Array.IndexOf(weapons, weapon);
             if (index == -1) return false;
-            weaponObjects[equippedWeaponIndex].OnUnequip(this, primaryAttack, secondaryAttack);
-            weaponObjects[equippedWeaponIndex].gameObject.SetActive(false);
-            equippedWeaponIndex = index;
-            weaponObjects[equippedWeaponIndex].gameObject.SetActive(true);
-            weaponObjects[equippedWeaponIndex].OnEquip(this, primaryAttack, secondaryAttack);
+            weaponObjects[equippedWeapon].OnUnequip(this, primaryAttack, secondaryAttack);
+            weaponObjects[equippedWeapon].gameObject.SetActive(false);
+            equippedWeapon = index;
+            weaponObjects[equippedWeapon].gameObject.SetActive(true);
+            weaponObjects[equippedWeapon].OnEquip(this, primaryAttack, secondaryAttack);
         }
         else
         {
-            if (weapons[equippedWeaponIndex] != null)
+            if (weapons[equippedWeapon] != null)
             {
-                weaponObjects[equippedWeaponIndex].OnUnequip(this, primaryAttack, secondaryAttack);
-                Destroy(weaponObjects[equippedWeaponIndex].gameObject);
+                weaponObjects[equippedWeapon].OnUnequip(this, primaryAttack, secondaryAttack);
+                Destroy(weaponObjects[equippedWeapon].gameObject);
             }
 
-            weapons[equippedWeaponIndex] = weapon;
-            weaponObjects[equippedWeaponIndex] = weapon.GetOrCreateWeapon(this);
-            weaponObjects[equippedWeaponIndex].OnEquip(this, primaryAttack, secondaryAttack);
-            onWeaponChange?.Invoke(weapon, equippedWeaponIndex);
+            weapons[equippedWeapon] = weapon;
+            weaponObjects[equippedWeapon] = weapon.GetOrCreateWeapon(this);
+            weaponObjects[equippedWeapon].OnEquip(this, primaryAttack, secondaryAttack);
+            onWeaponChange?.Invoke(weapon, equippedWeapon);
         }
 
         return true;
@@ -173,7 +179,7 @@ public class PlayerLiving : MonoBehaviour, Living
 
     public int GetEquippedIndex()
     {
-        return equippedWeaponIndex;
+        return equippedWeapon;
     }
     
     public void AddGold(int amount)

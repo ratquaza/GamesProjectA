@@ -12,7 +12,7 @@ public class WeaponItem : Item
         Weapon existingWeapon = player.transform.GetComponentInChildren<Weapon>();
         if (existingWeapon)
         {
-            GameObject prefab = PrefabUtility.GetCorrespondingObjectFromSource<GameObject>(existingWeapon.gameObject);
+            GameObject prefab = PrefabUtility.GetCorrespondingObjectFromSource(existingWeapon.gameObject);
             if (prefab != null && prefab.Equals(weapon)) return existingWeapon;
         }
         GameObject newWeapon = Instantiate(weapon, player.transform);
