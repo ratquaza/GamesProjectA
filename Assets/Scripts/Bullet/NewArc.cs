@@ -33,7 +33,7 @@ public class NewArc : MonoBehaviour
             GameObject bullet = Instantiate(projectile);
             bullet.transform.rotation = Quaternion.Euler(Vector3.forward * (angle - (degree * (shootCount/2)) + (degree * i)));
             bullet.transform.position = transform.position;
-            Projectile proj = bullet.GetComponent<Projectile>();
+            ProjectileOld proj = bullet.GetComponent<ProjectileOld>();
             proj.projectileSpeed = 5f;
             proj.projectileLife = 10f;
         }

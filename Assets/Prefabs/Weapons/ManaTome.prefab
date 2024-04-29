@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3965578152221893563}
   - component: {fileID: 3965578152656827024}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 9079299564917098857}
   - component: {fileID: 3018599588716680144}
   - component: {fileID: 5106311209416793615}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ManaTome
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091ec6b6547b341968b023688c1c16d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flipSprite: 0
 --- !u!114 &3018599588716680144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8421357681217432153}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerLiving : MonoBehaviour, Living
 {
+    public static PlayerLiving Instance { protected set; get; }
+
     // Health
     [SerializeField] private int maxHealth;
     private int health;
@@ -32,6 +34,12 @@ public class PlayerLiving : MonoBehaviour, Living
 
     void Awake()
     {
+        if (Instance != null)
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+        Instance = this;
         InitializePlayer();
     }
 

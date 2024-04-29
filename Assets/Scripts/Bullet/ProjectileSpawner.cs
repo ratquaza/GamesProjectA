@@ -56,7 +56,7 @@ public class ProjectileSpawner : MonoBehaviour
         if (projectilePrefab)
         {
             GameObject spawnedProjectile = Instantiate(projectilePrefab, transform.position, transform.rotation);
-            Projectile projectile = spawnedProjectile.GetComponent<Projectile>();
+            ProjectileOld projectile = spawnedProjectile.GetComponent<ProjectileOld>();
             if (projectile != null)
             {
                 projectile.SetProjectileAttributes(projectileSpeed, projectileLife);

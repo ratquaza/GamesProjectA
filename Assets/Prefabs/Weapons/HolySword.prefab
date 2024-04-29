@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6447123076796572138}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1922742540632221704}
   - component: {fileID: 1922742540532906275}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 2500898463434283728}
   - component: {fileID: 6027578472093188826}
   - component: {fileID: 2437634416186138037}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HolySword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091ec6b6547b341968b023688c1c16d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flipSprite: 0
 --- !u!95 &2437634416186138037
 Animator:
   serializedVersion: 5

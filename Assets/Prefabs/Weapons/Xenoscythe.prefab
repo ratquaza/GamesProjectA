@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6447123076796572138}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1922742540632221704}
   - component: {fileID: 1922742540532906275}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 6027578472093188826}
   - component: {fileID: 2407951645622756908}
   - component: {fileID: 6489696688739331915}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Xenoscythe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
