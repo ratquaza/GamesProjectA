@@ -42,7 +42,7 @@ public class Projectile : MonoBehaviour
         PlayerLiving player = collider.GetComponent<PlayerLiving>();
         if (player == null)
         {
-            if (behaviour.destroyOnHittingWall) Destroy(gameObject);
+            if (behaviour.destroyOnWall) Destroy(gameObject);
             return;
         }
         player.Damage((int) Math.Round(behaviour.damage));
