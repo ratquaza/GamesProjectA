@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveBehaviour: 0
   projectileSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  lifetime: 10
+  lifetime: 20
   speed: 5
   size: 1
   damage: 5
   destroyOnWall: 0
+  ricochetOnWall: 1

@@ -10,6 +10,7 @@ public class ProjectileBehaviour : ScriptableObject
     [SerializeField] public float size = 1;
     [SerializeField] public float damage = 1;
     [SerializeField] public bool destroyOnWall = true;
+    [SerializeField] public bool ricochetOnWall = false;
 }
 
 public enum MoveBehaviour

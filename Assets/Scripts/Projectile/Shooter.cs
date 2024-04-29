@@ -56,7 +56,7 @@ public class Shooter : MonoBehaviour
         for (int i = 0; i < shootBehaviour.shootCount; i++)
         {
             Projectile projectile = CreateProjectile(projectileBehaviour);
-            projectile.transform.rotation = Quaternion.Euler(0, 0, angle - (shootBehaviour.gap * (shootBehaviour.shootCount/2)) + (shootBehaviour.gap * i) - 90);
+            projectile.forwardsDirection = Quaternion.Euler(0, 0, angle - (shootBehaviour.gap * (shootBehaviour.shootCount/2)) + (shootBehaviour.gap * i) - 90) * Vector2.up;
         }
     }
 
@@ -77,16 +77,13 @@ public class Shooter : MonoBehaviour
     {
         Projectile projectile = CreateProjectile(projectileBehaviour);
         Vector2 dir = ((Vector2) transform.InverseTransformPoint(PlayerLiving.Instance.transform.position)).normalized;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle - 90);
-
-        projectile.transform.rotation = rotation;
+        projectile.forwardsDirection = dir;
     }
 
     void HandleSpin()
     {
         Projectile projectile = CreateProjectile(projectileBehaviour);
-        projectile.transform.rotation = Quaternion.Euler(0, 0, currRotation);
+        projectile.forwardsDirection = Quaternion.Euler(0, 0, currRotation) * Vector2.up;
     }
 
     Projectile CreateProjectile(ProjectileBehaviour behaviour = null)

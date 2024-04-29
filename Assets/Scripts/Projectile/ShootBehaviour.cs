@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ShootBehaviour", menuName = "Projectile/ShootBehaviour", order = 0)]
+[CreateAssetMenu(fileName = "ShootBehaviour", menuName = "Projectile/ShootBehaviour", order = 1)]
 public class ShootBehaviour : ScriptableObject
 {
     [SerializeField] public SpawnerType spawnBehaviour;

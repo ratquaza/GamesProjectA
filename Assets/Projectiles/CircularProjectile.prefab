@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4465341496608559753}
   - component: {fileID: 1423614298043301585}
   - component: {fileID: 7415103035097084317}
-  - component: {fileID: 8591958010206156552}
+  - component: {fileID: 5623283138328291337}
   m_Layer: 8
   m_Name: CircularProjectile
   m_TagString: Untagged
@@ -116,7 +116,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.15
---- !u!50 &8591958010206156552
+--- !u!50 &5623283138328291337
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4

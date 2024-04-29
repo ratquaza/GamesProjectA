@@ -6,6 +6,8 @@ public class Projectile : MonoBehaviour
     [SerializeField] public ProjectileBehaviour behaviour;
     private float lifetime = 0f;
 
+    public Vector2 forwardsDirection;
+
     void Start()
     {
         transform.localScale = Vector3.one * behaviour.size;
@@ -20,21 +22,20 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        Vector2 moveDir = Vector2.zero;
-
-        switch (behaviour.moveBehaviour)
-        {
-            case MoveBehaviour.Forward:
-                moveDir = transform.up;
-                break;
-            case MoveBehaviour.Homing:
-                moveDir = ((Vector2) (PlayerLiving.Instance.transform.position - transform.position)).normalized;
-                break;
-        }
-
-        transform.position += (Vector3) moveDir * behaviour.speed * Time.deltaTime;
+        transform.position += (Vector3) GetMovement() * behaviour.speed * Time.deltaTime;
         lifetime += Time.deltaTime;
         if (lifetime >= behaviour.lifetime) Destroy(gameObject);
+    }
+
+    Vector2 GetMovement()
+    {
+        switch (behaviour.moveBehaviour)
+        {
+            case MoveBehaviour.Homing:
+                return ((Vector2) (PlayerLiving.Instance.transform.position - transform.position)).normalized;
+            default:
+                return forwardsDirection;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -42,7 +43,17 @@ public class Projectile : MonoBehaviour
         PlayerLiving player = collider.GetComponent<PlayerLiving>();
         if (player == null)
         {
-            if (behaviour.destroyOnWall) Destroy(gameObject);
+            if (behaviour.destroyOnWall)
+            {
+                Destroy(gameObject);
+            }
+            else if (behaviour.ricochetOnWall)
+            {
+                Vector2 closestPoint = collider.ClosestPoint((Vector2) transform.position + GetMovement() * .1f);
+                Vector2 normal = ((Vector2) transform.position - closestPoint).normalized;
+                
+                forwardsDirection = forwardsDirection - 2 * Vector2.Dot(normal, forwardsDirection) * normal;
+            }
             return;
         }
         player.Damage((int) Math.Round(behaviour.damage));
