@@ -85,7 +85,16 @@ public class Shooter : MonoBehaviour
     void HandleSpin()
     {
         Projectile projectile = CreateProjectile(projectileBehaviour);
-        projectile.forwardsDirection = Quaternion.Euler(0, 0, currRotation) * Vector2.up;
+        if (shootBehaviour.spawnBehaviour == SpawnerType.Spinning)
+        {
+            projectile.forwardsDirection = Quaternion.Euler(0, 0, currRotation) * Vector2.up;
+        }
+        else
+        {
+            Vector2 dir = ((Vector2) transform.InverseTransformPoint(PlayerLiving.Instance.transform.position)).normalized;
+            projectile.forwardsDirection = dir;
+            projectile.transform.localPosition = Quaternion.Euler(0, 0, currRotation) * Vector2.up * .15f;
+        }
     }
 
     Projectile CreateProjectile(ProjectileBehaviour behaviour = null)

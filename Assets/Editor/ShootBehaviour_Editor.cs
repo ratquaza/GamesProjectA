@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.Tilemaps;
 
 [CustomEditor(typeof(ShootBehaviour))]
 public class ShootBehaviour_Editor : Editor
@@ -40,6 +36,7 @@ public class ShootBehaviour_Editor : Editor
                 if (shootCount.intValue < 2) shootCount.intValue = 2;
                 break;
             case SpawnerType.Spinning:
+            case SpawnerType.Spray:
                 EditorGUILayout.PropertyField(spinSpeed);
                 if (shootCount.intValue > 1) EditorGUILayout.PropertyField(delayBetweenShoots);
                 break;
