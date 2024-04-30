@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour, Living
     private int health;
 
     [SerializeField] private int damage;
-    [SerializeField] private float projectileCooldown;
     [SerializeField] private int goldDropAmount;
     [SerializeField] private float drag = 10f;
 
