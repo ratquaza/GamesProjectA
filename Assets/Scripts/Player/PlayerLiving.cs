@@ -100,7 +100,7 @@ public class PlayerLiving : MonoBehaviour, Living
 
     public int Health() => health;
     public int MaxHealth() => maxHealth;
-    public int GetStrength() => 5;
+    public int GetStrength() => accessories.Aggregate(3, (acc, a) => a == null ? acc : Math.Max(1, a.ModifyStrength(acc)));
     public void Heal(int healthHealed)
     {
         health = Math.Max(health + Math.Max(1, healthHealed), maxHealth);
@@ -110,7 +110,10 @@ public class PlayerLiving : MonoBehaviour, Living
     public void Damage(int amount)
     {
         if (currentIframes > 0) return;
-        amount = accessories.Aggregate(amount, (acc, x) => Math.Max(1, x.ReduceDamage(acc)));
+        string debugString = amount + " > ";
+        amount = accessories.Aggregate(amount, (acc, x) => x == null ? acc : Math.Max(1, x.ModifyDamage(acc)));
+        debugString += amount;
+        Debug.Log(debugString);
         health = Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
@@ -186,11 +189,6 @@ public class PlayerLiving : MonoBehaviour, Living
     public EquippableItem[] GetAccessories()
     {
         return accessories;
-    }
-
-    public void GiveAccessory(EquippableItem item)
-    {
-
     }
     
     public void AddGold(int amount)
