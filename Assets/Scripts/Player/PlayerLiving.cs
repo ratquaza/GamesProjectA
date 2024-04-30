@@ -120,16 +120,14 @@ public class PlayerLiving : MonoBehaviour, Living
         onHealthChange?.Invoke(health);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, bool applyIframes = true)
     {
-        if (currentIframes > 0) return;
+        if (currentIframes > 0 && applyIframes == true) return;
         string debugString = amount + " > ";
         amount = accessories.Aggregate(amount, (acc, x) => x == null ? acc : Math.Max(1, x.ModifyDamage((int)acc)));
         debugString += amount;
         Debug.Log(debugString);
-        health = (int) Math.Max(health - Math.Max(1, amount), 0);
-        onHealthChange?.Invoke(health);
-        currentIframes = iframes;
+        TakeDamageFinal(amount);
     }
 
     public void TakeDamageFinal(float amount)

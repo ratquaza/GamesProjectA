@@ -48,25 +48,20 @@ public class PoisonTile : MonoBehaviour
 
     private IEnumerator Poison(GameObject target)
     {
+        PlayerLiving playerLiving = target.GetComponent<PlayerLiving>();
+
         if (isPoisoning)
         {
             for (int i = 0; i < numPoisonTicks; i++)
             {   
                 yield return new WaitForSeconds(poisonDelay);
-                DealDamage(target, poisonDamage);
-                Debug.Log("test");
+                if (playerLiving != null)
+                {
+                    playerLiving.TakeDamage(poisonDamage, false);
+                }
             }
             
             yield return null;
-        }
-    }
-
-    private void DealDamage(GameObject target, float damage)
-    {
-        PlayerLiving playerLiving = target.GetComponent<PlayerLiving>();
-        if (playerLiving != null)
-        {
-            playerLiving.TakeDamageFinal(damage);
         }
     }
 }

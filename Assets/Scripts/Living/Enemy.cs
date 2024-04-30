@@ -83,7 +83,7 @@ public class Enemy : MonoBehaviour, Living
         agent.SetDestination(target.position);
     }
 
-    public void TakeDamage(float damageDone)
+    public void TakeDamage(float damageDone, bool applyIframes)
     {
         health = (int) Math.Max(0, health - damageDone);
         onHealthChange.Invoke(health);
