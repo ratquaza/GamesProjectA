@@ -101,8 +101,8 @@ public class ShopUIButtons : MonoBehaviour
         goldTxt.text = selectedItem.Cost;
         rarityTxt.text = selectedItem.ItemRarity;
         rarityImage.color = selectedItem.GetRarityColor();
-        itemTypeTxt.text = selectedItem.ItemType;
-        itemTypeImage.color = selectedItem.GetWeaponTypeColor();
+        itemTypeTxt.text = selectedItem is WeaponItem ? ((WeaponItem) selectedItem).GetWeaponType() : "";
+        itemTypeImage.color = selectedItem is WeaponItem ? ((WeaponItem) selectedItem).GetWeaponTypeColor() : new Color(1,1,1,0);
     }
 
     public void PurchaseItem()
