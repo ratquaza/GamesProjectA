@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +30,7 @@ public class PlayerLiving : MonoBehaviour, Living
 
     // Inventory
     [SerializeField] 
-    private EquipableItem equippedArmour;
+    private EquippableItem[] accessories = new EquippableItem[3];
     private Item[] inventory = new Item[5];
 
     // Weapons
@@ -109,7 +110,7 @@ public class PlayerLiving : MonoBehaviour, Living
     public void Damage(int amount)
     {
         if (currentIframes > 0) return;
-        if (equippedArmour != null) amount = Math.Max(1, equippedArmour.ReduceDamage(amount));
+        amount = accessories.Aggregate(amount, (acc, x) => Math.Max(1, x.ReduceDamage(acc)));
         health = Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
@@ -182,18 +183,14 @@ public class PlayerLiving : MonoBehaviour, Living
         return equippedWeapon;
     }
 
-    public EquipableItem GetArmour()
+    public EquippableItem[] GetAccessories()
     {
-        return equippedArmour;
+        return accessories;
     }
 
-    public bool EquipArmour(EquipableItem item)
+    public void GiveAccessory(EquippableItem item)
     {
-        if (item != null && !item.IsArmour()) return false;
-        equippedArmour?.OnUnequip(this);
-        equippedArmour = item;
-        equippedArmour?.OnEquip(this);
-        return true;
+
     }
     
     public void AddGold(int amount)
