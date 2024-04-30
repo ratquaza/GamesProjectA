@@ -55,10 +55,12 @@ public class PoisonTile : MonoBehaviour
             for (int i = 0; i < numPoisonTicks; i++)
             {   
                 yield return new WaitForSeconds(poisonDelay);
+                if (!isPoisoning) yield break;
                 if (playerLiving != null)
                 {
                     playerLiving.TakeDamage(poisonDamage, false);
                 }
+                
             }
             
             yield return null;
