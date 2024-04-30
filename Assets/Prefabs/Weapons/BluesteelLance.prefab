@@ -207,12 +207,12 @@ MonoBehaviour:
   primaryTrigger: Primary
   secondaryTrigger: Secondary
   primaryCooldown: 0.5
-  secondaryCooldown: 1
+  secondaryCooldown: 3
   hitboxes:
   - box: {fileID: 8700496884178923131}
     knockbackType: 0
     knockback: 15
-    baseDamage: 3
+    baseDamage: 1
     playerStrengthScale: 0.1
 --- !u!95 &3717940381765556757
 Animator:
