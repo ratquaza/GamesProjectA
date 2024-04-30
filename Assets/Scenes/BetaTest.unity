@@ -19630,17 +19630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4a9e747d597e14fb431717b2930727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1739571503 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5592103563087808028, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
-  m_PrefabInstance: {fileID: 1685329984}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba545c16a86ff1c43bdc1f4fad26cb97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1752092131
 GameObject:
   m_ObjectHideFlags: 0
@@ -20402,28 +20391,6 @@ Transform:
   m_Father: {fileID: 321984978}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1987036744 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
-  m_PrefabInstance: {fileID: 871437214}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1987036749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987036744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a9ff1a6863e4c20aa0c7a56de590ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectile: {fileID: 8795176043056997148, guid: db26ed03f80948640b803c0853e9f176, type: 3}
-  player: {fileID: 1739571503}
-  shootTime: 1
-  degree: 20
-  shootCount: 10
 --- !u!1 &2029607821
 GameObject:
   m_ObjectHideFlags: 0
