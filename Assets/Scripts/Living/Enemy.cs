@@ -136,6 +136,6 @@ public class Enemy : MonoBehaviour, Living
     void OnCollisionStay2D(Collision2D collision)
     {
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
-        if (player != null) player.Damage(GetStrength());
+        if (player != null) player.TakeDamage(GetStrength());
     }
 }

@@ -55,7 +55,7 @@ public class Projectile : MonoBehaviour
             }
             return;
         }
-        player.Damage((int) Math.Round(behaviour.damage));
+        player.TakeDamage((int) Math.Round(behaviour.damage));
         Destroy(gameObject);
     }
 }
