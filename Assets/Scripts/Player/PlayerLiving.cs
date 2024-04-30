@@ -111,23 +111,30 @@ public class PlayerLiving : MonoBehaviour, Living
         return iframes;
     }
 
-    public int Health() => health;
-    public int MaxHealth() => maxHealth;
-    public int GetStrength() => accessories.Aggregate(3, (acc, a) => a == null ? acc : Math.Max(1, a.ModifyStrength(acc)));
-    public void Heal(int healthHealed)
+    public float Health() => health;
+    public float MaxHealth() => maxHealth;
+    public float GetStrength() => accessories.Aggregate(3, (acc, a) => a == null ? acc : Math.Max(1, a.ModifyStrength(acc)));
+    public void Heal(float healthHealed)
     {
-        health = Math.Max(health + Math.Max(1, healthHealed), maxHealth);
+        health = (int) Math.Max(health + Math.Max(1, healthHealed), maxHealth);
         onHealthChange?.Invoke(health);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         if (currentIframes > 0) return;
         string debugString = amount + " > ";
-        amount = accessories.Aggregate(amount, (acc, x) => x == null ? acc : Math.Max(1, x.ModifyDamage(acc)));
+        amount = accessories.Aggregate(amount, (acc, x) => x == null ? acc : Math.Max(1, x.ModifyDamage((int)acc)));
         debugString += amount;
         Debug.Log(debugString);
-        health = Math.Max(health - Math.Max(1, amount), 0);
+        health = (int) Math.Max(health - Math.Max(1, amount), 0);
+        onHealthChange?.Invoke(health);
+        currentIframes = iframes;
+    }
+
+    public void TakeDamageFinal(float amount)
+    {
+        health = (int) Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
     }

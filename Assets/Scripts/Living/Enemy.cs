@@ -83,9 +83,9 @@ public class Enemy : MonoBehaviour, Living
         agent.SetDestination(target.position);
     }
 
-    public void TakeDamage(int damageDone)
+    public void TakeDamage(float damageDone)
     {
-        health = Math.Max(0, health - damageDone);
+        health = (int) Math.Max(0, health - damageDone);
         onHealthChange.Invoke(health);
 
 
@@ -119,14 +119,14 @@ public class Enemy : MonoBehaviour, Living
         }
     }
 
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
-        health = Math.Min(maxHealth, health + amount);
+        health = (int) Math.Min(maxHealth, health + amount);
         onHealthChange.Invoke(health);
     }
-    public int GetStrength() => damage;
-    public int Health() => health;
-    public int MaxHealth() => maxHealth;
+    public float GetStrength() => damage;
+    public float Health() => health;
+    public float MaxHealth() => maxHealth;
 
     public void SetTarget(Transform target)
     {
