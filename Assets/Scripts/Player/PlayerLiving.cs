@@ -30,7 +30,7 @@ public class PlayerLiving : MonoBehaviour, Living
     // Inventory
     [SerializeField] 
     private EquipableItem equippedArmour;
-    private ItemStack[] inventory = new ItemStack[5];
+    private Item[] inventory = new Item[5];
 
     // Weapons
     [SerializeField] 
@@ -115,7 +115,7 @@ public class PlayerLiving : MonoBehaviour, Living
         currentIframes = iframes;
     }
 
-    public ItemStack[] GetItems()
+    public Item[] GetItems()
     {
         return this.inventory;
     }
