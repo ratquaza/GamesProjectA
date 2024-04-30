@@ -24,7 +24,7 @@ public class DungeonGenerator : MonoBehaviour
         // Create the 2D array thats the current dungeon floor
         floor = new DungeonRoom[15, 15];
 
-        int x = 0;
+        int x = 8;
         int y = x;
 
         DungeonRoom spawnRoom =  Instantiate(roomPool[0], grid.transform);

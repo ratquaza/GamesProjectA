@@ -70,7 +70,7 @@ public class SimpleWeapon : Weapon
     {
         Hitbox hitbox = hitboxes[hitboxID];
         hitbox.box.enabled = true;
-        DamageInCollider(hitbox.box, hitbox.damage, (enemy) =>
+        DamageInCollider(hitbox.box, hitbox.baseDamage + player.GetStrength() * hitbox.playerStrengthScale, (enemy) =>
         {
             Vector2 angle = GetDirection(enemy, hitbox.box, hitbox.knockbackType);
             return angle * hitbox.knockback;
@@ -120,14 +120,16 @@ public class SimpleWeapon : Weapon
         public Collider2D box;
         public KnockbackType knockbackType;
         public float knockback;
-        public int damage;
+        public int baseDamage;
+        public float playerStrengthScale;
 
-        public Hitbox(Collider2D box, KnockbackType knockbackType, float knockback, int damage)
+        public Hitbox(Collider2D box, KnockbackType knockbackType, float knockback, int damage, float playerStrengthScale)
         {
             this.box = box;
             this.knockbackType = knockbackType;
             this.knockback = knockback;
-            this.damage =  damage;
+            this.baseDamage =  damage;
+            this.playerStrengthScale = playerStrengthScale;
         }
     }
 

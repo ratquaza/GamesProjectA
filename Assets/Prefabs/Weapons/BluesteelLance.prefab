@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6447123076796572138}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1922742540632221704}
   - component: {fileID: 1922742540532906275}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 6027578472093188826}
   - component: {fileID: 5814080498849045494}
   - component: {fileID: 3717940381765556757}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BluesteelLance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,13 +207,13 @@ MonoBehaviour:
   primaryTrigger: Primary
   secondaryTrigger: Secondary
   primaryCooldown: 0.5
-  secondaryCooldown: 1
+  secondaryCooldown: 3
   hitboxes:
   - box: {fileID: 8700496884178923131}
     knockbackType: 0
     knockback: 15
-    damage: 1
-  followMouseScript: {fileID: 6027578472093188826}
+    baseDamage: 1
+    playerStrengthScale: 0.1
 --- !u!95 &3717940381765556757
 Animator:
   serializedVersion: 5

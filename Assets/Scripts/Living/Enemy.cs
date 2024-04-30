@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour, Living
     private int health;
 
     [SerializeField] private int damage;
-    [SerializeField] private float projectileCooldown;
     [SerializeField] private float drag = 10f;
 
     [SerializeField] private int enemyWeight = 20;
@@ -125,7 +124,7 @@ public class Enemy : MonoBehaviour, Living
         health = Math.Min(maxHealth, health + amount);
         onHealthChange.Invoke(health);
     }
-    public int DamageDealt() => damage;
+    public int GetStrength() => damage;
     public int Health() => health;
     public int MaxHealth() => maxHealth;
 
@@ -137,6 +136,6 @@ public class Enemy : MonoBehaviour, Living
     void OnCollisionStay2D(Collision2D collision)
     {
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
-        if (player != null) player.TakeDamage(DamageDealt());
+        if (player != null) player.Damage(GetStrength());
     }
 }

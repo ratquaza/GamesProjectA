@@ -106,10 +106,8 @@ public class ShopUIButtons : MonoBehaviour
         goldTxt.text = selectedItem.Cost;
         rarityTxt.text = selectedItem.ItemRarity;
         rarityImage.color = selectedItem.GetRarityColor();
-        itemTypeTxt.text = selectedItem.ItemType;
-        itemTypeImage.color = selectedItem.GetWeaponTypeColor();
-
-        Debug.Log(selectedCell);
+        itemTypeTxt.text = selectedItem is WeaponItem ? ((WeaponItem) selectedItem).GetWeaponType() : "";
+        itemTypeImage.color = selectedItem is WeaponItem ? ((WeaponItem) selectedItem).GetWeaponTypeColor() : new Color(1,1,1,0);
     }
 
     public void PurchaseItem()
@@ -125,7 +123,7 @@ public class ShopUIButtons : MonoBehaviour
             WeaponItem selectedWeaponItem = (WeaponItem)selectedItem;
 
             int itemCost = selectedWeaponItem.CostFloat;
-            if (player.GetGold() < itemCost)
+            if (player.goldCount < itemCost)
             {
                 Debug.LogWarning("Not enough gold to purchase the item.");
                 return;
@@ -140,7 +138,7 @@ public class ShopUIButtons : MonoBehaviour
             else
             {
                 // If the player already has a weapon equipped, swap it with the purchased one
-                WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
+                WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedWeaponIndex());
                 player.EquipWeapon(selectedWeaponItem, true);
                 selectedWeaponItem = oldWeapon;
             }

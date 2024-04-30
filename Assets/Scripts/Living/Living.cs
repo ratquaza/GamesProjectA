@@ -4,7 +4,7 @@ public interface Living
     public int MaxHealth();
     public void TakeDamage(int amount);
     public void Heal(int amount);
-    public int DamageDealt();
+    public int GetStrength();
     public delegate void HealthChange(int health);
     public event HealthChange onHealthChange;
 }

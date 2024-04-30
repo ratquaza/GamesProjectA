@@ -11,7 +11,6 @@ public class OverlayUI : MonoBehaviour
     [SerializeField] private Image heartImage;
     [SerializeField] private Image heartbeatImage;
     [SerializeField] private float lowHealthPercent = .4f;
-    [SerializeField] private Image gameOver;
 
     [SerializeField] private TextMeshProUGUI goldCountText;
 
@@ -44,10 +43,6 @@ public class OverlayUI : MonoBehaviour
             {
                 isLowHealth = false;
                 heartbeatAnim = 0f;
-            }
-            if (hp <= 0)
-            {
-                gameOver.gameObject.SetActive(true);
             }
         };
     }
