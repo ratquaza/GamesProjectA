@@ -47,7 +47,7 @@ public class Projectile : MonoBehaviour
         PlayerLiving player = collision.gameObject.GetComponent<PlayerLiving>();
         if (player != null)
         {
-            player.Damage(20);
+            player.TakeDamage(20);
         }
     }
 

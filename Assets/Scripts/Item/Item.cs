@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Item : ScriptableObject
 {
     [SerializeField] private string itemName; // (max 25 characters)
-    [SerializeField] private float cost;
+    [SerializeField] private int cost;
     [SerializeField] private Sprite icon;
     [SerializeField] private string description; // (max 290 characters)
 
@@ -64,6 +64,7 @@ public abstract class Item : ScriptableObject
     public Sprite Icon => icon;
     public string ItemName => itemName;
     public string Cost => cost + "g";
+    public int CostFloat => cost;
     public string Description => description;
     public string ItemRarity => rarity.ToString();
     public string ItemType => weaponType.ToString();

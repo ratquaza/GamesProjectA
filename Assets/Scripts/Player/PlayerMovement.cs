@@ -52,6 +52,11 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer.sprite = downSprite;
     }
 
+    private void Start()
+    {
+            
+    }
+
     void OnEnable()
     {
         playerActions.Enable();

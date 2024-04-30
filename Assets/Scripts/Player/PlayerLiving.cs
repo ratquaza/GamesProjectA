@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Profiling;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,11 +9,16 @@ public class PlayerLiving : MonoBehaviour, Living
     [SerializeField] private int maxHealth;
     private int health;
     public event Living.HealthChange onHealthChange;
+
+    // Gold
+    private int goldCount;
+    public event System.Action<int> OnGoldCountChanged;
     
+    // Weapons
     public delegate void WeaponChange(WeaponItem item, int index);
     public event WeaponChange onWeaponChange;
 
-    //Invulnerability
+    // Invulnerability
     [SerializeField] private float iframes = 1.5f;
     private float currentIframes = 0f;
 
@@ -36,6 +42,9 @@ public class PlayerLiving : MonoBehaviour, Living
     //constructor
     private void InitializePlayer()
     {
+
+        SetGold(1000);
+
         health = maxHealth;
 
         actions = new PlayerActions();
@@ -77,6 +86,15 @@ public class PlayerLiving : MonoBehaviour, Living
         if (currentIframes > 0) currentIframes -= Time.deltaTime;
     }
 
+    public void SetIFrames(float giveIFrames)
+    {
+        currentIframes = giveIFrames;
+    }
+    public float GetIFrames()
+    {
+        return iframes;
+    }
+
     public int Health() => health;
     public int MaxHealth() => maxHealth;
     public int DamageDealt() => 5;
@@ -86,9 +104,16 @@ public class PlayerLiving : MonoBehaviour, Living
         onHealthChange?.Invoke(health);
     }
 
-    public void Damage(int amount)
+    public void TakeDamage(int amount)
     {
         if (currentIframes > 0) return;
+        health = Math.Max(health - Math.Max(1, amount), 0);
+        onHealthChange?.Invoke(health);
+        currentIframes = iframes;
+    }
+
+    public void TakeDamageFinal(int amount)
+    {
         health = Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
@@ -159,5 +184,28 @@ public class PlayerLiving : MonoBehaviour, Living
     public int GetEquippedIndex()
     {
         return equippedWeaponIndex;
+    }
+
+    public int GetGold()
+    {
+        return goldCount;
+    }
+
+    public void AddGold(int amount)
+    {
+        goldCount += Math.Max(0, amount);
+        OnGoldCountChanged?.Invoke(goldCount);
+    }
+
+    public void SubtractGold(int amount)
+    {
+        goldCount -= Math.Max(0, amount);
+        OnGoldCountChanged?.Invoke(goldCount);
+    }
+
+    public void SetGold(int amount)
+    {
+        goldCount = Math.Max(0, amount);
+        OnGoldCountChanged?.Invoke(goldCount);
     }
 }

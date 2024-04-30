@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &922813060763121253
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.18157041
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.18157041
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.36314082
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.2602
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.1716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457063, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457064, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457064, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457064, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457065, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457065, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: goldAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457065, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: goldWeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6042184383104457068, guid: aa16f526c574e684da3888f6314ed127, type: 3}
+      propertyPath: m_Name
+      value: SilverCoin Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa16f526c574e684da3888f6314ed127, type: 3}

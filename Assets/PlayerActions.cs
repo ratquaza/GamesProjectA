@@ -253,6 +253,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9370961-7a43-4f5f-8fc6-99767843de61"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -288,6 +297,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""SecondWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bd6acc4-4d8f-49c3-9138-e97fab66d57e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -310,6 +330,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Inventory_ToggleInventory = m_Inventory.FindAction("ToggleInventory", throwIfNotFound: true);
         m_Inventory_FirstWeapon = m_Inventory.FindAction("FirstWeapon", throwIfNotFound: true);
         m_Inventory_SecondWeapon = m_Inventory.FindAction("SecondWeapon", throwIfNotFound: true);
+        m_Inventory_Interact = m_Inventory.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -506,6 +527,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Inventory_ToggleInventory;
     private readonly InputAction m_Inventory_FirstWeapon;
     private readonly InputAction m_Inventory_SecondWeapon;
+    private readonly InputAction m_Inventory_Interact;
     public struct InventoryActions
     {
         private @PlayerActions m_Wrapper;
@@ -513,6 +535,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @ToggleInventory => m_Wrapper.m_Inventory_ToggleInventory;
         public InputAction @FirstWeapon => m_Wrapper.m_Inventory_FirstWeapon;
         public InputAction @SecondWeapon => m_Wrapper.m_Inventory_SecondWeapon;
+        public InputAction @Interact => m_Wrapper.m_Inventory_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -531,6 +554,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @SecondWeapon.started += instance.OnSecondWeapon;
             @SecondWeapon.performed += instance.OnSecondWeapon;
             @SecondWeapon.canceled += instance.OnSecondWeapon;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IInventoryActions instance)
@@ -544,6 +570,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @SecondWeapon.started -= instance.OnSecondWeapon;
             @SecondWeapon.performed -= instance.OnSecondWeapon;
             @SecondWeapon.canceled -= instance.OnSecondWeapon;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IInventoryActions instance)
@@ -579,5 +608,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnToggleInventory(InputAction.CallbackContext context);
         void OnFirstWeapon(InputAction.CallbackContext context);
         void OnSecondWeapon(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

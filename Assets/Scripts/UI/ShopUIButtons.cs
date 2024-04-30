@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,12 +25,16 @@ public class ShopUIButtons : MonoBehaviour
     private Item selectedItem;
     private GameObject selectedCell;
 
+    [SerializeField] private PlayerLiving player;
+
 
 
     Dictionary<string, Item> items;
 
     private void Start()
     {
+        player = FindObjectOfType<PlayerLiving>();
+
         items = ItemDatabase.Instance.GetItems();
 
         DeactivateAllSprites();
@@ -103,13 +108,43 @@ public class ShopUIButtons : MonoBehaviour
         rarityImage.color = selectedItem.GetRarityColor();
         itemTypeTxt.text = selectedItem.ItemType;
         itemTypeImage.color = selectedItem.GetWeaponTypeColor();
+
+        Debug.Log(selectedCell);
     }
 
     public void PurchaseItem()
     {
-        // TODO: Add player purchasing logic 
+        if (player == null || selectedItem == null)
+        {
+            Debug.LogError("Player or selected item is null.");
+            return;
+        }
 
-        Debug.Log("Purchased Item: " + selectedItem.ItemName);
+        if (selectedItem is WeaponItem)
+        {
+            WeaponItem selectedWeaponItem = (WeaponItem)selectedItem;
+
+            int itemCost = selectedWeaponItem.CostFloat;
+            if (player.GetGold() < itemCost)
+            {
+                Debug.LogWarning("Not enough gold to purchase the item.");
+                return;
+            }
+
+            player.SubtractGold(itemCost);
+
+            if (player.GiveWeapon(selectedWeaponItem))
+            {
+                player.EquipWeapon(selectedWeaponItem);
+            }
+            else
+            {
+                // If the player already has a weapon equipped, swap it with the purchased one
+                WeaponItem oldWeapon = player.GetWeaponAt(player.GetEquippedIndex());
+                player.EquipWeapon(selectedWeaponItem, true);
+                selectedWeaponItem = oldWeapon;
+            }
+        }
     }
 
 }
