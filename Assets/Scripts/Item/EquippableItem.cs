@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 
-public class EquippableItem : ScriptableObject
+[CreateAssetMenu(fileName = "Equippable", menuName = "Items/Equippable", order = 0)]
+public class EquippableItem : Item
 {
     [Tooltip("Reduces armour through percentage. Applied second.")]
     [SerializeField] 
-    protected float armourPercentage;
+    protected float armourPercentage = 1f;
 
     [Tooltip("Reduces armour with a flat rate. Applied first.")]
     [SerializeField] 
@@ -13,20 +14,20 @@ public class EquippableItem : ScriptableObject
 
     [Tooltip("Increases strength through percentage. Applied second.")]
     [SerializeField] 
-    protected float strengthPercentage;
+    protected float strengthPercentage = 1f;
 
     [Tooltip("Increases strength with a flat rate. Applied first.")]
     [SerializeField] 
     protected int strengthValue;
 
-    public virtual int ReduceDamage(int value)
+    public virtual int ModifyDamage(int value)
     {
-        return (int) Math.Round((value - armourValue) * (1f - armourPercentage));
+        return (int) Math.Round((value - armourValue) * armourPercentage);
     }
 
-    public virtual int IncreaseStrength(int value)
+    public virtual int ModifyStrength(int value)
     {
-        return (int) Math.Round((value + strengthValue) * (1f + strengthPercentage));
+        return (int) Math.Round((value + strengthValue) * strengthPercentage);
     }
 
     public virtual void OnEquip(PlayerLiving player) {}
