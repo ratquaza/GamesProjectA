@@ -53,8 +53,8 @@ public class ManaBubble : MonoBehaviour
             Enemy enemy = hit.GetComponent<Enemy>();
             if (enemy != null)
             {
+                enemy.TakeDamage(3, false);
                 Rigidbody2D rb2d = hit.GetComponent<Rigidbody2D>();
-                enemy.TakeDamage(3);
                 rb2d.velocity += ((Vector2) (enemy.transform.position - transform.position)).normalized * 50f;
             }
             ManaBubble bubble = hit.GetComponent<ManaBubble>();
