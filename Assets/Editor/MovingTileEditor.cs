@@ -19,5 +19,14 @@ public class MovingTileEditor : Editor
                 movingTile.waypoints[i].position = newWaypointPosition;
             }
         }
+
+        // Draw rotation pivot handle
+        EditorGUI.BeginChangeCheck();
+        Vector3 newRotationPivotPosition = Handles.PositionHandle(movingTile.rotationPivot.position, Quaternion.identity);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(movingTile, "Move Rotation Pivot");
+            movingTile.rotationPivot.position = newRotationPivotPosition;
+        }
     }
 }

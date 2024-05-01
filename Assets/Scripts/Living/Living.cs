@@ -1,10 +1,10 @@
 public interface Living
 {   
-    public int Health();
-    public int MaxHealth();
-    public void TakeDamage(int amount);
-    public void Heal(int amount);
-    public int GetStrength();
-    public delegate void HealthChange(int health);
+    public float Health();
+    public float MaxHealth();
+    public void TakeDamage(float amount, bool applyIframes);
+    public void Heal(float amount);
+    public float GetStrength();
+    public delegate void HealthChange(float health);
     public event HealthChange onHealthChange;
 }

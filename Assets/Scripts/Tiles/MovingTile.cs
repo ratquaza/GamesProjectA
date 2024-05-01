@@ -1,24 +1,34 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MovingTile : MonoBehaviour
 {
     public Transform[] waypoints;
-    public float speed = 2f;
+    public Transform rotationPivot;
     private float originalSpeed;
     private int currentWaypointIndex = 0;
-    [SerializeField] private float accelerationRate = 1.0f;
+
+    public TileState currentState;
 
     public enum TileState
     {
         MovementEnabled,
         MovementDisabled,
-        FastModeEnabled,
-        SlowModeEnabled,
-        AccelerationModeEnabled
+        AccelerationModeEnabled,
+        RotateEnabled
     }
 
-    public TileState currentState = TileState.MovementEnabled;
+    [Header("Movement Enabled Settings")]
+    [SerializeField] private float speed = 2f;
+
+    [Header("Rotation Enabled Settings")]
+    [SerializeField] private float rotationSpeed = 10f;
+
+    [Header("Acceleration Mode Settings")]
+    [SerializeField] private float accelerationRate = 1.0f;
+
+
+
+    
 
     private void Start()
     {
@@ -37,19 +47,21 @@ public class MovingTile : MonoBehaviour
             case TileState.MovementDisabled:
                 // Movement Disabled -> Do nothing
                 break;
-            case TileState.FastModeEnabled:
-                MoveWithSpeedModifier(2f);
-                break;
-            case TileState.SlowModeEnabled:
-                MoveWithSpeedModifier(0.5f);
-                break;
             case TileState.AccelerationModeEnabled:
                 MoveWithAcceleration();
+                break;
+            case TileState.RotateEnabled: // Handle rotation state
+                Rotate(rotationPivot);
                 break;
         }
     }
 
-    public void ChangeState(TileState newState)
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public void SetState(TileState newState)
     {
         currentState = newState;
     }
@@ -59,21 +71,6 @@ public class MovingTile : MonoBehaviour
         if (waypoints.Length == 0) return;
 
         transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
-
-        // Check if the platform has reached the current waypoint (0.1f: arbitrary value)
-        if (Vector2.Distance(transform.position, waypoints[currentWaypointIndex].position) < 0.1f)
-        {
-            // Move to next waypoint
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-        }
-    }
-
-    void MoveWithSpeedModifier(float speedModifier)
-    {
-        if (waypoints.Length == 0) return;
-
-        float currentSpeed = speed * speedModifier;
-        transform.position = Vector2.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, currentSpeed * Time.deltaTime);
 
         // Check if the platform has reached the current waypoint (0.1f: arbitrary value)
         if (Vector2.Distance(transform.position, waypoints[currentWaypointIndex].position) < 0.1f)
@@ -99,6 +96,15 @@ public class MovingTile : MonoBehaviour
             speed = originalSpeed;
         }
         Debug.Log(speed);
+    }
+
+    void Rotate(Transform pivot)
+    {
+        // Rotate the parent's transform
+        if (transform.parent != null)
+        {
+            transform.parent.RotateAround(pivot.position, Vector3.forward, rotationSpeed * Time.deltaTime);
+        }
     }
 
     // Draw debugging lines for the platform waypoints path
