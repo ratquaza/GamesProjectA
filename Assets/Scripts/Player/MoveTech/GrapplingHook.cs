@@ -21,7 +21,7 @@ public class GrapplingHook : MonoBehaviour
 
     private void Awake()
     {
-        playerActions = new PlayerActions();
+        playerActions = PlayerLiving.Instance.actions;
 
         playerActions.Movement.GrapplingHook.performed += ctx => GrappleButtonDown();
         playerActions.Movement.GrapplingHook.canceled += ctx => GrappleButtonUp();

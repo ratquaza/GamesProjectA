@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8833112280448785845}
   - component: {fileID: 8833112280448785844}
   - component: {fileID: 8833112280448785843}
-  - component: {fileID: 8833112280448785842}
   - component: {fileID: 2802377389588084947}
+  - component: {fileID: 1630395765198617370}
   m_Layer: 0
   m_Name: ManaBubble
   m_TagString: Projectile
@@ -120,21 +120,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &8833112280448785842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8833112280448785847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a7610c470341f649adb1f5bc83e358a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aoe: {fileID: 8833112280448785843}
-  readyTime: 1
-  popTime: 0.1
 --- !u!50 &2802377389588084947
 Rigidbody2D:
   serializedVersion: 4
@@ -156,3 +141,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1630395765198617370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8833112280448785847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d37c2ed67e0f98042bf0f9b730821de4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aoe: {fileID: 8833112280448785843}
+  readyTime: 1
+  popTime: 0.2

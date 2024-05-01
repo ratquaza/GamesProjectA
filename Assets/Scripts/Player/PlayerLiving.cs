@@ -23,7 +23,7 @@ public class PlayerLiving : MonoBehaviour, Living
     private float currentIframes = 0f;
 
     // Inputs
-    private PlayerActions actions;
+    public PlayerActions actions { get; protected set; }
     private InputAction primaryAttack;
     private InputAction secondaryAttack;
     private InputAction switchToFirstWeapon;

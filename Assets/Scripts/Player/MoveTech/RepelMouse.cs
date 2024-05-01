@@ -7,7 +7,7 @@ public class RepelMouse : MonoBehaviour
 
     private void Awake()
     {
-        playerActions = new PlayerActions();
+        playerActions = PlayerLiving.Instance.actions;
 
         playerActions.Movement.RepelMouse.performed += ctx => RepelFromMouse();
     }

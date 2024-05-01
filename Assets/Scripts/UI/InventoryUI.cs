@@ -19,7 +19,7 @@ public class InventoryUI : MonoBehaviour
 
     void Start()
     {
-        actions = new PlayerActions();
+        actions = PlayerLiving.Instance.actions;
         actions.Inventory.Enable();
         actions.Inventory.ToggleInventory.performed += (ctx) => {
             ShowUI(!radialRoot.activeInHierarchy);

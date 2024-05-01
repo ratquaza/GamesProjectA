@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        playerActions = new PlayerActions();
+        playerActions = PlayerLiving.Instance.actions;
 
         walkInput = playerActions.Movement.Walk;
         dashInput = playerActions.Movement.Dash;

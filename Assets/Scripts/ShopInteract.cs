@@ -24,7 +24,7 @@ public class ShopInteract : MonoBehaviour
 
     private void Awake()
     {
-        playerActions = new PlayerActions();
+        playerActions = PlayerLiving.Instance.actions;
         interactInput = playerActions.Inventory.Interact;
         interactInput.performed += ctx => ToggleShopUI();   
     }

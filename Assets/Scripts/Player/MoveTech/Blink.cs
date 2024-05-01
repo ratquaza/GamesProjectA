@@ -21,7 +21,7 @@ public class Blink : MonoBehaviour
     void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        playerActions = new PlayerActions();
+        playerActions = PlayerLiving.Instance.actions;
         originalScale = transform.localScale;
         moveSpd = playerMovement.GetMoveSpeed();
 

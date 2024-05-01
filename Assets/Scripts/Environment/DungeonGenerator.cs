@@ -10,7 +10,6 @@ public class DungeonGenerator : MonoBehaviour
 
     [SerializeField] private DungeonRoom[] roomPool;
     [SerializeField] private int maxRooms = 5;
-    [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemy;
     [SerializeField] private CameraFollow cameraScript;
 
@@ -41,7 +40,7 @@ public class DungeonGenerator : MonoBehaviour
             maxRooms -= genRooms.Length;
         }
 
-        player.transform.localPosition = new Vector3(ROOM_WIDTH/2, ROOM_HEIGHT/2, 1);
+        PlayerLiving.Instance.transform.localPosition = new Vector2(x * ROOM_WIDTH + ROOM_WIDTH/2, y * ROOM_HEIGHT + ROOM_HEIGHT/2);
     }
 
     // Convert a Vector2Int coordinate position for the floor into a Vector3 position 
