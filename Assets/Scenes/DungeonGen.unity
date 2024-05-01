@@ -190,7 +190,6 @@ MonoBehaviour:
   - {fileID: 834407292776039272, guid: e00eefb178716bb42b1707130e3703ad, type: 3}
   - {fileID: 3900719429243463005, guid: 20b9e6cdc9c5fd343ab8eafa1b7167b0, type: 3}
   maxRooms: 10
-  player: {fileID: 1411325687}
   enemy: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
   cameraScript: {fileID: 2144705651}
 --- !u!1 &308034199
@@ -314,15 +313,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_LocalPosition.x
@@ -366,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5592103563087808028, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
       propertyPath: maxSpeed
@@ -404,7 +403,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5592103563087808029, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
   m_PrefabInstance: {fileID: 1411325684}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1411325687}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a4a9e747d597e14fb431717b2930727, type: 3}
@@ -413,11 +412,6 @@ MonoBehaviour:
 --- !u!4 &1411325686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5592103563087808007, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
-  m_PrefabInstance: {fileID: 1411325684}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1411325687 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5592103563087808006, guid: 5dc12990238879c4dba97867b9a1cecf, type: 3}
   m_PrefabInstance: {fileID: 1411325684}
   m_PrefabAsset: {fileID: 0}
 --- !u!50 &1411325688 stripped
