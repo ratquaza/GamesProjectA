@@ -18,8 +18,8 @@ TagManager:
   - EnemyProjectile
   - PlayerProjectile
   - Weapon
-  - 
-  - 
+  - PlayerFeet
+  - Player
   - 
   - 
   - 
