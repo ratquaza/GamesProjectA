@@ -95,7 +95,6 @@ public class MovingTile : MonoBehaviour
             // Reset to original speed
             speed = originalSpeed;
         }
-        Debug.Log(speed);
     }
 
     void Rotate(Transform pivot)
