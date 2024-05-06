@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerLiving : MonoBehaviour, Living
 {
+    public static event Action<PlayerLiving> onInstanceChanged;
     public static PlayerLiving Instance { protected set; get; }
 
     // Health
@@ -52,13 +54,14 @@ public class PlayerLiving : MonoBehaviour, Living
             return;
         }
         Instance = this;
+        onInstanceChanged?.Invoke(this);
+        DontDestroyOnLoad(gameObject);
         InitializePlayer();
     }
 
     //constructor
     private void InitializePlayer()
     {
-
         SetGold(1000);
 
         health = maxHealth;
@@ -123,10 +126,7 @@ public class PlayerLiving : MonoBehaviour, Living
     public void TakeDamage(float amount, bool applyIframes = true)
     {
         if (currentIframes > 0 && applyIframes == true) return;
-        string debugString = amount + " > ";
         amount = accessories.Aggregate(amount, (acc, x) => x == null ? acc : Math.Max(1, x.ModifyDamage((int)acc)));
-        debugString += amount;
-        Debug.Log(debugString);
         TakeDamageFinal(amount);
     }
 
@@ -135,6 +135,13 @@ public class PlayerLiving : MonoBehaviour, Living
         health = (int) Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
+        if (health == 0) OnDeath();
+    }
+
+    void OnDeath()
+    {
+        Destroy(gameObject);
+        GameManager.Instance.ToTitleScreen();
     }
 
     public Item[] GetItems()
