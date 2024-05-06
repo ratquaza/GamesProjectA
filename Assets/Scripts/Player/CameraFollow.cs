@@ -1,17 +1,14 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-
     //camera smoothness: 
     //lower number  -> smoother
     //higher number -> more robotic
     [SerializeField] private float smoothSpeed = 5f; 
     [SerializeField] private float mouseTrackingFactor = 0f;
+    private PlayerLiving player { get => PlayerLiving.Instance; }
 
     private bool trackMouse = true;
 
@@ -20,14 +17,14 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(target.position.x, target.position.y, transform.position.z);
+        if (player != null) transform.position = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
     }
 
     void Update()
     {
-        if (target == null) return;
+        if (player == null) return;
 
-        Vector2 desiredPosition = target.position;
+        Vector2 desiredPosition = player.transform.position;
         if (trackMouse) desiredPosition = Vector2.Lerp(desiredPosition, Camera.main.ScreenToWorldPoint(Input.mousePosition), mouseTrackingFactor);
 
         if (center != null && bounds != null) {
@@ -46,11 +43,6 @@ public class CameraFollow : MonoBehaviour
         }
 
         transform.position = Vector3.Lerp(transform.position, new Vector3(desiredPosition.x, desiredPosition.y, transform.position.z), smoothSpeed * Time.deltaTime);
-    }
-
-    public void UpdateTarget(Transform target)
-    {
-        this.target = target;
     }
 
     public void SetBounds(Vector2 center, Vector2 bounds)

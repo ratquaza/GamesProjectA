@@ -25,16 +25,12 @@ public class ShopUIButtons : MonoBehaviour
     private Item selectedItem;
     private GameObject selectedCell;
 
-    [SerializeField] private PlayerLiving player;
-
-
+    private PlayerLiving player { get => PlayerLiving.Instance; }
 
     Dictionary<string, Item> items;
 
     private void Start()
     {
-        player = FindObjectOfType<PlayerLiving>();
-
         items = ItemDatabase.Instance.GetItems();
 
         DeactivateAllSprites();
@@ -42,8 +38,6 @@ public class ShopUIButtons : MonoBehaviour
 
         welcomePanel.SetActive(true);
         itemInfoPanel.SetActive(false);
-
-
     }
 
     private void PopulateSprites()

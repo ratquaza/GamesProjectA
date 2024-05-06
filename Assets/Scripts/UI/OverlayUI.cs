@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class OverlayUI : MonoBehaviour
 {
-    [SerializeField] private PlayerLiving player;
     [SerializeField] private Image heartImage;
     [SerializeField] private Image heartbeatImage;
     [SerializeField] private float lowHealthPercent = .4f;
@@ -15,6 +14,7 @@ public class OverlayUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI goldCountText;
 
     private bool isLowHealth = false;
+    private PlayerLiving player { get => PlayerLiving.Instance; }
     private float heartbeatAnim = 0f;
     private Vector3 heartbeatBaseScale;
 
@@ -27,24 +27,24 @@ public class OverlayUI : MonoBehaviour
         if (player != null)
         {
             player.OnGoldCountChanged += UpdateGoldCount;
+
+            player.onHealthChange += (hp) => {
+                heartImage.fillAmount = hp/(float) player.MaxHealth();
+                if (!isLowHealth && heartImage.fillAmount <= lowHealthPercent)
+                {
+                    isLowHealth = true;
+                    heartbeatAnim = 0f;
+                }
+                else if (isLowHealth && heartImage.fillAmount > lowHealthPercent)
+                {
+                    isLowHealth = false;
+                    heartbeatAnim = 0f;
+                }
+            };
         }
 
         heartbeatImage.color = new Color(1, 1, 1, 0);
         heartbeatBaseScale = heartbeatImage.transform.localScale;
-
-        player.onHealthChange += (hp) => {
-            heartImage.fillAmount = hp/(float) player.MaxHealth();
-            if (!isLowHealth && heartImage.fillAmount <= lowHealthPercent)
-            {
-                isLowHealth = true;
-                heartbeatAnim = 0f;
-            }
-            else if (isLowHealth && heartImage.fillAmount > lowHealthPercent)
-            {
-                isLowHealth = false;
-                heartbeatAnim = 0f;
-            }
-        };
     }
 
     void Update()
@@ -63,16 +63,13 @@ public class OverlayUI : MonoBehaviour
         // Unsubscribe from the player's OnGoldCountChanged event to avoid memory leaks
         if (player != null)
         {
-            player.OnGoldCountChanged += UpdateGoldCount;
+            player.OnGoldCountChanged -= UpdateGoldCount;
         }
     }
 
 
     private void UpdateGoldCount(int newGoldCount)
     {
-        if (goldCountText != null)
-        {
-            goldCountText.text = "Gold: " + newGoldCount.ToString();
-        }
+        if (goldCountText != null) goldCountText.text = "Gold: " + newGoldCount;
     }
 }

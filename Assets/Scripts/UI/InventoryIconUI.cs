@@ -9,7 +9,7 @@ public class InventoryIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
     [SerializeField] private RectTransform rect;
     [SerializeField] private Vector2 direction;
     [SerializeField] private InventoryUI inventory;
-    [SerializeField] private PlayerLiving player;
+    private PlayerLiving player { get => PlayerLiving.Instance; }
     [SerializeField] private Item item;
     [SerializeField] private Image iconImg;
 

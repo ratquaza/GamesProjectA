@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] private PlayerLiving player;
+    private PlayerLiving player { get => PlayerLiving.Instance; }
 
     [SerializeField] private CameraFollow cameraFollow;
     [SerializeField] private GameObject radialRoot;
