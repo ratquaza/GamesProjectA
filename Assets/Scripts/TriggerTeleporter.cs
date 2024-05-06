@@ -11,6 +11,6 @@ public class TriggerTeleporter : MonoBehaviour
     {
         PlayerLiving player = collider.GetComponentInParent<PlayerLiving>();
         if (player == null) return;
-        GameManager.Instance.TransitionTo(sceneName);
+        GameManager.Instance.ToDungeon();
     }
 }
