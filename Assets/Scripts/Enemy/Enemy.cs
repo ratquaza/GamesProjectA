@@ -6,9 +6,9 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, Living
 {
-
     [SerializeField] private int maxHealth;
     private int health;
+    private PlayerLiving player { get => PlayerLiving.Instance; }
 
     [SerializeField] private int damage;
     [SerializeField] private float drag = 10f;
@@ -21,12 +21,7 @@ public class Enemy : MonoBehaviour, Living
 
     public List<GameObject> coinPrefabs;
 
-
-
-
-
     [Header("Navigation Settings")]
-    [SerializeField] private Transform target;
     [SerializeField] private NavMeshAgent agent;
     private Rigidbody2D rb2d;
     public event Living.HealthChange onHealthChange;
@@ -44,7 +39,6 @@ public class Enemy : MonoBehaviour, Living
 
         health = maxHealth;
         rb2d = GetComponent<Rigidbody2D>();
-        target = FindObjectOfType<PlayerLiving>().transform;
     }
 
     private void EnemyCoinDrops()
@@ -64,8 +58,6 @@ public class Enemy : MonoBehaviour, Living
 
     private void Start()
     {
-
-        if (target == null) target = GameObject.FindGameObjectWithTag("Player").transform;
         rb2d.drag = drag;
 
         //initialize agent 
@@ -80,7 +72,7 @@ public class Enemy : MonoBehaviour, Living
     
     void Update()
     {
-        agent.SetDestination(target.position);
+        if (player != null) agent.SetDestination(player.transform.position);
     }
 
     public void TakeDamage(float damageDone, bool applyIframes)
@@ -127,11 +119,6 @@ public class Enemy : MonoBehaviour, Living
     public float GetStrength() => damage;
     public float Health() => health;
     public float MaxHealth() => maxHealth;
-
-    public void SetTarget(Transform target)
-    {
-        this.target = target;
-    }
 
     void OnCollisionStay2D(Collision2D collision)
     {
