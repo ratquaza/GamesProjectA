@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(MovingTile))]
-public class MovingTileEditor : Editor
+public class MovingTile_Editor : Editor
 {
     private void OnSceneGUI()
     {
