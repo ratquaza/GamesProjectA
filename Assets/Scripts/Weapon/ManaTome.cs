@@ -17,7 +17,7 @@ public class ManaTome : SimpleWeapon
         mousePos = player.transform.TransformPoint(mousePos);
         gizmoPos = mousePos;
 
-        DamageInSquare(mousePos, Vector2.one * 1.5f, 1, (enemy) => ((Vector2) (enemy.transform.position - player.transform.position)).normalized * 30f);
+        DamageInSquare(mousePos, Vector2.one * 1.5f, 1, (enemy) => ((Vector2) enemy.transform.position - mousePos).normalized * 30f);
     }
 
     protected void Secondary()
