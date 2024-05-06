@@ -9,25 +9,31 @@ using UnityEngine.Tilemaps;
 public class DungeonRoom_Editor : Editor
 {
     SerializedProperty wallTilemap;
+    SerializedProperty triggerCollider;
     SerializedProperty quadrants;
+    SerializedProperty spawns;
     bool[] showQuadrants;
 
     void OnEnable()
     {
         wallTilemap = serializedObject.FindProperty("wallTilemap");
+        triggerCollider = serializedObject.FindProperty("triggerCollider");
         quadrants = serializedObject.FindProperty("borders");
+        spawns = serializedObject.FindProperty("spawns");
         showQuadrants = new bool[quadrants.arraySize];
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
+        EditorGUILayout.PropertyField(triggerCollider);
         EditorGUILayout.PropertyField(wallTilemap);
+        EditorGUILayout.PropertyField(spawns);
         if (wallTilemap.objectReferenceValue != null)
         {
             BoundsInt cellBounds = ((Tilemap) wallTilemap.objectReferenceValue).cellBounds;
-            double width = Math.Ceiling((double) cellBounds.size.x/DungeonGenerator.ROOM_WIDTH);
-            double height = Math.Ceiling((double) cellBounds.size.y/DungeonGenerator.ROOM_HEIGHT);
+            double width = Math.Ceiling((double) cellBounds.size.x/DungeonManager.ROOM_WIDTH);
+            double height = Math.Ceiling((double) cellBounds.size.y/DungeonManager.ROOM_HEIGHT);
 
             if (GUILayout.Button("Recalculate Perimeter"))
             {
@@ -43,6 +49,18 @@ public class DungeonRoom_Editor : Editor
                 };
                 quadrants.SetUnderlyingValue(newArr.ToArray());
                 showQuadrants = new bool[newArr.Count];
+            }
+
+            if (triggerCollider.objectReferenceValue != null && GUILayout.Button("Align Box Trigger"))
+            {
+                BoxCollider2D collider = triggerCollider.objectReferenceValue as BoxCollider2D;
+                collider.offset = new Vector2(cellBounds.size.x/2f, cellBounds.size.y/2f);
+                collider.size = new Vector2(
+                    (float) Math.Ceiling((float) cellBounds.size.x/DungeonManager.ROOM_WIDTH) * DungeonManager.ROOM_WIDTH - 1,
+                    (float) Math.Ceiling((float) cellBounds.size.y/DungeonManager.ROOM_HEIGHT) * DungeonManager.ROOM_HEIGHT - 1
+                );
+                collider.isTrigger = true;
+                EditorUtility.SetDirty(serializedObject.targetObject);
             }
 
             for (int i = 0; i < quadrants.arraySize; i++)
