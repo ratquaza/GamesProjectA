@@ -2,28 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class DungeonGenerator : MonoBehaviour
+public class DungeonManager : MonoBehaviour
 {
-    public static readonly int ROOM_WIDTH = 15;
+    public static DungeonManager Instance  { get; protected set; }
+
+    public static readonly int ROOM_WIDTH = 17;
     public static readonly int ROOM_HEIGHT = 11;
 
     [SerializeField] private DungeonRoom[] roomPool;
     [SerializeField] private int maxRooms = 5;
     [SerializeField] private GameObject enemy;
     [SerializeField] private CameraFollow cameraScript;
+    [SerializeField] private RectTransform minimapRoot;
+    [SerializeField] private GameObject minimapPrefab;
+
+    private PlayerLiving player { get => PlayerLiving.Instance; }
+    private Image previousRoomIcon;
 
     private Grid grid;
     private DungeonRoom[,] floor;
     
     void Start()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
         grid = GetComponent<Grid>();
 
         // Create the 2D array thats the current dungeon floor
         floor = new DungeonRoom[15, 15];
 
-        int x = 8;
+        int x = 0;
         int y = x;
 
         DungeonRoom spawnRoom =  Instantiate(roomPool[0], grid.transform);
@@ -40,7 +56,7 @@ public class DungeonGenerator : MonoBehaviour
             maxRooms -= genRooms.Length;
         }
 
-        PlayerLiving.Instance.transform.localPosition = new Vector2(x * ROOM_WIDTH + ROOM_WIDTH/2, y * ROOM_HEIGHT + ROOM_HEIGHT/2);
+        if (player != null) player.transform.localPosition = new Vector2(x * ROOM_WIDTH + ROOM_WIDTH/2, y * ROOM_HEIGHT + ROOM_HEIGHT/2);
     }
 
     // Convert a Vector2Int coordinate position for the floor into a Vector3 position 
@@ -186,6 +202,23 @@ public class DungeonGenerator : MonoBehaviour
                 floor[x, y] = room;
             }
         }
+
+        GameObject roomIcon = Instantiate(minimapPrefab, minimapRoot);
+        RectTransform roomIconRect = roomIcon.GetComponent<RectTransform>();
+        Image roomImage = roomIcon.GetComponent<Image>();
+
+        roomIconRect.gameObject.name = position.ToString();
+        roomIconRect.anchoredPosition = new Vector2(position.x * 20, position.y * 20);
+        roomIconRect.sizeDelta = new Vector2(room.width * 20, room.height * 20);
+        roomImage.color = Color.white;
+        roomIcon.SetActive(false);
+        room.onPlayerEnter += (player) =>
+        {
+            if (previousRoomIcon != null) previousRoomIcon.color = Color.white;
+            previousRoomIcon = roomImage;
+            roomIcon.SetActive(true);
+            roomImage.color = Color.red;
+        };
     }
 
     // Places a DungeonRoom at the given coordinate, updating the floor grid, using a 
@@ -194,6 +227,7 @@ public class DungeonGenerator : MonoBehaviour
     {
         Place(room, position - quadrant);
     }
+    
     private struct Jigsaw
     {
         public DungeonRoom room;
@@ -206,6 +240,11 @@ public class DungeonGenerator : MonoBehaviour
             this.direction = direction;
             this.quad = quad;
         }
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 }
 
