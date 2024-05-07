@@ -6,7 +6,6 @@ public class DarknessTile : MonoBehaviour
 {
     public GameObject darkness;
     public float transitionDuration = 0.5f; // Duration of the transition in seconds
-    private bool isTransitioning = false;
     private Coroutine transitionCoroutine;
     [SerializeField] private Color overlayTargetColor;
 
@@ -54,7 +53,6 @@ public class DarknessTile : MonoBehaviour
         if (transitionCoroutine != null)
         {
             StopCoroutine(transitionCoroutine);
-            isTransitioning = false;
         }
     }
 }

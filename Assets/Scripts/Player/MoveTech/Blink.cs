@@ -1,67 +1,66 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Blink : MonoBehaviour
 {
-    [SerializeField] private float blinkDistance = 5f; //distance to blink
-    [SerializeField] private float blinkCooldown = 1f; 
-    [SerializeField] private float blinkDelay = 0.5f; //delay before teleporting player
-    private float scaleMultiplier = 1.2f;
+    [SerializeField] private GameObject blinkTarget;
+    [SerializeField] private Rigidbody2D blinkTargetRb;
+    [SerializeField] private BlinkTarget blinkTargetScript;
 
-    private float currentBlinkCooldown = 0f;
-    private float currentBlinkTime = 0f;
+    [SerializeField] private float moveSpeedMultiplier = 2f; // Blink target movement speed
+    [SerializeField] private float blinkDistance  = 0f; // Probably leave as zero to prevent phasing
 
     private PlayerMovement playerMovement;
     private PlayerActions playerActions;
-    private Vector3 originalScale;
-    private float moveSpd;
+    private bool isBlinking = false;
 
-    void Awake()
+    private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        playerActions = new PlayerActions();
-        originalScale = transform.localScale;
-        moveSpd = playerMovement.GetMoveSpeed();
+        blinkTargetRb = blinkTarget.GetComponent<Rigidbody2D>();
+        blinkTargetScript = blinkTarget.GetComponent<BlinkTarget>();
 
-        currentBlinkCooldown = blinkCooldown;
-        playerActions.Movement.Blink.performed += AttemptBlink;
+        playerActions = new PlayerActions();
+        playerActions.Movement.Blink.performed += ctx => OnBlinkStarted();
+        playerActions.Movement.Blink.canceled += ctx => OnBlinkCanceled();
     }
 
-    void Update()
+    private void Update()
     {
-        if (currentBlinkCooldown > 0) currentBlinkCooldown -= Time.deltaTime;
-        else if (currentBlinkTime > 0)
+        Debug.Log(blinkTargetScript.GetCanTeleport()); 
+
+        if (isBlinking)
         {
-            currentBlinkTime -= Time.deltaTime;
-            OnBlinking();
-            if (currentBlinkTime <= 0) OnBlinkEnd();
+            Vector2 movementInput = playerActions.Movement.Walk.ReadValue<Vector2>();
+            Vector2 movementDirection = movementInput.normalized;
+            blinkTargetRb.velocity = movementDirection * moveSpeedMultiplier;
         }
     }
 
-    void AttemptBlink(InputAction.CallbackContext ctx)
+    private void OnBlinkStarted()
     {
-        if (currentBlinkCooldown > 0) return;
-        currentBlinkTime = blinkDelay;
+        Vector2 lookDirection = playerMovement.GetLookDirection().normalized * blinkDistance;
+        blinkTarget.transform.position = transform.position + new Vector3(lookDirection.x, lookDirection.y, 0f);
+        playerMovement.enabled = false;
+        isBlinking = true;
+        blinkTarget.SetActive(true);
     }
 
-    void OnBlinking()
+    private void OnBlinkCanceled()
     {
-        transform.localScale = Vector3.Lerp(originalScale * scaleMultiplier, originalScale, currentBlinkTime/blinkDelay);
-        playerMovement.SetMoveSpeed(moveSpd * (currentBlinkTime/blinkDelay));
-    }
+        // Teleport the player directly onto the blink target
+        if (blinkTargetScript.GetCanTeleport())
+        {
+            transform.position = blinkTarget.transform.position;
+        }
+        else
+        {
+            transform.position = blinkTargetScript.GetLastValidLocation();
+        }
 
-    void OnBlinkEnd()
-    {
-        transform.localScale = originalScale;
-        Vector3 blinkDirection = playerMovement.GetLookDirection(); //Get look direction from PlayerMovement script
-        Vector3 blinkPosition = transform.position + blinkDirection.normalized * blinkDistance; //calculate destination position
-
-        //teleport to destination
-        transform.position = blinkPosition;
-        currentBlinkCooldown = blinkCooldown;
-        playerMovement.SetMoveSpeed(moveSpd);
+        playerMovement.enabled = true;
+        isBlinking = false;
+        blinkTarget.SetActive(false);
     }
 
     private void OnEnable()
@@ -69,9 +68,8 @@ public class Blink : MonoBehaviour
         playerActions.Enable();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         playerActions.Disable();
-        playerActions.Movement.Dash.performed -= AttemptBlink;
     }
 }

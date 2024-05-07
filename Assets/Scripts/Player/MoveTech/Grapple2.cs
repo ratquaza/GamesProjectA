@@ -4,7 +4,7 @@ using System.Collections;
 using System.Drawing;
 using System;
 
-public class GrapplingHook : MonoBehaviour
+public class Grapple2 : MonoBehaviour
 {
     private PlayerActions playerActions;
     private SpringJoint2D springJoint;
@@ -26,8 +26,10 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float waveAmplitude = 1f; //wave height
 
     [Header("Secondary Movement Settings")]
-    [SerializeField] private float secondaryMovementFlingForce = 20f;
+    [SerializeField] private float secondaryMovementflingForce = 20f;
     [SerializeField] private float disablePlayerMovementDurationAfterGrappled = 0.2f;
+    [SerializeField] private float delayBeforeSecondaryMovementPerformable = 0.2f;
+
 
     private void Awake()
     {
@@ -85,25 +87,47 @@ public class GrapplingHook : MonoBehaviour
         }
     }
 
+    [SerializeField] private float secondaryMovementWalkDirectionDampening = 10f;
+
     // Let go of grapple
     void GrappleButtonUp()
-    {
+    {            
         Vector2 movementInput = playerActions.Movement.Walk.ReadValue<Vector2>();
 
-        if (movementInput != Vector2.zero && secondaryMovementDoable)
+        // Check if the spring joint is enabled
+        if (springJoint.enabled && movementInput != Vector2.zero && secondaryMovementDoable)
         {
-            // Perform secondary movement (in opposite direction)
-            GetComponent<Rigidbody2D>().AddForce(secondaryMovementFlingForce * movementInput.normalized, ForceMode2D.Force);
+            float minForceMagnitude = 0.5f;
+            float maxForceMagnitude = 10f;
+
+            // Get the position of the anchor point
+            Vector2 anchorPosition = springJoint.connectedAnchor;
+
+            // Calculate the vector from the player to the anchor point
+            Vector2 directionToAnchor = anchorPosition - (Vector2)transform.position;
+
+            // Get the movement input vector
+
+            // Combine the direction to the anchor point with the movement input
+            Vector2 combinedDirection = directionToAnchor.normalized + movementInput.normalized / secondaryMovementWalkDirectionDampening;
+
+            // Calculate the force based on the combined direction and the distance between the player and the anchor point
+            float distance = directionToAnchor.magnitude;
+            float forceMagnitude = Mathf.Clamp(distance, minForceMagnitude, maxForceMagnitude);
+            Vector2 force = combinedDirection.normalized * forceMagnitude;
+
+            // Apply the force to the connected body
+            GetComponent<Rigidbody2D>().AddForce(force * secondaryMovementflingForce, ForceMode2D.Impulse);
 
             // Disable player movement for a short time
             StartCoroutine(DisablePlayerMovementForDuration(disablePlayerMovementDurationAfterGrappled));
-
-            // Reset secondary movement parameters
-            secondaryMovementDoable = false;
         }
+
+        // Reset secondary movement parameters
         secondaryMovementDoable = false;
         delayCoroutineStarted = false;
 
+        // Disable the spring joint, line renderer, and reset curve points
         springJoint.enabled = false;
         lineRenderer.enabled = false;
         hasSetCurvePoints = false;
@@ -124,9 +148,6 @@ public class GrapplingHook : MonoBehaviour
 
     private async void FixedUpdate()
     {
-        Debug.Log("secondary movement doable: " + secondaryMovementDoable);
-        Debug.Log("delayCouroutine: " + delayCoroutineStarted);
-
         if (springJoint.enabled) //if grappling
         {
             // Line Renderer Logic
@@ -150,13 +171,18 @@ public class GrapplingHook : MonoBehaviour
             // Secondary Movement Enabler
             if (!delayCoroutineStarted)
             {
-                secondaryMovementDoable = true;
+                StartCoroutine(DelayBeforeSecondaryMovementPerformable(delayBeforeSecondaryMovementPerformable));
                 delayCoroutineStarted = true;
             }
         }
 
     }
 
+    private IEnumerator DelayBeforeSecondaryMovementPerformable(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        secondaryMovementDoable = true;
+    }
 
     private IEnumerator DisablePlayerMovementForDuration(float duration)
     {
