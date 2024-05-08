@@ -181,9 +181,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPool:
-  - {fileID: 3379778524581104403, guid: e3d369aa31a36498d94b897134400e52, type: 3}
-  - {fileID: 9157625129022580422, guid: bd9b5fe2ec29fdb4484b8e07f5ce16ef, type: 3}
-  - {fileID: 1229494536641804453, guid: adfa960048070af4eb1a0507837391e8, type: 3}
+  - {fileID: 5177440913106258438, guid: e5ceb758536482f43800e573bfbedc79, type: 3}
+  - {fileID: 8629062187207920160, guid: bd305c09b63ac3e45a898dbb9bd92573, type: 3}
+  - {fileID: 424107283129171506, guid: f7c7911f14ac20a409ccd0cd538410fb, type: 3}
   maxRooms: 10
   enemy: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
   cameraScript: {fileID: 2144705651}

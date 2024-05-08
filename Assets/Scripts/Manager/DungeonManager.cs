@@ -8,7 +8,7 @@ public class DungeonManager : MonoBehaviour
 {
     public static DungeonManager Instance  { get; protected set; }
 
-    public static readonly int ROOM_WIDTH = 17;
+    public static readonly int ROOM_WIDTH = 15;
     public static readonly int ROOM_HEIGHT = 11;
 
     [SerializeField] private DungeonRoom[] roomPool;
