@@ -4,7 +4,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] public ProjectileBehaviour behaviour;
-    private float lifetime = 0f;
+    [SerializeField] private float lifetime = 0f;
 
     public Vector2 forwardsDirection;
 
