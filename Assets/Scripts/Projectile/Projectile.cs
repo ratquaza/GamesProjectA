@@ -4,7 +4,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] public ProjectileBehaviour behaviour;
-    private float lifetime = 0f;
+    [SerializeField] private float lifetime = 0f;
 
     public Vector2 forwardsDirection;
 
@@ -45,6 +45,7 @@ public class Projectile : MonoBehaviour
         {
             if (behaviour.destroyOnWall)
             {
+                if (collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
                 Destroy(gameObject);
             }
             else if (behaviour.ricochetOnWall)

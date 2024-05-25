@@ -100,6 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   behaviour: {fileID: 0}
+  lifetime: 0
+  forwardsDirection: {x: 0, y: 0}
 --- !u!58 &7415103035097084317
 CircleCollider2D:
   m_ObjectHideFlags: 0
