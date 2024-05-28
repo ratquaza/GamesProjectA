@@ -142,7 +142,7 @@ public class PlayerLiving : MonoBehaviour, Living
     void OnDeath()
     {
         Destroy(gameObject);
-        GameManager.Instance.ToTitleScreen();
+        GameManager.Instance.ToDungeon("Floor-1");
     }
 
     public Item[] GetItems()

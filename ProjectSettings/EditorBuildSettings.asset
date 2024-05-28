@@ -23,5 +23,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VerticalSlice/Floor2.unity
     guid: ca9c8b9ab12d05343b7fb3f49c5ab5a1
+  - enabled: 1
+    path: Assets/Scenes/VerticalSlice/Floor-1.unity
+    guid: ce8014295da99f743b1612db9493404b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 9821eda348d7c4038a1aa9e70bc71778, type: 2}
