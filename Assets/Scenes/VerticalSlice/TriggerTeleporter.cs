@@ -10,7 +10,11 @@ public class TriggerTeleporter : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         PlayerLiving player = collider.GetComponentInParent<PlayerLiving>();
-        if (player == null) return;
-        GameManager.Instance.ToDungeon(sceneName);
+
+        if (player != null)
+        {
+            player.transform.position = new Vector2(5, 5);
+            GameManager.Instance.ToDungeon(sceneName);
+        }
     }
 }

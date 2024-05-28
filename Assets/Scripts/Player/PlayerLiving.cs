@@ -3,6 +3,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class PlayerLiving : MonoBehaviour, Living
 {
