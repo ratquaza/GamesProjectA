@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 6341494195984105343}
   - component: {fileID: 7059653651171185324}
   - component: {fileID: 2958159973587985824}
+  - component: {fileID: 999957063611840567}
+  - component: {fileID: 9195561700437394359}
   m_Layer: 6
   m_Name: Walls
   m_TagString: Untagged
@@ -746,6 +748,36 @@ CompositeCollider2D:
       - {x: 14.687501, y: 9.999989}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+--- !u!114 &999957063611840567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4680131892648507829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: 00000000
+--- !u!114 &9195561700437394359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4680131892648507829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AffectedAgents: ffffffff
+  m_TileModifiers: []
 --- !u!1 &5875344852832101028
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +789,7 @@ GameObject:
   - component: {fileID: 192496778174294718}
   - component: {fileID: 6428836384308213281}
   - component: {fileID: 1201336122687726055}
+  - component: {fileID: 4198568429243664271}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -2452,6 +2485,22 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!114 &4198568429243664271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5875344852832101028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &6697277741978238790
 GameObject:
   m_ObjectHideFlags: 0

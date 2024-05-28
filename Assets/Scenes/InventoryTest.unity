@@ -362,8 +362,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540acaaa4d234274587cd50bd271463a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootBehaviour: {fileID: 11400000, guid: 31f9bbe48a61b2d4eb8074a005850a24, type: 2}
-  projectileBehaviour: {fileID: 11400000, guid: 9844f35fc525b9a478724b547e725768, type: 2}
+  shootBehaviour: {fileID: 11400000, guid: 55b3a26cfdffaae45879aed0cb17fbbf, type: 2}
+  projectileBehaviour: {fileID: 11400000, guid: 5f1e71a55e0beed49bd9650928b48f5c, type: 2}
   projectilePrefab: {fileID: 1423614298043301585, guid: 544bf6321de8a524cb8431f6dc08381e, type: 3}
   shootManually: 0
 --- !u!58 &354287604

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: GenericShoot
   m_EditorClassIdentifier: 
   spawnBehaviour: 0
-  delay: 3
-  shootCount: 1
+  delay: 1
+  shootCount: 2
   delayBetweenShoots: 0.1
   spinSpeed: 50
   arcDegrees: 30
