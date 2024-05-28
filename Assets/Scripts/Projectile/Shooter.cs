@@ -97,10 +97,12 @@ public class Shooter : MonoBehaviour
         }
     }
 
-    Projectile CreateProjectile(ProjectileBehaviour behaviour = null)
+Projectile CreateProjectile(ProjectileBehaviour behaviour = null)
     {
-        Projectile projectile = Instantiate(projectilePrefab.gameObject, transform).GetComponent<Projectile>();
-        projectile.transform.localPosition = Vector3.zero;
+        Projectile projectile = Instantiate(projectilePrefab.gameObject, null).GetComponent<Projectile>();
+
+        Debug.Log(this.GetComponentInParent<Transform>());
+        projectile.transform.localPosition = this.GetComponentInParent<Transform>().localPosition;
         if (behaviour) projectile.behaviour = behaviour;
         return projectile;
     }
