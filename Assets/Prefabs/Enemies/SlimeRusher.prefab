@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5151377345053080353, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
+      propertyPath: maxHealth
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080355, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_Speed
       value: 2
@@ -21,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080362, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_Name
-      value: Slime Variant
+      value: SlimeRusher
       objectReference: {fileID: 0}
     - target: {fileID: 5151377345053080364, guid: 6f76753950d81404e8395c37eb52be4b, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x

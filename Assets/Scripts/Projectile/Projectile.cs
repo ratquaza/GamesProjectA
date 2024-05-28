@@ -41,6 +41,12 @@ public class Projectile : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         PlayerLiving player = collider.GetComponent<PlayerLiving>();
+
+        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+        Vector2 point = collider.ClosestPoint(transform.position);
+
+        rb.velocity += (((Vector2) player.transform.position) - point).normalized * 5f;
+        
         if (player == null)
         {
             if (behaviour.destroyOnWall)
@@ -56,7 +62,9 @@ public class Projectile : MonoBehaviour
             }
             return;
         }
-        player.TakeDamage((int) Math.Round(behaviour.damage));
+       
+       player.TakeDamage((int) Math.Round(behaviour.damage));
+        
         Destroy(gameObject);
     }
 }
