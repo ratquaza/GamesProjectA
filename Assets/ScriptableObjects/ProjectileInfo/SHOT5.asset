@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SHOT5
   m_EditorClassIdentifier: 
   spawnBehaviour: 0
-  delay: 1
-  shootCount: 2
-  delayBetweenShoots: 0.1
+  delay: 5
+  shootCount: 1
+  delayBetweenShoots: 0.5
   spinSpeed: 50
   arcDegrees: 30
