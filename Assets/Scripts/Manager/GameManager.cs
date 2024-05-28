@@ -34,10 +34,10 @@ public class GameManager : MonoBehaviour
         dungeonLevel = 0;
     }
 
-    public bool ToDungeon()
+    public bool ToDungeon(string String)
     {
         if (isLoading) return false;
-        TransitionTo("DungeonGen", (op) =>
+        TransitionTo(String, (op) =>
         {
             if (player != null) player.transform.localScale = Vector3.one * 1.6f;
         });
