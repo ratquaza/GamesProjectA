@@ -101,8 +101,8 @@ Projectile CreateProjectile(ProjectileBehaviour behaviour = null)
     {
         Projectile projectile = Instantiate(projectilePrefab.gameObject, null).GetComponent<Projectile>();
 
-        Debug.Log(this.GetComponentInParent<Transform>());
-        projectile.transform.localPosition = this.GetComponentInParent<Transform>().localPosition;
+        
+        projectile.transform.localPosition = this.GetComponentInParent<Transform>().position;
         if (behaviour) projectile.behaviour = behaviour;
         return projectile;
     }
