@@ -4018,6 +4018,41 @@ RectTransform:
   m_AnchoredPosition: {x: -60, y: 60}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &483012298 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5875344852832101028, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+  m_PrefabInstance: {fileID: 1882176609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &483012302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483012298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AffectedAgents: ffffffff
+  m_TileModifiers: []
+--- !u!114 &483012303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483012298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &487457413
 GameObject:
   m_ObjectHideFlags: 0
@@ -5022,6 +5057,41 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12ef220981518a54ebbfee9b1ddf3e7f, type: 3}
+--- !u!1 &1077943068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4680131892648507829, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+  m_PrefabInstance: {fileID: 1882176609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1077943075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077943068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AffectedAgents: ffffffff
+  m_TileModifiers: []
+--- !u!114 &1077943076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1077943068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1099313766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14309,7 +14379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e3785249ba40e04597fa3ed32555561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraFollow: {fileID: 0}
+  cameraFollow: {fileID: 1352332310}
   radialRoot: {fileID: 428733124}
   topLeftIcon: {fileID: 482377230}
   topRightIcon: {fileID: 799935199}
@@ -21255,6 +21325,22 @@ PrefabInstance:
     - target: {fileID: 5524708533797186258, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
       propertyPath: m_Tiles.Array.data[98].second.m_TileSpriteIndex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428836384308213281, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+      propertyPath: m_Size.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428836384308213281, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+      propertyPath: m_Size.y
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428836384308213281, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+      propertyPath: m_Origin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428836384308213281, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
+      propertyPath: m_Origin.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6428836384308213281, guid: 52f1e3480261ed040a8b253ff68dc536, type: 3}
       propertyPath: m_Tiles.Array.size
