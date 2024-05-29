@@ -42,10 +42,7 @@ public class Projectile : MonoBehaviour
     {
         PlayerLiving player = collider.GetComponent<PlayerLiving>();
 
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-        Vector2 point = collider.ClosestPoint(transform.position);
-
-        rb.velocity += (((Vector2) player.transform.position) - point).normalized * 5f;
+        
         
         if (player == null)
         {
