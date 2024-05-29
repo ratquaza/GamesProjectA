@@ -124,8 +124,8 @@ public class GrapplingHook : MonoBehaviour
 
     private async void FixedUpdate()
     {
-        Debug.Log("secondary movement doable: " + secondaryMovementDoable);
-        Debug.Log("delayCouroutine: " + delayCoroutineStarted);
+        // Debug.Log("secondary movement doable: " + secondaryMovementDoable);
+        // Debug.Log("delayCouroutine: " + delayCoroutineStarted);
 
         if (springJoint.enabled) //if grappling
         {
