@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems; // Required for IPointerClickHandler
 
-public class Exit : MonoBehaviour
+public class Exit : MonoBehaviour, IPointerClickHandler
 {
-    public void OnPointerClick()
+    // This method is called when the object is clicked
+    public void OnPointerClick(PointerEventData eventData)
     {
         Application.Quit();
+        Debug.Log("Game is exiting"); // Optional: to verify the quit action in the editor
     }
 }
