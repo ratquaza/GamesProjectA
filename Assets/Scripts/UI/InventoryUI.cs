@@ -40,6 +40,10 @@ public class InventoryUI : MonoBehaviour
 
     public void ShowUI(bool show)
     {
+        WeaponItem[] weapons = player.GetWeapons();
+        topLeftIcon.SetItem(weapons[0]);
+        topRightIcon.SetItem(weapons[1]);
+
         cameraFollow.SetFollowMouse(!show);
         radialRoot.SetActive(show);
     }

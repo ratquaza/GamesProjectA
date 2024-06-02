@@ -27,8 +27,6 @@ public class Blink : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(blinkTargetScript.GetCanTeleport()); 
-
         if (isBlinking)
         {
             Vector2 movementInput = playerActions.Movement.Walk.ReadValue<Vector2>();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class Shooter : MonoBehaviour
     protected int currentShootCount = 0;
     // For spinning
     protected float currRotation = 0f;
+
+    
 
     void Update()
     {
@@ -40,6 +43,8 @@ public class Shooter : MonoBehaviour
         {
             case SpawnerType.Arc:
                 HandleArc();
+                break;
+            case SpawnerType.Off:
                 break;
             default:
                 currentShootCount = shootBehaviour.shootCount;
@@ -111,4 +116,5 @@ Projectile CreateProjectile(ProjectileBehaviour behaviour = null)
     {
         delay = shootBehaviour.delay;
     }
+
 }
