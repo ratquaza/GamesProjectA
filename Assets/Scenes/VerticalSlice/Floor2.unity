@@ -14754,7 +14754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211790609949218931, guid: 78134c7888125c143a3f402a2daa9cd2, type: 3}
       propertyPath: sceneName
-      value: NewOverworld
+      value: Floor-2
       objectReference: {fileID: 0}
     - target: {fileID: 3211790609949218940, guid: 78134c7888125c143a3f402a2daa9cd2, type: 3}
       propertyPath: m_Name
