@@ -18,5 +18,5 @@ MonoBehaviour:
   speed: 9
   size: 2
   damage: 10
-  destroyOnWall: 1
-  ricochetOnWall: 0
+  destroyOnWall: 0
+  ricochetOnWall: 1

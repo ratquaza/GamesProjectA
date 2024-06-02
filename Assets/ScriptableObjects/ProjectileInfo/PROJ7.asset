@@ -16,7 +16,7 @@ MonoBehaviour:
   projectileSprite: {fileID: 21300000, guid: 8f59794a4c30c024fbc54611a0844eec, type: 3}
   lifetime: 8
   speed: 7
-  size: 2
+  size: 1
   damage: 10
   destroyOnWall: 1
   ricochetOnWall: 0

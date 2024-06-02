@@ -22,5 +22,6 @@ public enum SpawnerType
     TowardsPlayer,
     Spinning,
     Arc,
-    Spray
+    Spray,
+    Off,
 }
