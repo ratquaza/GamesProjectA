@@ -16715,7 +16715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bdde48d71249462388ff6a494b4c85c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPickup: {fileID: 11400000, guid: 853c7e5e60ab2614e8bd5672a18e6dbc, type: 2}
+  itemPickup: {fileID: 11400000, guid: 67ccf661a48249c4a8d150591d4af565, type: 2}
   spriteRenderer: {fileID: 0}
 --- !u!58 &1211589621
 CircleCollider2D:
@@ -16774,7 +16774,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 54c634be0a818b0479c299a93fa32861, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 09a4dc2fafc1755488cec480c29a6067, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
