@@ -104,6 +104,7 @@ public class PlayerLiving : MonoBehaviour, Living
     void Update()
     {
         if (currentIframes > 0) currentIframes -= Time.deltaTime;
+        
     }
 
     public void SetIFrames(float giveIFrames)
