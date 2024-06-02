@@ -97,7 +97,7 @@ public class DungeonRoom : MonoBehaviour
                 new Vector2(DungeonManager.ROOM_WIDTH, DungeonManager.ROOM_HEIGHT)
             );
             
-            Handles.Label(transform.position + offset + new Vector3(.2f, .5f), $"Quadrant {quad.position.x} {quad.position.y}");
+           
             Gizmos.color = Color.blue;
             if (quad.northExit) Gizmos.DrawCube(ExitPosition(quad, ExitDirection.North), transform.localScale);
             if (quad.eastExit) Gizmos.DrawCube(ExitPosition(quad, ExitDirection.East), transform.localScale);
@@ -114,7 +114,7 @@ public class DungeonRoom : MonoBehaviour
                 Gizmos.color = Color.red;
                 Gizmos.DrawCube(transform.TransformPoint(location.position), Vector3.one * 1f); 
                 Gizmos.color = Color.white;
-                Handles.Label(transform.TransformPoint(location.position - new Vector2(0.25f, .75f)), "#" + i);
+                
             }
         }
     }

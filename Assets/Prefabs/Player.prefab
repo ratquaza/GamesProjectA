@@ -283,7 +283,6 @@ GameObject:
   - component: {fileID: 5592103563087808028}
   - component: {fileID: 5592103563087808029}
   - component: {fileID: 154515862207065674}
-  - component: {fileID: 572842973474031761}
   - component: {fileID: 3425996928496311493}
   - component: {fileID: 6312467067201508328}
   m_Layer: 0
@@ -472,32 +471,6 @@ MonoBehaviour:
   blinkTargetScript: {fileID: 8089082688194690539}
   moveSpeedMultiplier: 2
   blinkDistance: 5
---- !u!114 &572842973474031761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5592103563087808006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cfd554082d0bc74385a0ef6d5f596ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerMovement: {fileID: 0}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  hookSpeed: 10
-  cooldownDuration: 2
-  lineWidth: 0.05
-  numberOfPoints: 25
-  waveFrequency: 5
-  waveAmplitude: 1
-  secondaryMovementFlingForce: 20
-  disablePlayerMovementDurationAfterGrappled: 0.2
-  animationSpeed: 25
-  removeLineRenderer: 2
 --- !u!114 &3425996928496311493
 MonoBehaviour:
   m_ObjectHideFlags: 0
