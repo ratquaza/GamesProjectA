@@ -35,9 +35,8 @@ public class InventoryUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(PlayerLiving.Instance != null){
-            rect.position = Camera.main.WorldToScreenPoint(player.transform.position);
-        }
+        rect.position = Camera.main.WorldToScreenPoint(player.transform.position);
+    
         
     }
 

@@ -136,7 +136,7 @@ public class PlayerLiving : MonoBehaviour, Living
         health = (int) Math.Max(health - Math.Max(1, amount), 0);
         onHealthChange?.Invoke(health);
         currentIframes = iframes;
-        if (health == 0){OnDeath(); }
+        if (health == 0)OnDeath(); 
     }
 
     void OnDeath()
