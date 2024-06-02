@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveBehaviour: 0
   projectileSprite: {fileID: 21300000, guid: 9e5e00bb8c0a3ba4f889a63bd3b7d1d5, type: 3}
-  lifetime: 5
+  lifetime: 7
   speed: 3
   size: 4
   damage: 4
